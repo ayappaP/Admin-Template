@@ -131,7 +131,7 @@ class AddNewModal extends React.Component {
           products.map((product, index) => (
             <ModalBody>
               <Label>
-                <h4>Item ({index})</h4>
+                <h4>Item({index})</h4>
               </Label>
               <br />
               <Label>

@@ -135,15 +135,15 @@ class ListPageHeading extends Component {
               className="d-md-block"
               id="displayOptions">
               <span className="mr-3 d-inline-block float-md-left">
-                <a
+                {/* <a
                   href="#/"
                   className={`mr-2 view-icon ${
                     displayMode === "list" ? "active" : ""
                   }`}
                   onClick={() => changeDisplayMode("list")}>
                   <DataListIcon />
-                </a>
-                <a
+                </a> */}
+                {/* <a
                   href="#/"
                   className={`mr-2 view-icon ${
                     displayMode === "thumblist" ? "active" : ""
@@ -158,10 +158,10 @@ class ListPageHeading extends Component {
                   }`}
                   onClick={() => changeDisplayMode("imagelist")}>
                   <ImageListIcon />
-                </a>
+                </a> */}
               </span>
 
-              <div className="d-block d-md-inline-block pt-1">
+              {/* <div className="d-block d-md-inline-block pt-1">
                 <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                   <DropdownToggle caret color="outline-dark" size="xs">
                     <IntlMessages id="pages.orderby" />
@@ -189,7 +189,7 @@ class ListPageHeading extends Component {
                     onKeyPress={e => onSearchKey(e)}
                   />
                 </div>
-              </div>
+              </div> */}
               <div className="float-md-right pt-1">
                 <span className="text-muted text-small mr-1">{`${startIndex}-${endIndex} of ${totalItemCount} `}</span>
                 <UncontrolledDropdown className="d-inline-block">

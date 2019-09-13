@@ -219,7 +219,7 @@ class TopNav extends Component {
             <MobileMenuIcon />
           </NavLink>
 
-          <div className="search" data-search-path="/app/pages/search">
+          {/* <div className="search" data-search-path="/app/pages/search">
             <Input
               name="searchKeyword"
               id="searchKeyword"
@@ -234,7 +234,7 @@ class TopNav extends Component {
             >
               <i className="simple-icon-magnifier" />
             </span>
-          </div>
+          </div> */}
 
           <div className="d-inline-block">
             <UncontrolledDropdown className="ml-2">
@@ -277,8 +277,8 @@ class TopNav extends Component {
         <div className="navbar-right">
           {isDarkSwitchActive && <TopnavDarkSwitch/>}
           <div className="header-icons d-inline-block align-middle">
-            <TopnavEasyAccess />
-            <TopnavNotifications />
+            {/* <TopnavEasyAccess />
+            <TopnavNotifications /> */}
             <button
               className="header-icon btn btn-empty d-none d-sm-inline-block"
               type="button"
