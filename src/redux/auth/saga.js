@@ -27,7 +27,7 @@ function* loginWithEmailPassword({ payload }) {
         if (!loginUser.message) {
             localStorage.setItem('user_id', loginUser.user.uid);
             yield put(loginUserSuccess(loginUser));
-            history.push('/');
+            history.push('/app/orders');
         } else {
             console.log('login failed :', loginUser.message)
         }

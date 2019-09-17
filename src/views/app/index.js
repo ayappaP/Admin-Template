@@ -29,7 +29,7 @@ class App extends Component {
     return (
       <AppLayout>
         <div className="dashboard-wrapper">
-          <Suspense fallback={<div className="loading" />}>
+        <Suspense fallback={<div className="loading" />}>
             <Switch>
             <Redirect
                 exact

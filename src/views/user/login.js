@@ -31,7 +31,7 @@ class Login extends Component {
                 Please use your credentials to login.
                 <br />
                 If you are not a member, please{" "}
-                <NavLink to={`/register`} className="white">
+                <NavLink to={`/user/register`} className="white">
                   register
                 </NavLink>
                 .
@@ -57,7 +57,7 @@ class Login extends Component {
                   />
                 </Label>
                 <div className="d-flex justify-content-between align-items-center">
-                  <NavLink to={`/forgot-password`}>
+                  <NavLink to={`/user/forgot-password`}>
                     <IntlMessages id="user.forgot-password-question" />
                   </NavLink>
                   <Button
