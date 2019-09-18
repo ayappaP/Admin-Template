@@ -57,6 +57,8 @@ module.exports = {
   "menu.app": "Home",
   "menu.dashboards": "Dashboards",
   "menu.orders": "Orders",
+  "menu.users": "Users",
+  "menu.createUsers": "Users",
   "menu.default": "Default",
   "menu.analytics": "Analytics",
   "menu.ecommerce": "Ecommerce",
@@ -196,6 +198,12 @@ module.exports = {
 
   /* 05.Pages */
   "pages.add-new": "ADD NEW",
+  "pages.add-new-user": "ADD NEW USER",
+  "pages.user-name":"User Name",
+  "pages.user-email":"Email",
+  "pages.user-password":"Password",
+  "pages.shopId":"Shop ID",
+  "pages.shopName":"Shop Name",
   "pages.add-new-modal-title": "Add New Item",
   "pages.orderNumber": "Order Number",
   "pages.quantity": "Quantity",

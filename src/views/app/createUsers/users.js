@@ -5,13 +5,13 @@ import axios from "axios";
 import client from "../../../queries/client";
 import fetchOrders from "../../../queries/fetchOrders";
 import { servicePath } from "../../../constants/defaultValues";
-import DataListView from "../../../containers/pages/DataListView";
+import UserDataListView from "../../../containers/pages/UserDataListView";
 import Pagination from "../../../containers/pages/Pagination";
 import ContextMenuContainer from "../../../containers/pages/ContextMenuContainer";
-import ListPageHeading from "../../../containers/pages/ListPageHeading";
+import UserListPageHeading from "../../../containers/pages/UserListPageHeading";
 import ImageListView from "../../../containers/pages/ImageListView";
 import ThumbListView from "../../../containers/pages/ThumbListView";
-import AddNewModal from "../../../containers/pages/AddNewModal";
+import AddNewUser from "../../../containers/pages/AddNewUser";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import gql from "graphql-tag";
 
@@ -32,7 +32,7 @@ const wsclient = new SubscriptionClient(GRAPHQL_ENDPOINT, {
     }
 });
 
-class Orders extends Component {
+class CreateUsers extends Component {
   constructor(props) {
     super(props);
     this.mouseTrap = require("mousetrap");
@@ -78,33 +78,6 @@ class Orders extends Component {
       return false;
     });
     this.fetchOrders();
-    wsclient.request({
-      query: gql`
-                  subscription {
-                   order(where: {reference: {_is_null: false}}, order_by: {createdAt: desc}, limit:1) {
-                     id
-                     createdAt
-                     total
-                   }
-                  }` }).subscribe({
-          next: result => {
-              if (this.startSubscription) {
-                  // console.log(result)
-                  this.showBrowserNotification();
-                  this.props.changeOpenSnackBar();
-                  this.fetchOrders();
-              } else {
-                  this.startSubscription = true
-              }
-
-          },
-          complete: () => {
-              console.log("completed");
-          },
-          error: error => {
-              console.log(error);
-          }
-      });
   }
 
   fetchOrders = () => {
@@ -118,6 +91,8 @@ class Orders extends Component {
         console.log(error);
       });
   };
+
+  
 
   componentWillUnmount() {
     this.mouseTrap.unbind("ctrl+a");
@@ -314,8 +289,8 @@ class Orders extends Component {
     ) : (
       <Fragment>
         <div className="disable-text-selection">
-          <ListPageHeading
-            heading="menu.orders"
+          <UserListPageHeading
+            heading="menu.users"
             displayMode={displayMode}
             changeDisplayMode={this.changeDisplayMode}
             handleChangeSelectAll={this.handleChangeSelectAll}
@@ -334,16 +309,14 @@ class Orders extends Component {
             pageSizes={pageSizes}
             toggleModal={this.toggleModal}
           />
-          {console.log("sel", this.state.selectedOrder)}
-          {this.state.selectedOrder && (
-            <AddNewModal
+
+            <AddNewUser
               modalOpen={modalOpen}
               toggleModal={this.toggleModal}
               categories={categories}
               order={this.state.selectedOrder}
               onClose={this.handleClose}
             />
-          )}
           <Row>
             {this.state.orders.map(product => {
               // console.log("items",this.state.items)
@@ -370,7 +343,7 @@ class Orders extends Component {
                 );
               } else {
                 return (
-                  <DataListView
+                  <UserDataListView
                     key={product.id}
                     product={product}
                     isSelect={this.state.selectedItems.includes(product.id)}
@@ -397,4 +370,4 @@ class Orders extends Component {
     );
   }
 }
-export default Orders;
+export default CreateUsers;

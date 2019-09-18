@@ -1,8 +1,8 @@
 const data = [{
     id: "orders",
-    icon: "iconsminds-shop-4",
+    icon: "iconsminds-blinklist",
     label: "menu.orders",
-    to: "/app/dashboards",
+    to: "/app/orders",
     // subs: [{
     //     icon: "simple-icon-briefcase",
     //     label: "menu.default",
@@ -25,11 +25,12 @@ const data = [{
     //   }
     // ]
   },
-  // {
-  //   id: "pages",
-  //   icon: "iconsminds-digital-drawing",
-  //   label: "menu.pages",
-  //   to: "/app/pages",
+  {
+    id: "pages",
+    icon: "simple-icon-people",
+    label: "menu.users",
+    to: "/app/createUsers",
+  }
   //   subs: [{
   //       id: "pages-authorization",
   //       label: "menu.authorization",

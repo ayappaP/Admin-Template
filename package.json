@@ -13,6 +13,7 @@
     "classnames": "2.2.6",
     "firebase": "^5.9.4",
     "formik": "^1.5.1",
+    "graphql-tag": "^2.10.1",
     "moment": "2.22.2",
     "mousetrap": "^1.6.3",
     "rc-slider": "^8.6.1",
@@ -48,6 +49,7 @@
     "redux": "^4.0.1",
     "redux-saga": "^1.0.2",
     "sortablejs": "^1.6.1",
+    "subscriptions-transport-ws": "^0.9.16",
     "video.js": "^7.6.0",
     "yup": "^0.27.0"
   },
