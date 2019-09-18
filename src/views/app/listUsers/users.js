@@ -3,7 +3,7 @@ import { Row } from "reactstrap";
 
 import axios from "axios";
 import client from "../../../queries/client";
-import fetchOrders from "../../../queries/fetchOrders";
+import fetchUsers from "../../../queries/fetchUsers";
 import { servicePath } from "../../../constants/defaultValues";
 import UserDataListView from "../../../containers/pages/UserDataListView";
 import Pagination from "../../../containers/pages/Pagination";
@@ -21,16 +21,7 @@ function collect(props) {
 const apiUrl = servicePath + "/cakes/paging";
 
 
-const GRAPHQL_ENDPOINT = "wss://arokiya.7zero.com/v1/graphql";
 
-const wsclient = new SubscriptionClient(GRAPHQL_ENDPOINT, {
-    reconnect: true,
-    connectionParams: {
-        headers: {
-            'x-hasura-admin-secret': '9J8q3FCeFH63Rzqb'
-        }
-    }
-});
 
 class ListUsers extends Component {
   constructor(props) {
@@ -40,6 +31,7 @@ class ListUsers extends Component {
     this.state = {
       displayMode: "list",
       orders: [],
+      users:[],
       selectedPageSize: 10,
       orderOptions: [
         { column: "title", label: "Product Name" },
@@ -77,15 +69,15 @@ class ListUsers extends Component {
       });
       return false;
     });
-    this.fetchOrders();
+    this.fetchUsers();
   }
 
-  fetchOrders = () => {
-    const query = fetchOrders();
+  fetchUsers = () => {
+    const query = fetchUsers();
     client(query)
       .then(res => {
-        console.log("resres", res);
-        this.setState({ orders: res.data.order });
+        console.log("fetch users", res);
+        this.setState({ users: res.data.customer });
       })
       .catch(error => {
         console.log(error);
@@ -142,7 +134,7 @@ class ListUsers extends Component {
       {
         currentPage: page
       },
-      () => this.fetchOrders()
+      () => this.fetchUsers()
     );
   };
 
@@ -278,8 +270,10 @@ class ListUsers extends Component {
       orderOptions,
       pageSizes,
       modalOpen,
+      users,
       categories
     } = this.state;
+    console.log("aklsjdfk",users)
     const { match } = this.props;
     const startIndex = (currentPage - 1) * selectedPageSize;
     const endIndex = currentPage * selectedPageSize;
@@ -318,15 +312,15 @@ class ListUsers extends Component {
               onClose={this.handleClose}
             />
           <Row>
-            {this.state.orders.map(product => {
+            {this.state.users.map(users => {
               // console.log("items",this.state.items)
               // console.log("orders",this.state.orders)
               if (this.state.displayMode === "imagelist") {
                 return (
                   <ImageListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                    key={users.id}
+                    users={users}
+                    isSelect={this.state.selectedItems.includes(users.id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
@@ -334,9 +328,9 @@ class ListUsers extends Component {
               } else if (this.state.displayMode === "thumblist") {
                 return (
                   <ThumbListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                    key={users.id}
+                    users={users}
+                    isSelect={this.state.selectedItems.includes(users.id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
@@ -344,12 +338,12 @@ class ListUsers extends Component {
               } else {
                 return (
                   <UserDataListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                    key={users.id}
+                    users={users}
+                    isSelect={this.state.selectedItems.includes(users.id)}
                     onCheckItem={this.onCheckItem}
                     collect={collect}
-                    toggleModal={() => this.toggleModal(product)}
+                    toggleModal={() => this.toggleModal(users)}
                     order={this.state.selectedOrder}
                   />
                 );

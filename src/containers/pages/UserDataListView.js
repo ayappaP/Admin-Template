@@ -21,10 +21,10 @@ import fetchUsers from "../../queries/fetchUsers";
 
 class UserDataListView extends React.Component {
   constructor(props) {
+    console.log("users===>",props)
     super();
     this.state = {
-      product: props.product,
-      users: []
+      users: props.users, 
     };
     // this.onSelect = this.onSelect.bind(this)
   }
@@ -43,22 +43,8 @@ class UserDataListView extends React.Component {
   //     });
   // }
 
-  componentDidMount() {
-    this.fetchUsers();
-  }
-
-  fetchUsers = () => {
-    const query = fetchUsers();
-    client(query)
-      .then(res => {
-        console.log("fetch users", res);
-        this.setState({ users: res.data.customer });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
+ 
+  
   render() {
     const {
       // product,
@@ -67,9 +53,10 @@ class UserDataListView extends React.Component {
       onCheckItem,
       toggleModal,
       order,
+      users,
       selectStatus
     } = this.props;
-    const { users } = this.state;
+ 
     // const dateTime =
     //   product.createdAt.slice(0, 10) + " / " + product.createdAt.slice(11, 19);
     // const address = `${product.address.city} ${product.address.region} ${product.address.address} ${product.address.address2} ${product.address.postcode}`;
@@ -77,7 +64,7 @@ class UserDataListView extends React.Component {
     return (
       <Colxx xxs="12" className="mb-3">
         <ContextMenuTrigger id="menu_id" data={users.id} collect={collect}>
-          {users.map(users => (
+
             <Card
               onClick={event => onCheckItem(event, users.id)}
               className={classnames("d-flex flex-row", {
@@ -101,7 +88,7 @@ class UserDataListView extends React.Component {
                 </div>
               </div>
             </Card>
-          ))}
+        
         </ContextMenuTrigger>
       </Colxx>
     );
