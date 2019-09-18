@@ -51,6 +51,7 @@ class UserListPageHeading extends Component {
       changePageSize,
       selectedPageSize,
       totalItemCount,
+      userCount,
       selectedOrderOption,
       match,
       startIndex,

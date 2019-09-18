@@ -20,9 +20,6 @@ function collect(props) {
 }
 const apiUrl = servicePath + "/cakes/paging";
 
-
-
-
 class ListUsers extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +28,7 @@ class ListUsers extends Component {
     this.state = {
       displayMode: "list",
       orders: [],
-      users:[],
+      users: [],
       selectedPageSize: 10,
       orderOptions: [
         { column: "title", label: "Product Name" },
@@ -55,6 +52,7 @@ class ListUsers extends Component {
       search: "",
       selectedItems: [],
       lastChecked: null,
+      userCount:0,
       isLoading: false
     };
   }
@@ -76,15 +74,16 @@ class ListUsers extends Component {
     const query = fetchUsers();
     client(query)
       .then(res => {
-        console.log("fetch users", res);
-        this.setState({ users: res.data.customer });
+        console.log("fetch users", res.data.customer.length);
+        this.setState({
+          users: res.data.customer,
+          userCount: res.data.customer.length
+        });
       })
       .catch(error => {
         console.log(error);
       });
   };
-
-  
 
   componentWillUnmount() {
     this.mouseTrap.unbind("ctrl+a");
@@ -226,6 +225,7 @@ class ListUsers extends Component {
         `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
       )
       .then(res => {
+        console.log("==>res", res);
         return res.data;
       })
       .then(data => {
@@ -271,9 +271,10 @@ class ListUsers extends Component {
       pageSizes,
       modalOpen,
       users,
+      userCount,
       categories
     } = this.state;
-    console.log("aklsjdfk",users)
+    console.log("aklsjdfk", userCount);
     const { match } = this.props;
     const startIndex = (currentPage - 1) * selectedPageSize;
     const endIndex = currentPage * selectedPageSize;
@@ -292,6 +293,7 @@ class ListUsers extends Component {
             changePageSize={this.changePageSize}
             selectedPageSize={selectedPageSize}
             totalItemCount={totalItemCount}
+            // userCount={userCount}
             selectedOrderOption={selectedOrderOption}
             match={match}
             startIndex={startIndex}
@@ -304,13 +306,13 @@ class ListUsers extends Component {
             toggleModal={this.toggleModal}
           />
 
-            <AddNewUser
-              modalOpen={modalOpen}
-              toggleModal={this.toggleModal}
-              categories={categories}
-              order={this.state.selectedOrder}
-              onClose={this.handleClose}
-            />
+          <AddNewUser
+            modalOpen={modalOpen}
+            toggleModal={this.toggleModal}
+            categories={categories}
+            order={this.state.selectedOrder}
+            onClose={this.handleClose}
+          />
           <Row>
             {this.state.users.map(users => {
               // console.log("items",this.state.items)
