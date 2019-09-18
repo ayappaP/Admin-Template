@@ -7,6 +7,9 @@ import AppLayout from '../../layout/AppLayout';
 const Orders = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './orders')
 );
+const ListUsers = React.lazy(() =>
+  import(/* webpackChunkName: "dashboards" */ './listUsers')
+);
 const Dashboards = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './dashboards')
 );
@@ -44,6 +47,10 @@ class App extends Component {
                <Route
                 path={`${match.url}/orders`}
                 render={props => <Orders {...props} />}
+              />
+              <Route
+                path={`${match.url}/listUsers`}
+                render={props => <ListUsers {...props} />}
               />
               <Route
                 path={`${match.url}/dashboards`}

@@ -3,15 +3,15 @@ import { Row } from "reactstrap";
 
 import axios from "axios";
 import client from "../../../queries/client";
-import fetchOrders from "../../../queries/fetchOrders";
+import fetchUsers from "../../../queries/fetchUsers";
 import { servicePath } from "../../../constants/defaultValues";
-import DataListView from "../../../containers/pages/DataListView";
+import UserDataListView from "../../../containers/pages/UserDataListView";
 import Pagination from "../../../containers/pages/Pagination";
 import ContextMenuContainer from "../../../containers/pages/ContextMenuContainer";
-import ListPageHeading from "../../../containers/pages/ListPageHeading";
+import UserListPageHeading from "../../../containers/pages/UserListPageHeading";
 import ImageListView from "../../../containers/pages/ImageListView";
 import ThumbListView from "../../../containers/pages/ThumbListView";
-import AddNewModal from "../../../containers/pages/AddNewModal";
+import AddNewUser from "../../../containers/pages/AddNewUser";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import gql from "graphql-tag";
 
@@ -21,18 +21,9 @@ function collect(props) {
 const apiUrl = servicePath + "/cakes/paging";
 
 
-const GRAPHQL_ENDPOINT = "wss://arokiya.7zero.com/v1/graphql";
 
-const wsclient = new SubscriptionClient(GRAPHQL_ENDPOINT, {
-    reconnect: true,
-    connectionParams: {
-        headers: {
-            'x-hasura-admin-secret': '9J8q3FCeFH63Rzqb'
-        }
-    }
-});
 
-class Orders extends Component {
+class ListUsers extends Component {
   constructor(props) {
     super(props);
     this.mouseTrap = require("mousetrap");
@@ -40,6 +31,7 @@ class Orders extends Component {
     this.state = {
       displayMode: "list",
       orders: [],
+      users:[],
       selectedPageSize: 10,
       orderOptions: [
         { column: "title", label: "Product Name" },
@@ -77,47 +69,22 @@ class Orders extends Component {
       });
       return false;
     });
-    this.fetchOrders();
-    wsclient.request({
-      query: gql`
-                  subscription {
-                   order(where: {reference: {_is_null: false}}, order_by: {createdAt: desc}, limit:1) {
-                     id
-                     createdAt
-                     total
-                   }
-                  }` }).subscribe({
-          next: result => {
-              if (this.startSubscription) {
-                  // console.log(result)
-                  this.showBrowserNotification();
-                  this.props.changeOpenSnackBar();
-                  this.fetchOrders();
-              } else {
-                  this.startSubscription = true
-              }
-
-          },
-          complete: () => {
-              console.log("completed");
-          },
-          error: error => {
-              console.log(error);
-          }
-      });
+    this.fetchUsers();
   }
 
-  fetchOrders = () => {
-    const query = fetchOrders();
+  fetchUsers = () => {
+    const query = fetchUsers();
     client(query)
       .then(res => {
-        console.log("resres", res);
-        this.setState({ orders: res.data.order });
+        console.log("fetch users", res);
+        this.setState({ users: res.data.customer });
       })
       .catch(error => {
         console.log(error);
       });
   };
+
+  
 
   componentWillUnmount() {
     this.mouseTrap.unbind("ctrl+a");
@@ -167,7 +134,7 @@ class Orders extends Component {
       {
         currentPage: page
       },
-      () => this.fetchOrders()
+      () => this.fetchUsers()
     );
   };
 
@@ -303,8 +270,10 @@ class Orders extends Component {
       orderOptions,
       pageSizes,
       modalOpen,
+      users,
       categories
     } = this.state;
+    console.log("aklsjdfk",users)
     const { match } = this.props;
     const startIndex = (currentPage - 1) * selectedPageSize;
     const endIndex = currentPage * selectedPageSize;
@@ -314,8 +283,8 @@ class Orders extends Component {
     ) : (
       <Fragment>
         <div className="disable-text-selection">
-          <ListPageHeading
-            heading="menu.orders"
+          <UserListPageHeading
+            heading="menu.users"
             displayMode={displayMode}
             changeDisplayMode={this.changeDisplayMode}
             handleChangeSelectAll={this.handleChangeSelectAll}
@@ -334,26 +303,24 @@ class Orders extends Component {
             pageSizes={pageSizes}
             toggleModal={this.toggleModal}
           />
-          {console.log("sel", this.state.selectedOrder)}
-          {this.state.selectedOrder && (
-            <AddNewModal
+
+            <AddNewUser
               modalOpen={modalOpen}
               toggleModal={this.toggleModal}
               categories={categories}
               order={this.state.selectedOrder}
               onClose={this.handleClose}
             />
-          )}
           <Row>
-            {this.state.orders.map(product => {
+            {this.state.users.map(users => {
               // console.log("items",this.state.items)
               // console.log("orders",this.state.orders)
               if (this.state.displayMode === "imagelist") {
                 return (
                   <ImageListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                    key={users.id}
+                    users={users}
+                    isSelect={this.state.selectedItems.includes(users.id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
@@ -361,22 +328,22 @@ class Orders extends Component {
               } else if (this.state.displayMode === "thumblist") {
                 return (
                   <ThumbListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                    key={users.id}
+                    users={users}
+                    isSelect={this.state.selectedItems.includes(users.id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
                 );
               } else {
                 return (
-                  <DataListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                  <UserDataListView
+                    key={users.id}
+                    users={users}
+                    isSelect={this.state.selectedItems.includes(users.id)}
                     onCheckItem={this.onCheckItem}
                     collect={collect}
-                    toggleModal={() => this.toggleModal(product)}
+                    toggleModal={() => this.toggleModal(users)}
                     order={this.state.selectedOrder}
                   />
                 );
@@ -397,4 +364,4 @@ class Orders extends Component {
     );
   }
 }
-export default Orders;
+export default ListUsers;
