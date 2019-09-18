@@ -29,7 +29,7 @@ const data = [{
     id: "pages",
     icon: "simple-icon-people",
     label: "menu.users",
-    to: "/app/createUsers",
+    to: "/app/listUsers",
   }
   //   subs: [{
   //       id: "pages-authorization",

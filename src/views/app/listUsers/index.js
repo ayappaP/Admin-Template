@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-const CreateUsers = React.lazy(() =>
+const ListUsers = React.lazy(() =>
   import(/* webpackChunkName: "dashboard-default" */ './users')
 );
 
@@ -11,7 +11,7 @@ const Users = ({ match }) => (
       <Redirect exact from={`${match.url}/`} to={`${match.url}/`} />
       <Route
         path={`${match.url}`}
-        render={props => <CreateUsers {...props} />}
+        render={props => <ListUsers {...props} />}
       />
       <Redirect to="/error" />
     </Switch>

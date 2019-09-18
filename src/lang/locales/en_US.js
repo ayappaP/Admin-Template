@@ -201,7 +201,7 @@ module.exports = {
   "pages.add-new-user": "ADD NEW USER",
   "pages.user-name":"User Name",
   "pages.user-email":"Email",
-  "pages.user-password":"Password",
+  "pages.user-password":"Temporary Password",
   "pages.shopId":"Shop ID",
   "pages.shopName":"Shop Name",
   "pages.add-new-modal-title": "Add New Item",

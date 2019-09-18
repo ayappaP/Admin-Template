@@ -32,7 +32,7 @@ const wsclient = new SubscriptionClient(GRAPHQL_ENDPOINT, {
     }
 });
 
-class CreateUsers extends Component {
+class ListUsers extends Component {
   constructor(props) {
     super(props);
     this.mouseTrap = require("mousetrap");
@@ -370,4 +370,4 @@ class CreateUsers extends Component {
     );
   }
 }
-export default CreateUsers;
+export default ListUsers;
