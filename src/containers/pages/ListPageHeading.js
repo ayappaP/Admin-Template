@@ -50,7 +50,8 @@ class ListPageHeading extends Component {
       changeOrderBy,
       changePageSize,
       selectedPageSize,
-      totalItemCount,
+      // totalItemCount,
+      ordersCount,
       selectedOrderOption,
       match,
       startIndex,
@@ -160,7 +161,7 @@ class ListPageHeading extends Component {
                   <ImageListIcon />
                 </a> */}
               </span>
-
+               
               {/* <div className="d-block d-md-inline-block pt-1">
                 <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                   <DropdownToggle caret color="outline-dark" size="xs">
@@ -191,8 +192,8 @@ class ListPageHeading extends Component {
                 </div>
               </div> */}
               <div className="float-md-right pt-1">
-                <span className="text-muted text-small mr-1">{`${startIndex}-${endIndex} of ${totalItemCount} `}</span>
-                <UncontrolledDropdown className="d-inline-block">
+                <span className="text-muted text-small mr-1">{`${startIndex}-${endIndex} of ${ordersCount} `}</span>
+                {/* <UncontrolledDropdown className="d-inline-block">
                   <DropdownToggle caret color="outline-dark" size="xs">
                     {selectedPageSize}
                   </DropdownToggle>
@@ -208,7 +209,7 @@ class ListPageHeading extends Component {
                       );
                     })}
                   </DropdownMenu>
-                </UncontrolledDropdown>
+                </UncontrolledDropdown> */}
               </div>
             </Collapse>
           </div>

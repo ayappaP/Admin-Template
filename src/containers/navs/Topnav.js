@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { injectIntl } from "react-intl";
+import { Auth } from "aws-amplify";
 
 import {
   UncontrolledDropdown,
@@ -292,6 +293,22 @@ class TopNav extends Component {
               )}
             </button>
           </div>
+
+          <div className="position-relative d-none d-none d-lg-inline-block">
+            <a
+              className="btn btn-outline-primary btn-sm ml-2"
+              target="_top"
+              onClick={()=>{
+                Auth.signOut().then(()=>{
+                  localStorage.clear()
+                  this.props.history.push("/user/login")
+                }).catch(console.log);
+              }}
+            >
+              Logout
+            </a>
+          </div>
+
           {/* <div className="user d-inline-block">
             <UncontrolledDropdown className="dropdown-menu-right">
               <DropdownToggle className="p-0" color="empty">

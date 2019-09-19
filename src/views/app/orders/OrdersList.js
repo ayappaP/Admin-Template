@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Row } from "reactstrap";
+import { Auth } from "aws-amplify";
 
 import axios from "axios";
 import client from "../../../queries/client";
@@ -20,16 +21,15 @@ function collect(props) {
 }
 const apiUrl = servicePath + "/cakes/paging";
 
-
 const GRAPHQL_ENDPOINT = "wss://arokiya.7zero.com/v1/graphql";
 
 const wsclient = new SubscriptionClient(GRAPHQL_ENDPOINT, {
-    reconnect: true,
-    connectionParams: {
-        headers: {
-            'x-hasura-admin-secret': '9J8q3FCeFH63Rzqb'
-        }
+  reconnect: true,
+  connectionParams: {
+    headers: {
+      "x-hasura-admin-secret": "9J8q3FCeFH63Rzqb"
     }
+  }
 });
 
 class Orders extends Component {
@@ -46,7 +46,7 @@ class Orders extends Component {
         { column: "category", label: "Category" },
         { column: "status", label: "Status" }
       ],
-      pageSizes: [10, 20, 30, 50, 100],
+      pageSizes: 10,
 
       categories: [
         { label: "Cakes", value: "Cakes", key: 0 },
@@ -61,6 +61,7 @@ class Orders extends Component {
       totalItemCount: 0,
       totalPage: 1,
       search: "",
+      ordersCount: 0,
       selectedItems: [],
       lastChecked: null,
       isLoading: false
@@ -78,45 +79,61 @@ class Orders extends Component {
       return false;
     });
     this.fetchOrders();
-    wsclient.request({
-      query: gql`
-                  subscription {
-                   order(where: {reference: {_is_null: false}}, order_by: {createdAt: desc}, limit:1) {
-                     id
-                     createdAt
-                     total
-                   }
-                  }` }).subscribe({
-          next: result => {
-              if (this.startSubscription) {
-                  // console.log(result)
-                  this.showBrowserNotification();
-                  this.props.changeOpenSnackBar();
-                  this.fetchOrders();
-              } else {
-                  this.startSubscription = true
-              }
-
-          },
-          complete: () => {
-              console.log("completed");
-          },
-          error: error => {
-              console.log(error);
+    wsclient
+      .request({
+        query: gql`
+          subscription {
+            order(
+              where: { reference: { _is_null: false } }
+              order_by: { createdAt: desc }
+              limit: 1
+            ) {
+              id
+              createdAt
+              total
+            }
           }
+        `
+      })
+      .subscribe({
+        next: result => {
+          if (this.startSubscription) {
+            // console.log(result)
+            this.showBrowserNotification();
+            this.props.changeOpenSnackBar();
+            this.fetchOrders();
+          } else {
+            this.startSubscription = true;
+          }
+        },
+        complete: () => {
+          console.log("completed");
+        },
+        error: error => {
+          console.log(error);
+        }
       });
   }
 
   fetchOrders = () => {
-    const query = fetchOrders();
-    client(query)
+    Auth.currentAuthenticatedUser()
       .then(res => {
-        console.log("resres", res);
-        this.setState({ orders: res.data.order });
+        const shopId = res.attributes["custom:shopId"];
+        console.log(shopId);
+        const query = fetchOrders(shopId);
+        client(query)
+          .then(res => {
+            console.log("resres", res);
+            this.setState({
+              orders: res.data.order,
+              ordersCount: res.data.order.length
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(console.log);
   };
 
   componentWillUnmount() {
@@ -163,6 +180,7 @@ class Orders extends Component {
     return false;
   };
   onChangePage = page => {
+    console.log("page", page);
     this.setState(
       {
         currentPage: page
@@ -259,11 +277,12 @@ class Orders extends Component {
         `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
       )
       .then(res => {
+        console.log("data res", res);
         return res.data;
       })
       .then(data => {
         this.setState({
-          totalPage: data.totalPage,
+          // totalPage: data.totalPage,
           items: data.data,
           selectedItems: [],
           totalItemCount: data.totalItem,
@@ -300,14 +319,18 @@ class Orders extends Component {
       totalItemCount,
       selectedOrderOption,
       selectedItems,
+      totalPage,
       orderOptions,
       pageSizes,
       modalOpen,
+      ordersCount,
       categories
     } = this.state;
     const { match } = this.props;
     const startIndex = (currentPage - 1) * selectedPageSize;
-    const endIndex = currentPage * selectedPageSize;
+    const endIndex = currentPage * ordersCount;
+    const totalPageSize = ordersCount / pageSizes;
+    console.log("total", totalPageSize);
     const orders = this.state.orders;
     return !this.state.isLoading ? (
       <div className="loading" />
@@ -322,7 +345,8 @@ class Orders extends Component {
             changeOrderBy={this.changeOrderBy}
             changePageSize={this.changePageSize}
             selectedPageSize={selectedPageSize}
-            totalItemCount={totalItemCount}
+            // totalItemCount={totalItemCount}
+            ordersCount={ordersCount}
             selectedOrderOption={selectedOrderOption}
             match={match}
             startIndex={startIndex}
@@ -384,7 +408,7 @@ class Orders extends Component {
             })}{" "}
             <Pagination
               currentPage={this.state.currentPage}
-              totalPage={this.state.totalPage}
+              totalPage={totalPageSize}
               onChangePage={i => this.onChangePage(i)}
             />
             {/* <ContextMenuContainer

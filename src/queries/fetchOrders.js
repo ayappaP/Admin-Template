@@ -1,8 +1,8 @@
-export default () => {
+export default (shopId) => {
   const query = `
   query fetchOrders
     {
-      order(order_by: {createdAt: desc}, where: {shopCode: {_eq: "a7e9d07f-82cd-48bf-ac04-04a90db3a29f"}}) {
+      order(order_by: {createdAt: desc}, where: {shopCode: {_eq: "${shopId}"}}) {
         id
         reference
         status

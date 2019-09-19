@@ -274,10 +274,11 @@ class ListUsers extends Component {
       userCount,
       categories
     } = this.state;
-    console.log("aklsjdfk", userCount);
+   
     const { match } = this.props;
     const startIndex = (currentPage - 1) * selectedPageSize;
     const endIndex = currentPage * selectedPageSize;
+    console.log("aklsjdfk", endIndex);
     const orders = this.state.orders;
     return !this.state.isLoading ? (
       <div className="loading" />
@@ -292,8 +293,8 @@ class ListUsers extends Component {
             changeOrderBy={this.changeOrderBy}
             changePageSize={this.changePageSize}
             selectedPageSize={selectedPageSize}
-            totalItemCount={totalItemCount}
-            // userCount={userCount}
+            //totalItemCount={totalItemCount}
+            userCount={userCount}
             selectedOrderOption={selectedOrderOption}
             match={match}
             startIndex={startIndex}
