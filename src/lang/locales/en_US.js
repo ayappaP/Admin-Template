@@ -64,6 +64,7 @@ module.exports = {
   "menu.dashboards": "Dashboards",
   "menu.orders": "Orders",
   "menu.users": "Users",
+  "menu.listUsers": "Users",
   "menu.createUsers": "Users",
   "menu.default": "Default",
   "menu.analytics": "Analytics",

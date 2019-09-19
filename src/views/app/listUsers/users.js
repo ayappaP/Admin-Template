@@ -74,7 +74,7 @@ class ListUsers extends Component {
     const query = fetchUsers();
     client(query)
       .then(res => {
-        console.log("fetch users", res.data.customer.length);
+        console.log("fetch users", res);
         this.setState({
           users: res.data.customer,
           userCount: res.data.customer.length

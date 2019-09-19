@@ -3,7 +3,6 @@ export default () => {
       query fetchUsers
       {
         customer {
-          auth0Id
           name
           number
           balance
