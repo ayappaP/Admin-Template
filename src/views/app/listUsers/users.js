@@ -73,6 +73,7 @@ class ListUsers extends Component {
   fetchUsers = () => {
     Auth.currentAuthenticatedUser()
       .then(res => {
+        console.log("auth",res)
         const shopId = res.attributes["custom:shopId"];
         const query = fetchUsers(shopId);
         client(query)

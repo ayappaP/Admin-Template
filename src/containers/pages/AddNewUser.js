@@ -9,6 +9,7 @@ import {
   Input,
   Label
 } from "reactstrap";
+import { Auth } from "aws-amplify";
 import Select from "react-select";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -80,11 +81,18 @@ class AddNewUser extends React.Component {
   };
 
   submit() {
+    Auth.currentAuthenticatedUser()
+    .then(res => {
+      console.log("auth",res)
+      const shopId = res.attributes["custom:shopId"];
+      console.log("shopId",shopId)
+      const shopName = res.attributes["custom:shopName"];
+      console.log("shopName",shopName)
     const data = {
       name: this.state.name,
       email: this.state.email,
-      shopName: this.state.selectedOption,
-      shopId: this.state.selectValue
+      shopName: shopName,
+      shopId: shopId
     };
     console.log("data", data);
     const url =
@@ -116,6 +124,7 @@ class AddNewUser extends React.Component {
       .catch(error => {
         console.log(error);
       });
+    })
   }
 
   render() {
@@ -172,7 +181,7 @@ class AddNewUser extends React.Component {
           </Label>
           <Input /> */}
 
-          <Label className="mt-4">
+          {/* <Label className="mt-4">
             <IntlMessages id="pages.shopName" />
           </Label>
           <Dropdown
@@ -185,7 +194,7 @@ class AddNewUser extends React.Component {
           <Label className="mt-4">
             <IntlMessages id="pages.shopId" />
           </Label>
-          <Input name="shopId" disabled value={selectValue} />
+          <Input name="shopId" disabled value={selectValue} /> */}
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" outline onClick={onClose}>
@@ -195,9 +204,7 @@ class AddNewUser extends React.Component {
             color="primary"
             disabled={
               (!this.state.email,
-              !this.state.name,
-              !this.state.selectedOption,
-              !this.state.selectValue)
+              !this.state.name)
             }
             onClick={this.submit}
           >
