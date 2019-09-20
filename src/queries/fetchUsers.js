@@ -5,7 +5,7 @@ export default (shopId) => {
         customer(where: {shop: {_eq: "${shopId}"}}) {
           name
           number
-          balance
+          referralId
         }
       }`;
     return { query: query };
