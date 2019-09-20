@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Row } from "reactstrap";
-
+import { Auth } from "aws-amplify";
 import axios from "axios";
 import client from "../../../queries/client";
 import fetchUsers from "../../../queries/fetchUsers";
@@ -52,7 +52,7 @@ class ListUsers extends Component {
       search: "",
       selectedItems: [],
       lastChecked: null,
-      userCount:0,
+      userCount: 0,
       isLoading: false
     };
   }
@@ -71,18 +71,23 @@ class ListUsers extends Component {
   }
 
   fetchUsers = () => {
-    const query = fetchUsers();
-    client(query)
+    Auth.currentAuthenticatedUser()
       .then(res => {
-        console.log("fetch users", res);
-        this.setState({
-          users: res.data.customer,
-          userCount: res.data.customer.length
-        });
+        const shopId = res.attributes["custom:shopId"];
+        const query = fetchUsers(shopId);
+        client(query)
+          .then(res => {
+            console.log("fetch users", res);
+            this.setState({
+              users: res.data.customer,
+              userCount: res.data.customer.length
+            });
+          })
+          .catch(error => {
+            console.log(error);
+          });
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(console.log);
   };
 
   componentWillUnmount() {
@@ -274,11 +279,12 @@ class ListUsers extends Component {
       userCount,
       categories
     } = this.state;
-   
+
     const { match } = this.props;
     const startIndex = (currentPage - 1) * selectedPageSize;
-    const endIndex = currentPage * selectedPageSize;
+    const endIndex = currentPage * userCount;
     console.log("aklsjdfk", endIndex);
+    const totalPageSize = userCount / pageSizes;
     const orders = this.state.orders;
     return !this.state.isLoading ? (
       <div className="loading" />
@@ -354,7 +360,7 @@ class ListUsers extends Component {
             })}{" "}
             <Pagination
               currentPage={this.state.currentPage}
-              totalPage={this.state.totalPage}
+              totalPageSize={totalPageSize}
               onChangePage={i => this.onChangePage(i)}
             />
             {/* <ContextMenuContainer

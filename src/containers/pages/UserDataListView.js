@@ -56,7 +56,6 @@ class UserDataListView extends React.Component {
       users,
       selectStatus
     } = this.props;
- 
     // const dateTime =
     //   product.createdAt.slice(0, 10) + " / " + product.createdAt.slice(11, 19);
     // const address = `${product.address.city} ${product.address.region} ${product.address.address} ${product.address.address2} ${product.address.postcode}`;

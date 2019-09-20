@@ -295,22 +295,11 @@ class TopNav extends Component {
           </div>
 
           <div className="position-relative d-none d-none d-lg-inline-block">
-            <a
-              className="btn btn-outline-primary btn-sm ml-2"
-              target="_top"
-              onClick={()=>{
-                Auth.signOut().then(()=>{
-                  localStorage.clear()
-                  this.props.history.push("/user/login")
-                }).catch(console.log);
-              }}
-            >
-              Logout
-            </a>
+           
           </div>
 
-          {/* <div className="user d-inline-block">
-            <UncontrolledDropdown className="dropdown-menu-right">
+          <div className="user d-inline-block">
+            {/* <UncontrolledDropdown className="dropdown-menu-right">
               <DropdownToggle className="p-0" color="empty">
                 <span className="name mr-1">Sarah Kortney</span>
                 <span>
@@ -327,8 +316,20 @@ class TopNav extends Component {
                   Sign out
                 </DropdownItem>
               </DropdownMenu>
-            </UncontrolledDropdown>
-          </div> */}
+            </UncontrolledDropdown> */}
+             <a
+              className="btn btn-outline-primary btn-sm"
+              target="_top"
+              onClick={()=>{
+                Auth.signOut().then(()=>{
+                  localStorage.clear()
+                  this.props.history.push("/user/login")
+                }).catch(console.log);
+              }}
+            >
+              Logout
+            </a>
+          </div>
         </div>
       </nav>
     );

@@ -193,7 +193,7 @@ class UserListPageHeading extends Component {
               </div> */}
               <div className="float-md-right pt-1">
                 <span className="text-muted text-small mr-1">{`${startIndex}-${endIndex} of ${userCount} `}</span>
-                <UncontrolledDropdown className="d-inline-block">
+                {/* <UncontrolledDropdown className="d-inline-block">
                   <DropdownToggle caret color="outline-dark" size="xs">
                     {selectedPageSize}
                   </DropdownToggle>
@@ -209,7 +209,7 @@ class UserListPageHeading extends Component {
                       );
                     })}
                   </DropdownMenu>
-                </UncontrolledDropdown>
+                </UncontrolledDropdown> */}
               </div>
             </Collapse>
           </div>

@@ -1,8 +1,8 @@
-export default () => {
+export default (shopId) => {
     const query = `
       query fetchUsers
       {
-        customer {
+        customer(where: {shop: {_eq: "${shopId}"}}) {
           name
           number
           balance

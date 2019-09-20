@@ -206,7 +206,7 @@ module.exports = {
   /* 05.Pages */
   "pages.add-new": "ADD NEW",
   "pages.add-new-user": "ADD NEW USER",
-  "pages.user-name":"User Name",
+  "pages.user-name":"Name",
   "pages.user-email":"Email",
   "pages.user-password":"Temporary Password",
   "pages.shopId":"Shop ID",
