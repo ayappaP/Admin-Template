@@ -41,6 +41,8 @@ module.exports = {
 
   /* 02.User Login, Logout, Register */
   "user.login-title": "Login",
+  "user.logout": "Logout",
+  "user.create": "Create User",
   "user.register": "Register",
   "user.set-new-password": "Set New Password",
   "user.forgot-password": "Forgot Password",

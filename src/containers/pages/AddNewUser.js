@@ -156,7 +156,7 @@ class AddNewUser extends React.Component {
         backdrop="static"
       >
         <ModalHeader toggle={toggleModal} close={closeBtn}>
-          <h3>Create User</h3>
+          <h3><IntlMessages id="user.create"/></h3>
         </ModalHeader>
 
         <ModalBody>

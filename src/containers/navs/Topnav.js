@@ -327,7 +327,7 @@ class TopNav extends Component {
                 }).catch(console.log);
               }}
             >
-              Logout
+             <IntlMessages id="user.logout"/>
             </a>
           </div>
         </div>

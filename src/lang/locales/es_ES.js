@@ -41,6 +41,8 @@ module.exports = {
 
   /* 02.Inicio de sesión de usuario, cierre de sesión, registro */
   "user.login-title": "Iniciar sesión",
+  "user.logout": "Cerrar sesión",
+  "user.create": "Crear usuario",
   "user.register": "Registro",
   "user.forgot-password": "Se te olvidó tu contraseña",
   "user.email": "Email",
@@ -55,6 +57,10 @@ module.exports = {
 
   /* 03.Menú */
   "menu.app": "Inicio",
+  "menu.users": "Los usuarios",
+  "menu.listUsers": "Los usuarios",
+  "menu.createUsers": "Los usuarios",
+  "menu.orders":"pedidos",
   "menu.dashboards": "Tableros",
   "menu.default": "Defecto",
   "menu.analytics": "Analítica",
@@ -196,16 +202,19 @@ module.exports = {
 
   /* 05.Esquemas */
   "pages.add-new": "AGREGAR NUEVO",
+  "pages.add-new-user": "AÑADIR NUEVO USUARIO",
   "pages.add-new-modal-title": "Agregar ítem nuevo",
   "pages.display-options": "Opciones de Pantalla",
   "pages.orderby": "Ordenar por : ",
   "pages.product-name": "Nombre del Producto",
   "pages.category": "Categoría",
   "pages.description": "Descripción",
+  "pages.user-email":"correo electrónico",
   "pages.status": "Estado",
   "pages.cancel": "Cancelar",
   "pages.submit": "Enviar",
   "pages.delete": "Borrar",
+  "pages.user-name":"Nombre",
   "pages.another-action": "Otra accion",
   "pages.actions": "ACCIONES",
   "pages.header": "Encabezado",
