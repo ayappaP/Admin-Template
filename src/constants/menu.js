@@ -7,7 +7,7 @@ const data = [{
   {
     id: "pages",
     icon: "simple-icon-people",
-    label: "menu.users",
+    label: "menu.staff",
     to: "/app/listUsers",
   },
   {
@@ -16,12 +16,12 @@ const data = [{
     label: "menu.carousel",
     to: "/app/carousel",
   },
-  // {
-  //   id: "Products",
-  //   icon: "iconsminds-pantone",
-  //   label: "menu.products",
-  //   to: "/app/products",
-  // },
+  {
+    id: "Products",
+    icon: "iconsminds-pantone",
+    label: "menu.products",
+    to: "/app/products",
+  },
   {
     id: "Offers",
     icon: "iconsminds-pantone",

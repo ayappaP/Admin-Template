@@ -52,11 +52,11 @@ class ViewCarouselModal extends Component {
 
   render() {
     const { labels, categories } = this.props.todoApp;
-    const { toggleModalValue, toggleModal, carousel, onClose } = this.props;
+    const { toggleModalValue, toggleModal, carousel, onClose,modalOpenValue } = this.props;
     console.log("modal", carousel);
     return (
       <Modal
-        isOpen={toggleModalValue}
+        isOpen={modalOpenValue}
         toggle={toggleModalValue}
         wrapClassName="modal-right"
         backdrop="static"

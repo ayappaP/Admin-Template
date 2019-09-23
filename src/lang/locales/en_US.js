@@ -66,6 +66,7 @@ module.exports = {
   "menu.offers": "Offers",
   "menu.dashboards": "Dashboards",
   "menu.orders": "Orders",
+  "menu.staff": "Staffs",
   "menu.users": "Users",
   "menu.listUsers": "Users",
   "menu.createUsers": "Users",
@@ -160,6 +161,16 @@ module.exports = {
   "offer.startDate": "Start Date",
   "offer.endDate": "End Date",
   "offer.update": "Update Offer",
+
+  /* products */
+  "product.new": "Add new Product",
+  "product.update": "Update Product",
+  "product.name": "Product Name",
+  "product.description": "Description",
+  "product.price": "Price",
+  "product.unitWeight": "Unit Weight",
+  "product.categoryName": "Category Name",
+
   /* 04.Dashboards */
   "dashboards.pending-orders": "Pending Orders",
   "dashboards.completed-orders": "Completed Orders",
