@@ -57,13 +57,12 @@ class ViewCarouselModal extends Component {
     return (
       <Modal
         isOpen={toggleModalValue}
-        onClick={onClose}
         toggle={toggleModalValue}
         wrapClassName="modal-right"
         backdrop="static"
       >
         <ModalHeader toggle={toggleModalValue}>
-          <IntlMessages id="carousel.Update" />
+          <IntlMessages id="carousel.update" />
         </ModalHeader>
         <ModalBody>
           <Label className="mt-4">

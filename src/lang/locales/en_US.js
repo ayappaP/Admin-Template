@@ -63,6 +63,7 @@ module.exports = {
 
   /* 03.Menu */
   "menu.app": "Home",
+  "menu.offers": "Offers",
   "menu.dashboards": "Dashboards",
   "menu.orders": "Orders",
   "menu.users": "Users",
@@ -153,6 +154,12 @@ module.exports = {
   "menu.validations": "Validations",
   "menu.wizard": "Wizard",
 
+  /* offers */
+  "offer.new": "Add new Offer",
+  "offer.title": "Offer Title",
+  "offer.startDate": "Start Date",
+  "offer.endDate": "End Date",
+  "offer.update": "Update Offer",
   /* 04.Dashboards */
   "dashboards.pending-orders": "Pending Orders",
   "dashboards.completed-orders": "Completed Orders",
@@ -209,11 +216,11 @@ module.exports = {
   /* 05.Pages */
   "pages.add-new": "ADD NEW",
   "pages.add-new-user": "ADD NEW USER",
-  "pages.user-name":"Name",
-  "pages.user-email":"Email",
-  "pages.user-password":"Temporary Password",
-  "pages.shopId":"Shop ID",
-  "pages.shopName":"Shop Name",
+  "pages.user-name": "Name",
+  "pages.user-email": "Email",
+  "pages.user-password": "Temporary Password",
+  "pages.shopId": "Shop ID",
+  "pages.shopName": "Shop Name",
   "pages.add-new-modal-title": "Add New Item",
   "pages.orderNumber": "Order Number",
   "pages.quantity": "Quantity",

@@ -57,7 +57,7 @@ class ListProduct extends Component {
     };
   }
   componentDidMount() {
-    // this.dataListRender();
+     this.dataListRender();
     this.mouseTrap.bind(["ctrl+a", "command+a"], () =>
       this.handleChangeSelectAll(false)
     );
@@ -212,30 +212,30 @@ class ListProduct extends Component {
     return false;
   };
 
-//   dataListRender() {
-//     const {
-//       selectedPageSize,
-//       currentPage,
-//       selectedOrderOption,
-//       search
-//     } = this.state;
-//     axios
-//       .get(
-//         `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
-//       )
-//       .then(res => {
-//         return res.data;
-//       })
-//       .then(data => {
-//         this.setState({
-//           totalPage: data.totalPage,
-//           items: data.data,
-//           selectedItems: [],
-//           totalItemCount: data.totalItem,
-//           isLoading: true
-//         });
-//       });
-//   }
+  dataListRender() {
+    const {
+      selectedPageSize,
+      currentPage,
+      selectedOrderOption,
+      search
+    } = this.state;
+    axios
+      .get(
+        `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
+      )
+      .then(res => {
+        return res.data;
+      })
+      .then(data => {
+        this.setState({
+          totalPage: data.totalPage,
+          items: data.data,
+          selectedItems: [],
+          totalItemCount: data.totalItem,
+          isLoading: true
+        });
+      });
+  }
 
   onContextMenuClick = (e, data, target) => {
     console.log(
@@ -316,15 +316,15 @@ class ListProduct extends Component {
             onClose={this.handleClose}
           />
           <Row>
-            {this.state.users.map(users => {
+            {this.state.products.map(products => {
               // console.log("items",this.state.items)
               // console.log("orders",this.state.orders)
               if (this.state.displayMode === "imagelist") {
                 return (
                   <ImageListView
-                    key={users.id}
-                    users={users}
-                    isSelect={this.state.selectedItems.includes(users.id)}
+                    key={products.id}
+                    products={products}
+                    isSelect={this.state.selectedItems.includes(products.id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
@@ -332,9 +332,9 @@ class ListProduct extends Component {
               } else if (this.state.displayMode === "thumblist") {
                 return (
                   <ThumbListView
-                    key={users.id}
-                    users={users}
-                    isSelect={this.state.selectedItems.includes(users.id)}
+                    key={products.id}
+                    products={products}
+                    isSelect={this.state.selectedItems.includes(products.id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
@@ -342,12 +342,12 @@ class ListProduct extends Component {
               } else {
                 return (
                   <ProductListView
-                    key={users.id}
+                    key={products.id}
                     products={products}
-                    isSelect={this.state.selectedItems.includes(users.id)}
+                    isSelect={this.state.selectedItems.includes(products.id)}
                     onCheckItem={this.onCheckItem}
                     collect={collect}
-                    toggleModal={() => this.toggleModal(users)}
+                    toggleModal={() => this.toggleModal(products)}
                     order={this.state.selectedOrder}
                   />
                 );
