@@ -428,7 +428,11 @@ module.exports = {
   "carousel.basic": "Carousel Basic",
   "carousel.single": "Carousel Single",
   "carousel.without-controls": "Carousel Without Controls",
-
+  "carousel.title": "Add new Carousel",
+  "carousel.alt": "Alt",
+  "carousel.update": "Update Carousel",
+  "carousel.image": "Image",
+  "carousel.UploadImage": "Upload Image",
   /* 07.06.Charts */
   "charts.line": "Line Chart",
   "charts.polar": "Polar Chart",

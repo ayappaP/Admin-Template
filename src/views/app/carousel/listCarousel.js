@@ -23,8 +23,10 @@ import {
   getTodoListSearch,
   selectedTodoItemsChange
 } from "../../../redux/actions";
-import CarouselListView from "./CarouselListView";
-import AddNewTodoModal from "../../../containers/applications/AddNewTodoModal";
+import CarouselListView from "./carouselListView";
+import AddNewCarousel from "./AddNewCarousel";
+import ViewCarouselModal from "./ViewCarouselModal";
+
 import TodoApplicationMenu from "../../../containers/applications/TodoApplicationMenu";
 import client from "../../../queries/client"
 import fetchCarousel from "../../../queries/fetchCarousel"
@@ -37,6 +39,7 @@ class ListCarousel extends Component {
     this.state = {
       dropdownSplitOpen: false,
       modalOpen: false,
+      modalOpen:false,
       lastChecked: null,
       carousel:[],
       displayOptionsIsOpen: false
@@ -77,6 +80,15 @@ class ListCarousel extends Component {
       modalOpen: !this.state.modalOpen
     });
   };
+
+  toggleModalValue = item => {
+    this.setState({
+      modalOpenValue: !this.state.modalOpenValue,
+      selectedItem: item
+    });
+  };
+
+
 
   toggleSplit = () => {
     this.setState(prevState => ({
@@ -124,7 +136,9 @@ class ListCarousel extends Component {
     }
     return;
   };
-
+  handleClose = () => {
+    this.setState({ modalOpenValue: false, selectedItem: null });
+  };
   handleChangeSelectAll = () => {
     if (this.props.todoApp.loading) {
       if (
@@ -161,7 +175,7 @@ class ListCarousel extends Component {
 
     const { messages } = this.props.intl;
 
-    const { modalOpen,carousel } = this.state;
+    const { modalOpen,carousel,modalOpenValue } = this.state;
     return (
       <Fragment>
         <Row >
@@ -172,14 +186,14 @@ class ListCarousel extends Component {
               </h1>
               {loading && (
                 <div className="text-zero top-right-button-container">
-                  {/* <Button
+                  <Button
                     color="primary"
                     size="lg"
                     className="top-right-button"
                     onClick={this.toggleModal}
                   >
                     <IntlMessages id="todo.add-new" />
-                  </Button>{" "} */}
+                  </Button>{" "}
                   {/* <ButtonDropdown
                     isOpen={this.state.dropdownSplitOpen}
                     toggle={this.toggleSplit}
@@ -276,6 +290,7 @@ class ListCarousel extends Component {
                   <CarouselListView
                     key={`todo_item_${index}`}
                     item={item}
+                    toggleModalValue={() => this.toggleModalValue(item)}
                     handleCheckChange={this.handleCheckChange}
                     isSelected={
                       loading ? selectedItems.includes(item.id) : false
@@ -288,8 +303,16 @@ class ListCarousel extends Component {
             </Row>
           </Colxx>
         </Row>
+        {this.state.selectedItem && (
+            <ViewCarouselModal
+              modalOpenValue={modalOpenValue}
+              toggleModalValue={this.toggleModalValue}
+              carousel={this.state.selectedItem}
+              onClose={this.handleClose}
+            />
+          )}
         {/* {loading && <TodoApplicationMenu />} */}
-        <AddNewTodoModal toggleModal={this.toggleModal} modalOpen={modalOpen} />
+        <AddNewCarousel toggleModal={this.toggleModal} modalOpen={modalOpen} />
       </Fragment>
     );
   }
