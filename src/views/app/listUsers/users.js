@@ -35,7 +35,7 @@ class ListUsers extends Component {
         { column: "category", label: "Category" },
         { column: "status", label: "Status" }
       ],
-      pageSizes: [10, 20, 30, 50, 100],
+      pageSizes: 10,
 
       categories: [
         { label: "Cakes", value: "Cakes", key: 0 },
@@ -78,7 +78,6 @@ class ListUsers extends Component {
         const query = fetchUsers(shopId);
         client(query)
           .then(res => {
-            console.log("fetch users", res);
             this.setState({
               users: res.data.customer,
               userCount: res.data.customer.length
@@ -231,7 +230,6 @@ class ListUsers extends Component {
         `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
       )
       .then(res => {
-        console.log("==>res", res);
         return res.data;
       })
       .then(data => {
@@ -284,8 +282,9 @@ class ListUsers extends Component {
     const { match } = this.props;
     const startIndex = (currentPage - 1) * selectedPageSize;
     const endIndex = currentPage * userCount;
-    console.log("aklsjdfk", endIndex);
-    const totalPageSize = userCount / pageSizes;
+    console.log("endIndex", endIndex);
+    const totalPageSize = Math.ceil(userCount / pageSizes);
+    console.log("totalPageSize", totalPageSize);
     const orders = this.state.orders;
     return !this.state.isLoading ? (
       <div className="loading" />

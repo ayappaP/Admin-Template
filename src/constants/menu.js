@@ -30,7 +30,8 @@ const data = [{
     icon: "simple-icon-people",
     label: "menu.users",
     to: "/app/listUsers",
-  }
+  },
+  
   //   subs: [{
   //       id: "pages-authorization",
   //       label: "menu.authorization",
@@ -166,11 +167,12 @@ const data = [{
   //     },
   //   ]
   // },
-  // {
-  //   id: "applications",
-  //   icon: "iconsminds-air-balloon-1",
-  //   label: "menu.applications",
-  //   to: "/app/applications",
+  {
+    id: "Carousel",
+    icon: "iconsminds-air-balloon-1",
+    label: "menu.carousel",
+    to: "/app/carousel",
+  },
   //   subs: [{
   //       icon: "simple-icon-check",
   //       label: "menu.todo",
@@ -188,11 +190,12 @@ const data = [{
   //     }
   //   ]
   // },
-  // {
-  //   id: "ui",
-  //   icon: "iconsminds-pantone",
-  //   label: "menu.ui",
-  //   to: "/app/ui",
+  {
+    id: "Products",
+    icon: "iconsminds-pantone",
+    label: "menu.products",
+    to: "/app/products",
+  },
   //   subs: [
 
   //     {
@@ -325,6 +328,7 @@ const data = [{
   //   icon: "iconsminds-three-arrow-fork",
   //   label: "menu.menu",
   //   to: "/app/menu",
+  // },
   //   subs: [{
   //       icon: "simple-icon-logout",
   //       label: "menu.types",

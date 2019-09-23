@@ -87,6 +87,7 @@ module.exports = {
   "menu.survey": "Survey",
   "menu.chat": "Chat",
   "menu.ui": "UI",
+  "menu.products": "Products",
   "menu.alerts": "Alerts",
   "menu.badges": "Badges",
   "menu.buttons": "Buttons",

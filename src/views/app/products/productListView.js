@@ -3,14 +3,10 @@ import { Card, CustomInput, Badge } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import classnames from "classnames";
 import { ContextMenuTrigger } from "react-contextmenu";
-import { Colxx } from "../../components/common/CustomBootstrap";
-import Select from "react-select";
-import CustomSelectInput from "../../components/common/CustomSelectInput";
-import Dropdown from "react-dropdown";
+import { Colxx } from "../../../components/common/CustomBootstrap";
 import "react-dropdown/style.css";
-import client from "../../queries/client";
-import fetchUsers from "../../queries/fetchUsers";
-// const UserDataListView = ({
+
+// const ProductListView = ({
 //   product,
 //   isSelect,
 //   collect,
@@ -19,11 +15,11 @@ import fetchUsers from "../../queries/fetchUsers";
 //   order
 // }) =>
 
-class UserDataListView extends React.Component {
+class ProductListView extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      users: props.users
+      products: props.products
     };
     // this.onSelect = this.onSelect.bind(this)
   }
@@ -50,18 +46,20 @@ class UserDataListView extends React.Component {
       onCheckItem,
       toggleModal,
       order,
-      users,
+      products,
       selectStatus
     } = this.props;
+
+    console.log("products",products)
     // const dateTime =
     //   product.createdAt.slice(0, 10) + " / " + product.createdAt.slice(11, 19);
     // const address = `${product.address.city} ${product.address.region} ${product.address.address} ${product.address.address2} ${product.address.postcode}`;
 
     return (
       <Colxx xxs="12" className="mb-3">
-        <ContextMenuTrigger id="menu_id" data={users.id} collect={collect}>
+        <ContextMenuTrigger id="menu_id" data={products.id} collect={collect}>
           <Card
-            onClick={event => onCheckItem(event, users.id)}
+            onClick={event => onCheckItem(event, products.id)}
             className={classnames("d-flex flex-row", {
               active: isSelect
             })}
@@ -69,13 +67,13 @@ class UserDataListView extends React.Component {
             <div className="pl-2 d-flex flex-grow-1 min-width-zero">
               <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {users.name == null ? "NA" : users.name}
+                  {products.brand}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {users.number}
+                  {/* {products.number} */}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {users.referralId}
+                  {/* {products.referralId} */}
                 </p>
               </div>
             </div>
@@ -87,4 +85,4 @@ class UserDataListView extends React.Component {
 }
 
 /* React.memo detail : https://reactjs.org/docs/react-api.html#reactpurecomponent  */
-export default React.memo(UserDataListView);
+export default React.memo(ProductListView);

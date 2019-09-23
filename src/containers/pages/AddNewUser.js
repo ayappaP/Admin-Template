@@ -21,7 +21,6 @@ import fetchShops from "../../queries/fetchShops";
 class AddNewUser extends React.Component {
   constructor(props) {
     super();
-    console.log("===", props);
     this.state = {
       loading: false,
       productList: [],
@@ -46,7 +45,6 @@ class AddNewUser extends React.Component {
     const query = fetchShops();
     client(query)
       .then(res => {
-        console.log("add user shops", res.data.shop);
         this.setState({ shopName: res.data.shop });
       })
       .catch(error => {
@@ -81,50 +79,43 @@ class AddNewUser extends React.Component {
   };
 
   submit() {
-    Auth.currentAuthenticatedUser()
-    .then(res => {
-      console.log("auth",res)
+    Auth.currentAuthenticatedUser().then(res => {
       const shopId = res.attributes["custom:shopId"];
-      console.log("shopId",shopId)
       const shopName = res.attributes["custom:shopName"];
-      console.log("shopName",shopName)
-    const data = {
-      name: this.state.name,
-      email: this.state.email,
-      shopName: shopName,
-      shopId: shopId
-    };
-    console.log("data", data);
-    const url =
-      "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/createAdminUser";
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => res.json())
-      .then(response => {
-        console.log("resssss", response);
-        if (response.message == "Admin User created") {
-          this.setState(prevState => ({
-            success: response.message,
-            nestedModal: !prevState.nestedModal
-           
-          }));
-        } else {
-          this.setState(prevState => ({
-            error: response.error.message,
-            nestedModal: !prevState.nestedModal
-           
-          }));
+      const data = {
+        name: this.state.name,
+        email: this.state.email,
+        shopName: shopName,
+        shopId: shopId
+      };
+      console.log("data", data);
+      const url =
+        "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/createAdminUser";
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
         }
       })
-      .catch(error => {
-        console.log(error);
-      });
-    })
+        .then(res => res.json())
+        .then(response => {
+          if (response.message == "Admin User created") {
+            this.setState(prevState => ({
+              success: response.message,
+              nestedModal: !prevState.nestedModal
+            }));
+          } else {
+            this.setState(prevState => ({
+              error: response.error.message,
+              nestedModal: !prevState.nestedModal
+            }));
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    });
   }
 
   render() {
@@ -136,12 +127,10 @@ class AddNewUser extends React.Component {
       success,
       error
     } = this.state;
-    console.log("selectValue", selectValue);
     const listShop = shopName.map(shop => ({
       value: shop.id,
       label: shop.shopName
     }));
-    console.log("listshop", listShop);
     const closeBtn = (
       <button className="close" onClick={onClose}>
         &times;
@@ -156,7 +145,9 @@ class AddNewUser extends React.Component {
         backdrop="static"
       >
         <ModalHeader toggle={toggleModal} close={closeBtn}>
-          <h3><IntlMessages id="user.create"/></h3>
+          <h3>
+            <IntlMessages id="user.create" />
+          </h3>
         </ModalHeader>
 
         <ModalBody>
@@ -202,10 +193,7 @@ class AddNewUser extends React.Component {
           </Button>
           <Button
             color="primary"
-            disabled={
-              (!this.state.email,
-              !this.state.name)
-            }
+            disabled={(!this.state.email, !this.state.name)}
             onClick={this.submit}
           >
             <IntlMessages id="pages.submit" />
@@ -220,9 +208,13 @@ class AddNewUser extends React.Component {
           }
         >
           {success ? (
-            <ModalBody><h3>{success}</h3></ModalBody>
+            <ModalBody>
+              <h3>{success}</h3>
+            </ModalBody>
           ) : (
-            <ModalBody><h3>{error}</h3></ModalBody>
+            <ModalBody>
+              <h3>{error}</h3>
+            </ModalBody>
           )}
           {/* {error ? (
             <ModalBody>{error}</ModalBody>

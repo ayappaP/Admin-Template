@@ -3,12 +3,16 @@ import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import AppLayout from '../../layout/AppLayout';
+import Products from './products';
 
 const Orders = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './orders')
 );
 const ListUsers = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './listUsers')
+);
+const Carousel = React.lazy(() =>
+  import(/* webpackChunkName: "dashboards" */ './carousel')
 );
 const Dashboards = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './dashboards')
@@ -53,11 +57,19 @@ class App extends Component {
                 render={props => <ListUsers {...props} />}
               />
               <Route
+                path={`${match.url}/carousel`}
+                render={props => <Carousel {...props} />}
+              />
+                <Route
+                path={`${match.url}/products`}
+                render={props => <Products {...props} />}
+              />
+              <Route
                 path={`${match.url}/dashboards`}
                 render={props => <Dashboards {...props} />}
               />
               <Route
-                path={`${match.url}/applications`}
+                path={`${match.url}/carousel`}
                 render={props => <Applications {...props} />}
               />
               <Route
