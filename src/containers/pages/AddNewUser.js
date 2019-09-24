@@ -112,32 +112,32 @@ class AddNewUser extends React.Component {
         })
         .catch((err) => console.log(err))
 
-      const url =
-        "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/createAdminUser";
-      fetch(url, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then(res => res.json())
-        .then(response => {
-          if (response.message == "Admin User created") {
-            this.setState(prevState => ({
-              success: response.message,
-              nestedModal: !prevState.nestedModal
-            }));
-          } else {
-            this.setState(prevState => ({
-              error: response.error.message,
-              nestedModal: !prevState.nestedModal
-            }));
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      // const url =
+      //   "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/createAdminUser";
+      // fetch(url, {
+      //   method: "POST",
+      //   body: JSON.stringify(data),
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   }
+      // })
+      //   .then(res => res.json())
+      //   .then(response => {
+      //     if (response.message == "Admin User created") {
+      //       this.setState(prevState => ({
+      //         success: response.message,
+      //         nestedModal: !prevState.nestedModal
+      //       }));
+      //     } else {
+      //       this.setState(prevState => ({
+      //         error: response.error.message,
+      //         nestedModal: !prevState.nestedModal
+      //       }));
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
     }).catch((err) => console.log(err));
   }
 
