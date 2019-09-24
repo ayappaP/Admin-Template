@@ -202,16 +202,18 @@ class AddNewUser extends React.Component {
           </Label>
           <Input /> */}
 
-                <Label className="mt-4">
-                  <IntlMessages id="pages.role" />
-                </Label>
-                <Dropdown
-                  name="shopName"
-                  options={listShop}
-                  value={props.values.role}
-                  onChange={(e) => props.setFieldValue('role', e.value)}
-                  placeholder="Select role"
-                />
+                {userRole == 'Owner' ?
+                  (<><Label className="mt-4">
+                    <IntlMessages id="pages.role" />
+                  </Label>
+                    <Dropdown
+                      name="shopName"
+                      options={listShop}
+                      value={props.values.role}
+                      onChange={(e) => props.setFieldValue('role', e.value)}
+                      placeholder="Select role"
+                    /> </>)
+                  : null}
                 {/* <Label className="mt-4">
             <IntlMessages id="pages.shopId" />
           </Label>
