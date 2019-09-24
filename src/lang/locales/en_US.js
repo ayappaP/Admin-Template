@@ -88,6 +88,7 @@ module.exports = {
   "menu.chat": "Chat",
   "menu.ui": "UI",
   "menu.products": "Products",
+  "menu.shops": "Shops",
   "menu.alerts": "Alerts",
   "menu.badges": "Badges",
   "menu.buttons": "Buttons",

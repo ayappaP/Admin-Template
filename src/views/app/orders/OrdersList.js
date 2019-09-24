@@ -346,7 +346,7 @@ class Orders extends Component {
             changePageSize={this.changePageSize}
             selectedPageSize={selectedPageSize}
             // totalItemCount={totalItemCount}
-            ordersCount={ordersCount}
+            ordersCount={ordersCount}toggleModal
             selectedOrderOption={selectedOrderOption}
             match={match}
             startIndex={startIndex}

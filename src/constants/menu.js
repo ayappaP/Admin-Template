@@ -190,11 +190,17 @@ const data = [{
   //     }
   //   ]
   // },
+  // {
+  //   id: "Products",
+  //   icon: "iconsminds-pantone",
+  //   label: "menu.products",
+  //   to: "/app/products",
+  // },
   {
-    id: "Products",
+    id: "Shop",
     icon: "iconsminds-pantone",
-    label: "menu.products",
-    to: "/app/products",
+    label: "menu.shops",
+    to: "/app/shops",
   },
   //   subs: [
 

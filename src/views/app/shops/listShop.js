@@ -3,16 +3,17 @@ import { Row } from "reactstrap";
 import { Auth } from "aws-amplify";
 import axios from "axios";
 import client from "../../../queries/client";
-import fetchProducts from "../../../queries/fetchProducts";
+import fetchShops from "../../../queries/fetchShops";
 import { servicePath } from "../../../constants/defaultValues";
-import ProductListView from "./productListView";
+import ShopsListView from "./shopsListView";
 import Pagination from "../../../containers/pages/Pagination";
 import ContextMenuContainer from "../../../containers/pages/ContextMenuContainer";
 import UserListPageHeading from "../../../containers/pages/UserListPageHeading";
 import ImageListView from "../../../containers/pages/ImageListView";
 import ThumbListView from "../../../containers/pages/ThumbListView";
-import AddNewUser from "../../../containers/pages/AddNewUser";
+import AddNewShop from "../../../containers/pages/AddNewShop";
 import { SubscriptionClient } from "subscriptions-transport-ws";
+import IntlMessages from "../../../helpers/IntlMessages";
 import gql from "graphql-tag";
 
 function collect(props) {
@@ -20,7 +21,7 @@ function collect(props) {
 }
 const apiUrl = servicePath + "/cakes/paging";
 
-class ListProduct extends Component {
+class ListShop extends Component {
   constructor(props) {
     super(props);
     this.mouseTrap = require("mousetrap");
@@ -29,6 +30,7 @@ class ListProduct extends Component {
       displayMode: "list",
       orders: [],
       products: [],
+      shops:[],
       selectedPageSize: 10,
       orderOptions: [
         { column: "title", label: "Product Name" },
@@ -57,7 +59,8 @@ class ListProduct extends Component {
     };
   }
   componentDidMount() {
-    // this.dataListRender();
+    this.fetchShops();
+     this.dataListRender();
     this.mouseTrap.bind(["ctrl+a", "command+a"], () =>
       this.handleChangeSelectAll(false)
     );
@@ -67,16 +70,16 @@ class ListProduct extends Component {
       });
       return false;
     });
-    this.fetchProducts();
+    
   }
 
-  fetchProducts = () => {
-    const query = fetchProducts();
+  fetchShops = () => {
+    const query = fetchShops();
     client(query)
       .then(res => {
-        console.log("res products", res);
+        console.log("res shop", res);
         this.setState({
-          products: res.data.product
+          shops: res.data.shop
         });
       })
       .catch(error => {
@@ -91,10 +94,10 @@ class ListProduct extends Component {
     this.mouseTrap.unbind("command+d");
   }
 
-  toggleModal = product => {
+  toggleModal = shop => {
     this.setState({
       modalOpen: !this.state.modalOpen,
-      selectedOrder: product
+      selectedOrder: shop
     });
   };
 
@@ -212,30 +215,30 @@ class ListProduct extends Component {
     return false;
   };
 
-//   dataListRender() {
-//     const {
-//       selectedPageSize,
-//       currentPage,
-//       selectedOrderOption,
-//       search
-//     } = this.state;
-//     axios
-//       .get(
-//         `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
-//       )
-//       .then(res => {
-//         return res.data;
-//       })
-//       .then(data => {
-//         this.setState({
-//           totalPage: data.totalPage,
-//           items: data.data,
-//           selectedItems: [],
-//           totalItemCount: data.totalItem,
-//           isLoading: true
-//         });
-//       });
-//   }
+  dataListRender() {
+    const {
+      selectedPageSize,
+      currentPage,
+      selectedOrderOption,
+      search
+    } = this.state;
+    axios
+      .get(
+        `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
+      )
+      .then(res => {
+        return res.data;
+      })
+      .then(data => {
+        this.setState({
+          totalPage: data.totalPage,
+          items: data.data,
+          selectedItems: [],
+          totalItemCount: data.totalItem,
+          isLoading: true
+        });
+      });
+  }
 
   onContextMenuClick = (e, data, target) => {
     console.log(
@@ -271,6 +274,7 @@ class ListProduct extends Component {
       users,
       userCount,
       products,
+      shops,
       categories
     } = this.state;
 
@@ -286,45 +290,36 @@ class ListProduct extends Component {
     ) : (
       <Fragment>
         <div className="disable-text-selection">
-          <UserListPageHeading
-            heading="menu.shops"
-            displayMode={displayMode}
-            changeDisplayMode={this.changeDisplayMode}
-            handleChangeSelectAll={this.handleChangeSelectAll}
-            changeOrderBy={this.changeOrderBy}
-            changePageSize={this.changePageSize}
-            selectedPageSize={selectedPageSize}
-            //totalItemCount={totalItemCount}
-            userCount={userCount}
-            selectedOrderOption={selectedOrderOption}
-            match={match}
-            startIndex={startIndex}
-            endIndex={endIndex}
-            selectedItemsLength={selectedItems ? selectedItems.length : 0}
-            itemsLength={this.state.orders ? this.state.orders.length : 0}
-            onSearchKey={this.onSearchKey}
-            orderOptions={orderOptions}
-            pageSizes={pageSizes}
-            toggleModal={this.toggleModal}
-          />
-{/* 
-          <AddNewUser
+        <h1>
+                <IntlMessages id="menu.shops" />
+              </h1>
+             {/* <Button
+                    color="primary"
+                    size="lg"
+                    className="top-right-button"
+                    onClick={this.toggleModal}
+                  >
+                    <IntlMessages id="todo.add-new" />
+                  </Button>{" "} */}
+        
+
+            <AddNewShop
             modalOpen={modalOpen}
             toggleModal={this.toggleModal}
             categories={categories}
             order={this.state.selectedOrder}
             onClose={this.handleClose}
-          /> */}
+          />  
           <Row>
-            {this.state.users.map(users => {
-              // console.log("items",this.state.items)
+            {shops.map(shops => {
+               console.log("shops===>",shops)
               // console.log("orders",this.state.orders)
               if (this.state.displayMode === "imagelist") {
                 return (
                   <ImageListView
-                    key={users.id}
-                    users={users}
-                    isSelect={this.state.selectedItems.includes(users.id)}
+                    key={shops.id}
+                    shops={shops}
+                    isSelect={this.state.selectedItems.includes(shops.id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
@@ -332,22 +327,22 @@ class ListProduct extends Component {
               } else if (this.state.displayMode === "thumblist") {
                 return (
                   <ThumbListView
-                    key={users.id}
-                    users={users}
-                    isSelect={this.state.selectedItems.includes(users.id)}
+                    key={shops.id}
+                    shops={shops}
+                    isSelect={this.state.selectedItems.includes(shops.id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
                 );
               } else {
                 return (
-                  <ProductListView
-                    key={users.id}
-                    products={products}
-                    isSelect={this.state.selectedItems.includes(users.id)}
+                  <ShopsListView
+                    key={shops.id}
+                    shops={shops}
+                    isSelect={this.state.selectedItems.includes(shops.id)}
                     onCheckItem={this.onCheckItem}
                     collect={collect}
-                    toggleModal={() => this.toggleModal(users)}
+                    toggleModal={() => this.toggleModal(shops)}
                     order={this.state.selectedOrder}
                   />
                 );
@@ -368,4 +363,4 @@ class ListProduct extends Component {
     );
   }
 }
-export default ListProduct;
+export default ListShop;
