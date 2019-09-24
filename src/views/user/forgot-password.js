@@ -3,6 +3,7 @@ import { Row, Card, CardTitle, Form, Label, Input, Button } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import { Colxx } from "../../components/common/CustomBootstrap";
 import IntlMessages from "../../helpers/IntlMessages";
+import { Formik } from "formik";
 
 export default class ForgotPassword extends Component {
   constructor(props) {
@@ -34,7 +35,10 @@ export default class ForgotPassword extends Component {
               <CardTitle className="mb-4">
                 <IntlMessages id="user.forgot-password" />
               </CardTitle>
-              <Form>
+              <Formik initialValues = {{ otp: '' }}
+              onSubmit={(val) => console.log(val)}>
+                {props => 
+                <Form onSubmit={props.handleSubmit}>
                 <Label className="form-group has-float-label mb-4">
                   <Input type="email" defaultValue={this.state.email} />
                   <IntlMessages id="user.email" />
@@ -42,7 +46,7 @@ export default class ForgotPassword extends Component {
 
                 <div className="d-flex justify-content-end align-items-center">
                   <Button
-                    href="/app"
+                    type='submit'
                     color="primary"
                     className="btn-shadow"
                     size="lg"
@@ -51,6 +55,9 @@ export default class ForgotPassword extends Component {
                   </Button>
                 </div>
               </Form>
+                }
+              </Formik>
+              
             </div>
           </Card>
         </Colxx>
