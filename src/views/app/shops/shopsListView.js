@@ -60,7 +60,7 @@ class ShopsListView extends React.Component {
       <Colxx xxs="12" className="mb-3">
         <ContextMenuTrigger id="menu_id" data={shops.id} collect={collect}>
           <Card
-            onClick={event => onCheckItem(event, shops.id)}
+            onClick={toggleModal}
             className={classnames("d-flex flex-row", {
               active: isSelect
             })}
