@@ -1,16 +1,22 @@
 import React, { Component, Fragment } from "react";
-import { Row } from "reactstrap";
+import { Row,Button } from "reactstrap";
 import { Auth } from "aws-amplify";
 import axios from "axios";
 import client from "../../../queries/client";
+import { Colxx, Separator } from "../../../components/common/CustomBootstrap";
 import fetchProducts from "../../../queries/fetchProducts";
 import { servicePath } from "../../../constants/defaultValues";
 import ProductListView from "./productListView";
+import Breadcrumb from "../../../containers/navs/Breadcrumb";
+import IntlMessages from "../../../helpers/IntlMessages";
+import { injectIntl } from "react-intl";
 import Pagination from "../../../containers/pages/Pagination";
 import ContextMenuContainer from "../../../containers/pages/ContextMenuContainer";
 import UserListPageHeading from "../../../containers/pages/UserListPageHeading";
 import ImageListView from "../../../containers/pages/ImageListView";
 import ThumbListView from "../../../containers/pages/ThumbListView";
+import ViewProductModal from "./ViewProductModal"
+import AddNewProduct from "./AddNewProduct"
 import AddNewUser from "../../../containers/pages/AddNewUser";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import gql from "graphql-tag";
@@ -46,6 +52,7 @@ class ListProduct extends Component {
       selectedOrderOption: { column: "title", label: "Product Name" },
       dropdownSplitOpen: false,
       modalOpen: false,
+      modalOpenValue:false,
       currentPage: 1,
       totalItemCount: 0,
       totalPage: 1,
@@ -57,7 +64,7 @@ class ListProduct extends Component {
     };
   }
   componentDidMount() {
-    // this.dataListRender();
+     this.dataListRender();
     this.mouseTrap.bind(["ctrl+a", "command+a"], () =>
       this.handleChangeSelectAll(false)
     );
@@ -97,9 +104,14 @@ class ListProduct extends Component {
       selectedOrder: product
     });
   };
-
+  toggleModalValue = item => {
+    this.setState({
+      modalOpenValue: !this.state.modalOpenValue,
+      selectedProduct: item
+    });
+  };
   handleClose = () => {
-    this.setState({ modalOpen: false, selectedOrder: null });
+    this.setState({ modalOpenValue: false, selectedProduct: null });
   };
 
   changeOrderBy = column => {
@@ -212,30 +224,30 @@ class ListProduct extends Component {
     return false;
   };
 
-//   dataListRender() {
-//     const {
-//       selectedPageSize,
-//       currentPage,
-//       selectedOrderOption,
-//       search
-//     } = this.state;
-//     axios
-//       .get(
-//         `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
-//       )
-//       .then(res => {
-//         return res.data;
-//       })
-//       .then(data => {
-//         this.setState({
-//           totalPage: data.totalPage,
-//           items: data.data,
-//           selectedItems: [],
-//           totalItemCount: data.totalItem,
-//           isLoading: true
-//         });
-//       });
-//   }
+  dataListRender() {
+    const {
+      selectedPageSize,
+      currentPage,
+      selectedOrderOption,
+      search
+    } = this.state;
+    axios
+      .get(
+        `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
+      )
+      .then(res => {
+        return res.data;
+      })
+      .then(data => {
+        this.setState({
+          totalPage: data.totalPage,
+          items: data.data,
+          selectedItems: [],
+          totalItemCount: data.totalItem,
+          isLoading: true
+        });
+      });
+  }
 
   onContextMenuClick = (e, data, target) => {
     console.log(
@@ -268,9 +280,11 @@ class ListProduct extends Component {
       orderOptions,
       pageSizes,
       modalOpen,
+      modalOpenValue,
       users,
       userCount,
       products,
+      isLoading,
       categories
     } = this.state;
 
@@ -285,85 +299,59 @@ class ListProduct extends Component {
       <div className="loading" />
     ) : (
       <Fragment>
-        <div className="disable-text-selection">
-          <UserListPageHeading
-            heading="menu.shops"
-            displayMode={displayMode}
-            changeDisplayMode={this.changeDisplayMode}
-            handleChangeSelectAll={this.handleChangeSelectAll}
-            changeOrderBy={this.changeOrderBy}
-            changePageSize={this.changePageSize}
-            selectedPageSize={selectedPageSize}
-            //totalItemCount={totalItemCount}
-            userCount={userCount}
-            selectedOrderOption={selectedOrderOption}
-            match={match}
-            startIndex={startIndex}
-            endIndex={endIndex}
-            selectedItemsLength={selectedItems ? selectedItems.length : 0}
-            itemsLength={this.state.orders ? this.state.orders.length : 0}
-            onSearchKey={this.onSearchKey}
-            orderOptions={orderOptions}
-            pageSizes={pageSizes}
-            toggleModal={this.toggleModal}
-          />
-{/* 
-          <AddNewUser
-            modalOpen={modalOpen}
-            toggleModal={this.toggleModal}
-            categories={categories}
-            order={this.state.selectedOrder}
-            onClose={this.handleClose}
-          /> */}
-          <Row>
-            {this.state.users.map(users => {
-              // console.log("items",this.state.items)
-              // console.log("orders",this.state.orders)
-              if (this.state.displayMode === "imagelist") {
-                return (
-                  <ImageListView
-                    key={users.id}
-                    users={users}
-                    isSelect={this.state.selectedItems.includes(users.id)}
-                    collect={collect}
-                    onCheckItem={this.onCheckItem}
-                  />
-                );
-              } else if (this.state.displayMode === "thumblist") {
-                return (
-                  <ThumbListView
-                    key={users.id}
-                    users={users}
-                    isSelect={this.state.selectedItems.includes(users.id)}
-                    collect={collect}
-                    onCheckItem={this.onCheckItem}
-                  />
-                );
-              } else {
-                return (
+         <Row>
+          <Colxx xxs="12">
+            <div className="mb-2">
+              <h1>
+                <IntlMessages id="menu.products" />
+              </h1>
+              {isLoading && (
+                <div className="text-zero top-right-button-container">
+                  <Button
+                    color="primary"
+                    size="lg"
+                    className="top-right-button"
+                    onClick={this.toggleModal}
+                  >
+                    <IntlMessages id="todo.add-new" />
+                  </Button>{" "}
+                </div>
+              )}
+              <Breadcrumb match={this.props.match} />
+            </div>
+
+            <Separator className="mb-5" />
+            <Row>
+              {isLoading ? (
+                products &&
+                products.map((products, index) => (
                   <ProductListView
-                    key={users.id}
-                    products={products}
-                    isSelect={this.state.selectedItems.includes(users.id)}
-                    onCheckItem={this.onCheckItem}
-                    collect={collect}
-                    toggleModal={() => this.toggleModal(users)}
-                    order={this.state.selectedOrder}
-                  />
-                );
-              }
-            })}{" "}
-            <Pagination
-              currentPage={this.state.currentPage}
-              totalPageSize={totalPageSize}
-              onChangePage={i => this.onChangePage(i)}
-            />
-            {/* <ContextMenuContainer
-              onContextMenuClick={this.onContextMenuClick}
-              onContextMenu={this.onContextMenu}
-            /> */}
-          </Row>
-        </div>
+          key={products.id}
+          products={products}
+          toggleModalValue={() => this.toggleModalValue(products)}
+          isSelect={this.state.selectedItems.includes(products.id)}
+          onCheckItem={this.onCheckItem}
+          collect={collect}
+          toggleModal={() => this.toggleModal(products)}
+          order={this.state.selectedOrder}
+        />
+                ))
+              ) : (
+                <div className="loading" />
+              )}
+            </Row>
+          </Colxx>
+        </Row>
+{this.state.selectedProduct && (
+  <ViewProductModal
+    modalOpenValue={modalOpenValue}
+    toggleModalValue={this.toggleModalValue}
+    product={this.state.selectedProduct}
+    onClose={this.handleClose}
+  />
+  )}
+  
+  <AddNewProduct toggleModal={this.toggleModal} modalOpen={modalOpen} />
       </Fragment>
     );
   }

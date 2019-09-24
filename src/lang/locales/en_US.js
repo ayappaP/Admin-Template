@@ -45,8 +45,14 @@ module.exports = {
   "user.create": "Create User",
   "user.register": "Register",
   "user.set-new-password": "Set New Password",
+  "user.set-new-super-admin": "Super admin signUp",
   "user.forgot-password": "Forgot Password",
   "user.email": "E-mail",
+  "user.phone": "Enter phone number",
+  "user.otp": "Enter OTP",
+  "user.login-otp": "Send OTP",
+  "user.create-super": "Create super admin",
+  "user.login-back": "Back",
   "user.temp-password": "Temporary Password",
   "user.new-password": "Set New Password",
   "user.shop-name": "Enter Shop Name",
@@ -63,8 +69,10 @@ module.exports = {
 
   /* 03.Menu */
   "menu.app": "Home",
+  "menu.offers": "Offers",
   "menu.dashboards": "Dashboards",
   "menu.orders": "Orders",
+  "menu.staff": "Staffs",
   "menu.users": "Users",
   "menu.listUsers": "Users",
   "menu.createUsers": "Users",
@@ -154,6 +162,22 @@ module.exports = {
   "menu.validations": "Validations",
   "menu.wizard": "Wizard",
 
+  /* offers */
+  "offer.new": "Add new Offer",
+  "offer.title": "Offer Title",
+  "offer.startDate": "Start Date",
+  "offer.endDate": "End Date",
+  "offer.update": "Update Offer",
+
+  /* products */
+  "product.new": "Add new Product",
+  "product.update": "Update Product",
+  "product.name": "Product Name",
+  "product.description": "Description",
+  "product.price": "Price",
+  "product.unitWeight": "Unit Weight",
+  "product.categoryName": "Category Name",
+
   /* 04.Dashboards */
   "dashboards.pending-orders": "Pending Orders",
   "dashboards.completed-orders": "Completed Orders",
@@ -210,11 +234,11 @@ module.exports = {
   /* 05.Pages */
   "pages.add-new": "ADD NEW",
   "pages.add-new-user": "ADD NEW USER",
-  "pages.user-name":"Name",
-  "pages.user-email":"Email",
-  "pages.user-password":"Temporary Password",
-  "pages.shopId":"Shop ID",
-  "pages.shopName":"Shop Name",
+  "pages.user-name": "Name",
+  "pages.user-email": "Email",
+  "pages.user-password": "Temporary Password",
+  "pages.shopId": "Shop ID",
+  "pages.shopName": "Shop Name",
   "pages.add-new-modal-title": "Add New Item",
   "pages.orderNumber": "Order Number",
   "pages.quantity": "Quantity",
@@ -429,7 +453,11 @@ module.exports = {
   "carousel.basic": "Carousel Basic",
   "carousel.single": "Carousel Single",
   "carousel.without-controls": "Carousel Without Controls",
-
+  "carousel.title": "Add new Carousel",
+  "carousel.alt": "Alt",
+  "carousel.update": "Update Carousel",
+  "carousel.image": "Image",
+  "carousel.UploadImage": "Upload Image",
   /* 07.06.Charts */
   "charts.line": "Line Chart",
   "charts.polar": "Polar Chart",

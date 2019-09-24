@@ -23,45 +23,44 @@ import {
   getTodoListSearch,
   selectedTodoItemsChange
 } from "../../../redux/actions";
-import CarouselListView from "./carouselListView";
-import AddNewCarousel from "./AddNewCarousel";
-import ViewCarouselModal from "./ViewCarouselModal";
+import OfferListView from "./offerListView";
+import ViewOfferModal from "./ViewOfferModal";
 
 import TodoApplicationMenu from "../../../containers/applications/TodoApplicationMenu";
-import client from "../../../queries/client"
-import fetchCarousel from "../../../queries/fetchCarousel"
+import client from "../../../queries/client";
+import fetchOffers from "../../../queries/fetchOffers";
+import AddNewOffer from "./AddNewOffer";
 
-
-class ListCarousel extends Component {
+class ListOffer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       dropdownSplitOpen: false,
       modalOpen: false,
-      modalOpen:false,
+      modalOpen: false,
       lastChecked: null,
-      carousel:[],
+      offers: [],
       displayOptionsIsOpen: false
     };
   }
 
   componentDidMount() {
-    this.fetchCarousel();
+    this.fetchOffers();
     this.props.getTodoList();
   }
 
-  fetchCarousel = () => {
+  fetchOffers = () => {
     // Auth.currentAuthenticatedUser()
     //   .then(res => {
     //     console.log("auth",res)
     //const shopId = res.attributes["custom:shopId"];
-    const query = fetchCarousel();
+    const query = fetchOffers();
     client(query)
       .then(res => {
-        console.log("resss car",res)
+        console.log("resss car", res);
         this.setState({
-          carousel: res.data.carousel
+          offers: res.data.offer
         });
       })
       .catch(error => {
@@ -84,11 +83,9 @@ class ListCarousel extends Component {
   toggleModalValue = item => {
     this.setState({
       modalOpenValue: !this.state.modalOpenValue,
-      selectedItem: item
+      selectedOffer: item
     });
   };
-
-
 
   toggleSplit = () => {
     this.setState(prevState => ({
@@ -137,7 +134,7 @@ class ListCarousel extends Component {
     return;
   };
   handleClose = () => {
-    this.setState({ modalOpenValue: false, selectedItem: null });
+    this.setState({ modalOpenValue: false, selectedOffer: null });
   };
   handleChangeSelectAll = () => {
     if (this.props.todoApp.loading) {
@@ -168,6 +165,7 @@ class ListCarousel extends Component {
       todoItems,
       searchKeyword,
       loading,
+
       orderColumn,
       orderColumns,
       selectedItems
@@ -175,14 +173,14 @@ class ListCarousel extends Component {
 
     const { messages } = this.props.intl;
 
-    const { modalOpen,carousel,modalOpenValue } = this.state;
+    const { modalOpen, offer, modalOpenValue, offers } = this.state;
     return (
       <Fragment>
-        <Row >
+        <Row>
           <Colxx xxs="12">
             <div className="mb-2">
               <h1>
-                <IntlMessages id="menu.carousel" />
+                <IntlMessages id="menu.offers" />
               </h1>
               {loading && (
                 <div className="text-zero top-right-button-container">
@@ -194,100 +192,18 @@ class ListCarousel extends Component {
                   >
                     <IntlMessages id="todo.add-new" />
                   </Button>{" "}
-                  {/* <ButtonDropdown
-                    isOpen={this.state.dropdownSplitOpen}
-                    toggle={this.toggleSplit}
-                  >
-                    <div className="btn btn-primary btn-lg pl-4 pr-0 check-button check-all">
-                      <CustomInput
-                        className="custom-checkbox mb-0 d-inline-block"
-                        type="checkbox"
-                        id="checkAll"
-                        checked={selectedItems.length >= todoItems.length}
-                        onClick={() => this.handleChangeSelectAll()}
-                        onChange={() => this.handleChangeSelectAll()}
-                        label={
-                          <span
-                            className={`custom-control-label ${
-                              selectedItems.length > 0 &&
-                              selectedItems.length < todoItems.length
-                                ? "indeterminate"
-                                : ""
-                            }`}
-                          />
-                        }
-                      />
-                    </div>
-                    <DropdownToggle
-                      caret
-                      color="primary"
-                      className="dropdown-toggle-split btn-lg"
-                    />
-                    <DropdownMenu right>
-                      <DropdownItem>
-                        <IntlMessages id="todo.action" />
-                      </DropdownItem>
-                      <DropdownItem>
-                        <IntlMessages id="todo.another-action" />
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </ButtonDropdown> */}
                 </div>
               )}
               <Breadcrumb match={this.props.match} />
             </div>
 
-            {/* <div className="mb-2">
-              <Button
-                color="empty"
-                className="pt-0 pl-0 d-inline-block d-md-none"
-                onClick={this.toggleDisplayOptions}
-              >
-                <IntlMessages id="todo.display-options" />{" "}
-                <i className="simple-icon-arrow-down align-middle" />
-              </Button>
-              <Collapse
-                id="displayOptions"
-                className="d-md-block"
-                isOpen={this.state.displayOptionsIsOpen}
-              >
-                <div className="d-block mb-2 d-md-inline-block">
-                  <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
-                    <DropdownToggle caret color="outline-dark" size="xs">
-                      <IntlMessages id="todo.orderby" />
-                      {orderColumn ? orderColumn.label : ""}
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      {orderColumns.map((o, index) => {
-                        return (
-                          <DropdownItem
-                            key={index}
-                            onClick={() => this.changeOrderBy(o.column)}
-                          >
-                            {o.label}
-                          </DropdownItem>
-                        );
-                      })}
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                  <div className="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
-                    <input
-                      type="text"
-                      name="keyword"
-                      id="search"
-                      placeholder={messages["menu.search"]}
-                      defaultValue={searchKeyword}
-                      onKeyPress={e => this.handleKeyPress(e)}
-                    />
-                  </div>
-                </div>
-              </Collapse>
-            </div> */}
             <Separator className="mb-5" />
             <Row>
+              {console.log("offers ", offers)}
               {loading ? (
-                carousel.map((item, index) => (
-                  <CarouselListView
+                offers &&
+                offers.map((item, index) => (
+                  <OfferListView
                     key={`todo_item_${index}`}
                     item={item}
                     toggleModalValue={() => this.toggleModalValue(item)}
@@ -303,16 +219,16 @@ class ListCarousel extends Component {
             </Row>
           </Colxx>
         </Row>
-        {this.state.selectedItem && (
-            <ViewCarouselModal
-              modalOpenValue={modalOpenValue}
-              toggleModalValue={this.toggleModalValue}
-              carousel={this.state.selectedItem}
-              onClose={this.handleClose}
-            />
-          )}
-        {/* {loading && <TodoApplicationMenu />} */}
-        <AddNewCarousel toggleModal={this.toggleModal} modalOpen={modalOpen} />
+        {this.state.selectedOffer && (
+          <ViewOfferModal
+            modalOpenValue={modalOpenValue}
+            toggleModalValue={this.toggleModalValue}
+            offer={this.state.selectedOffer}
+            onClose={this.handleClose}
+          />
+        )}
+
+        <AddNewOffer toggleModal={this.toggleModal} modalOpen={modalOpen} />
       </Fragment>
     );
   }
@@ -331,5 +247,5 @@ export default injectIntl(
       getTodoListSearch,
       selectedTodoItemsChange
     }
-  )(ListCarousel)
+  )(ListOffer)
 );

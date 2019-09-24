@@ -22,8 +22,8 @@ Amplify.configure({
   Auth: {
     identityPoolId: "eu-west-2:1eecd4cb-f0e7-4dd3-ba8a-d72b175bb8b6",
     region: 'eu-west-2',
-    userPoolWebClientId: '4jo2jdl8o2vevrh21dlpqa40ri',
-    userPoolId: 'eu-west-2_DkOsfcXsa',
+    userPoolWebClientId: '5kpqpm50q8qmbvq4aaupcl7p26',
+    userPoolId: 'eu-west-2_Mcy02qifr',
     responseType: 'token',
   }
 });
@@ -47,16 +47,16 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => {
     <Route
       {...rest}
       render={props =>
-        authUser ? (
+        // authUser ? (
           <Component {...props} />
-        ) : (
-            <Redirect
-              to={{
-                pathname: "/user/login",
-                state: { from: props.location }
-              }}
-            />
-          )
+        // ) : (
+        //     <Redirect
+        //       to={{
+        //         pathname: "/user/login",
+        //         state: { from: props.location }
+        //       }}
+        //     />
+        //   )
       }
     />
   );

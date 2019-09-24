@@ -13,6 +13,7 @@ import {
 } from './actions';
 import { Auth } from 'aws-amplify';
 import { NotificationManager } from "../../components/common/react-notifications";
+import { ConsoleLogger } from '@aws-amplify/core';
 
 
 const createNotification = (msg, req) => {
@@ -25,60 +26,37 @@ const createNotification = (msg, req) => {
     );
 }
 
-const loginWithEmailPasswordAsync = async (email, password) =>
+const loginWithEmailPasswordAsync = async (phone, password) =>
     await Auth.signIn({
-        username: email,
+        username: phone,
         password
     })
         .then((res) => res)
         .catch((err) => err)
 
-const loginWithNewPasswordAsync = async (confirmUser, newPass) =>
+const loginWithNewPasswordAsync = async (confirmUser) =>
     await Auth.completeNewPassword(
         confirmUser,
-        newPass
+        'Arokiya@123'
     )
         .then((user) => user)
         .catch((err) => err)
 
 
-function* loginWithEmailPassword({ payload }) {
-    const { email, password, newPass } = payload.user;
-    // we're getting email, password from login page & email, password , newPass from register page 
-    // both the pages has same function - loginWithEmailPassword
-    const { history } = payload;
-    if (!newPass) {       // if newPass (new password ) is not present - normal login flow 
-        const loginUser = yield call(loginWithEmailPasswordAsync, email, password);
-        if (loginUser.code == "NotAuthorizedException") {
-            createNotification('Invalid Email or Password', 'Enter valid email and password')
-        }
-        if (loginUser.challengeName == "NEW_PASSWORD_REQUIRED") {
-            createNotification('You are login first time', 'Enter your email, temporary password and new password')
-            history.history.push('/user/register');
-        }
-        if (loginUser.attributes.sub) {
-            localStorage.setItem('user_id', loginUser.attributes.sub);
-            yield put(loginUserSuccess(loginUser));
-            createNotification('Success', 'Login completed successfully')
-            history.history.push('/app/orders');
-        } else {
-            console.log('login failed :', loginUser)
-        }
-    } else {     // if newPass is present - new password login flow
-        const confirmUser = yield call(loginWithEmailPasswordAsync, email, password);
-        if (confirmUser.message == 'Incorrect username or password.') {
-            createNotification('Enter valid Temporary password', 'Temporary password is incorrect')
-        } else {
-            const user = yield call(loginWithNewPasswordAsync, confirmUser, newPass);
-            if (user.code == 'InvalidPasswordException') {
-                createNotification('New password does not valid', 'Enter a new password with atleast one capital letter, small letter, numbers and symbols')
-            } else {
-                createNotification('New password updated successfully', 'Login again with your new password')
-                history.history.push('/user/login');
-            }
-        }
 
-    }
+function* loginWithEmailPassword({ payload }) {
+    console.log(payload)
+    // const { phone, tempPass } = payload.user;
+    // const { history } = payload;
+    // const confirmUser = yield call(loginWithEmailPasswordAsync, phone, tempPass);
+    // console.log(confirmUser)
+    // if(confirmUser.challengeName == "NEW_PASSWORD_REQUIRED")
+    // {
+    //     const loginUser = yield call(loginWithNewPasswordAsync, confirmUser);
+    //     console.log(loginUser)
+    //     history.history.push('/user/forgot-password')
+    // }
+    
 }
 
 const registerWithEmailPasswordAsync = async (email, password) =>

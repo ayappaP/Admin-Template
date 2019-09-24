@@ -3,35 +3,37 @@ const data = [{
     icon: "iconsminds-blinklist",
     label: "menu.orders",
     to: "/app/orders",
-    // subs: [{
-    //     icon: "simple-icon-briefcase",
-    //     label: "menu.default",
-    //     to: "/app/dashboards/default"
-    //   },
-    //   {
-    //     icon: "simple-icon-pie-chart",
-    //     label: "menu.analytics",
-    //     to: "/app/dashboards/analytics"
-    //   },
-    //   {
-    //     icon: "simple-icon-basket-loaded",
-    //     label: "menu.ecommerce",
-    //     to: "/app/dashboards/ecommerce"
-    //   },
-    //   {
-    //     icon: "simple-icon-doc",
-    //     label: "menu.content",
-    //     to: "/app/dashboards/content"
-    //   }
-    // ]
   },
   {
     id: "pages",
     icon: "simple-icon-people",
-    label: "menu.users",
+    label: "menu.staff",
     to: "/app/listUsers",
   },
-  
+  {
+    id: "Carousel",
+    icon: "iconsminds-air-balloon-1",
+    label: "menu.carousel",
+    to: "/app/carousel",
+  },
+  {
+    id: "Products",
+    icon: "iconsminds-pantone",
+    label: "menu.products",
+    to: "/app/products",
+  },
+  {
+    id: "Shop",
+    icon: "iconsminds-pantone",
+    label: "menu.shops",
+    to: "/app/shops",
+  },
+  {
+    id: "Offers",
+    icon: "iconsminds-pantone",
+    label: "menu.offers",
+    to: "/app/offers",
+  },
   //   subs: [{
   //       id: "pages-authorization",
   //       label: "menu.authorization",
@@ -167,12 +169,7 @@ const data = [{
   //     },
   //   ]
   // },
-  {
-    id: "Carousel",
-    icon: "iconsminds-air-balloon-1",
-    label: "menu.carousel",
-    to: "/app/carousel",
-  },
+
   //   subs: [{
   //       icon: "simple-icon-check",
   //       label: "menu.todo",
@@ -190,18 +187,7 @@ const data = [{
   //     }
   //   ]
   // },
-  // {
-  //   id: "Products",
-  //   icon: "iconsminds-pantone",
-  //   label: "menu.products",
-  //   to: "/app/products",
-  // },
-  {
-    id: "Shop",
-    icon: "iconsminds-pantone",
-    label: "menu.shops",
-    to: "/app/shops",
-  },
+ 
   //   subs: [
 
   //     {

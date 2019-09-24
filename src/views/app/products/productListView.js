@@ -45,6 +45,7 @@ class ProductListView extends React.Component {
       collect,
       onCheckItem,
       toggleModal,
+      toggleModalValue,
       order,
       products,
       selectStatus
@@ -59,21 +60,21 @@ class ProductListView extends React.Component {
       <Colxx xxs="12" className="mb-3">
         <ContextMenuTrigger id="menu_id" data={products.id} collect={collect}>
           <Card
-            onClick={event => onCheckItem(event, products.id)}
-            className={classnames("d-flex flex-row", {
-              active: isSelect
-            })}
+            onClick={toggleModalValue}
           >
             <div className="pl-2 d-flex flex-grow-1 min-width-zero">
               <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
+                  {products.englishName}
+                </p>
+                <p className="mb-1 text-muted text-small w-15 w-sm-100">
+                  {products.description}
+                </p>
+                <p className="mb-1 text-muted text-small w-15 w-sm-100">
                   {products.brand}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {/* {products.number} */}
-                </p>
-                <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {/* {products.referralId} */}
+                  {products.price}
                 </p>
               </div>
             </div>

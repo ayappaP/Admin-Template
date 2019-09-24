@@ -1,13 +1,28 @@
-import React from "react";
+import React,{Component} from "react";
 import { Card, CardBody, Badge, CustomInput } from "reactstrap";
 import { NavLink } from "react-router-dom";
 
 import { Colxx } from "../../../components/common/CustomBootstrap";
 
-const CarouselListView = ({ item, handleCheckChange, isSelected }) => {
+// const CarouselListView = ({ item, handleCheckChange, isSelected }) => {
+  class CarouselListView extends Component {
+    constructor(props) {
+      super(props);
+  
+      this.state = {
+        title: "",
+        detail: "",
+        label: {},
+        labelColor: "",
+        category: {},
+        status: "PENDING"
+      };
+    }
+    render(){
+      const {item,toggleModalValue} =this.props
   return (
     <Colxx xxs="12">
-      <Card className="card d-flex mb-3">
+      <Card className="card d-flex mb-3" onClick={toggleModalValue}>
         <div className="d-flex flex-grow-1 min-width-zero">
           <CardBody className="align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center">
             <NavLink
@@ -53,5 +68,5 @@ const CarouselListView = ({ item, handleCheckChange, isSelected }) => {
     </Colxx>
   );
 };
-
+}
 export default React.memo(CarouselListView);
