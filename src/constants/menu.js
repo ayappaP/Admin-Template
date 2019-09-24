@@ -23,6 +23,12 @@ const data = [{
     to: "/app/products",
   },
   {
+    id: "Shop",
+    icon: "iconsminds-pantone",
+    label: "menu.shops",
+    to: "/app/shops",
+  },
+  {
     id: "Offers",
     icon: "simple-icon-tag",
     label: "menu.offers",

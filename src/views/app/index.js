@@ -14,6 +14,9 @@ const ListUsers = React.lazy(() =>
 const Carousel = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './carousel')
 );
+const Shops = React.lazy(() =>
+  import(/* webpackChunkName: "dashboards" */ './shops')
+);
 const Offers = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './offers')
 );
@@ -65,6 +68,10 @@ class App extends Component {
               <Route
                 path={`${match.url}/carousel`}
                 render={props => <Carousel {...props} />}
+              />
+              <Route
+                path={`${match.url}/shops`}
+                render={props => <Shops {...props} />}
               />
                 <Route
                 path={`${match.url}/products`}

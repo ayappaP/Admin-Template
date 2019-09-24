@@ -9,14 +9,79 @@ import { Colxx } from "../../components/common/CustomBootstrap";
 import IntlMessages from "../../helpers/IntlMessages";
 
 import { Auth } from 'aws-amplify'
+import { NotificationManager } from "../../components/common/react-notifications";
 
 
-const UserLogin = (values, props) => {
-  props.loginUser(values, props)
+const createNotification = (msg, req) => {
+  NotificationManager.primary(
+    req,
+    msg,
+    5000,
+    null,
+    null,
+  );
 }
 
 
+const UserLogin = (values, props, setOtp, setUser) => {
+  const { phone, password } = values
+  // props.loginUser(values, props)
+  createNotification('Enter OTP')
+  Auth.signIn({
+    username: phone,
+    password
+  })
+    .then((user) => {
+      console.log(user)
+      setOtp(true)
+      setUser(user)
+      // localStorage.setItem('user', JSON.stringify(user))
+    })
+    .catch((err) => console.log(err))
+}
+
+
+const confirmSignIn = ({ code }, props, setOtp, user) => {
+  // const user = JSON.parse(localStorage.getItem('user'))
+  console.log(user)
+  console.log(code)
+  Auth.confirmSignIn(user, code)
+    .then((res) => {
+      console.log(res)
+      setOtp(false)
+    })
+    .catch((err) => console.log(err))
+}
+
+// const { phone, password } = values
+// console.log(values)
+// Auth.signIn({
+//   username: phone,
+//   password
+// })
+//   .then((user) => {
+//     console.log(user)
+//     // if (user.challengeName == "NEW_PASSWORD_REQUIRED") {
+//     //   createNotification('User not confirmed', 'Enter Phone number & temporary password')
+//     //   props.history.push('/user/register')
+//     // }
+
+//   })
+//   .catch((err) => {
+//     console.log('err', err)
+//     if (err.code == "UserNotFoundException") {
+//       createNotification('User not found', 'Create user')
+//     } else if (err.code == "NotAuthorizedException"){
+//       createNotification('User initial login', 'Enter temporary password')
+//       props.history.push('/user/register')
+//     }
+//   })
+
+
+
 const Login = (props) => {
+  const [otp, setOtp] = useState(false)
+  const [user, setUser] = useState([])
   return (
     <Row className="h-100">
       <Colxx xxs="12" md="10" className="mx-auto my-auto">
@@ -41,34 +106,66 @@ const Login = (props) => {
               <IntlMessages id="user.login-title" />
             </CardTitle>
 
-            <Formik initialValues={{ email: '', password: '' }} onSubmit={(val) => UserLogin(val, props)}>
-              {props => (
-                <Form onSubmit={props.handleSubmit}>
-                  <Label className="form-group has-float-label mb-4">
-                    <Input required name='email' type="email" onChange={props.handleChange} value={props.values.email} />
-                    <IntlMessages id="user.email" />
-                  </Label>
-                  <Label className="form-group has-float-label mb-4">
-                    <Input required name='password' type="password" onChange={props.handleChange} value={props.values.password} />
-                    <IntlMessages
-                      id="user.password"
-                    />
-                  </Label>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <NavLink to={`/user/forgot-password`}>
-                      <IntlMessages id="user.forgot-password-question" />
-                    </NavLink>
-                    <Button
-                      type='submit'
-                      color="primary"
-                      className="btn-shadow"
-                      size="lg"
-                    >
-                      <IntlMessages id="user.login-button" />
-                    </Button>
-                  </div>
-                </Form>
-              )}</Formik>
+            {!otp ?
+              (<Formik id="signin" initialValues={{ phone: '', password: 'Arokiya@123' }} onSubmit={(val) => UserLogin(val, props, setOtp, setUser)}>
+                {props => (
+                  <Form onSubmit={props.handleSubmit}>
+                    <Label className="form-group has-float-label mb-4">
+                      <Input required name='phone' type="tel" onChange={props.handleChange} value={props.values.phone} />
+                      <IntlMessages id="user.phone" />
+                    </Label>
+
+                    <div className="d-flex justify-content-between align-items-center">
+                      {/* <Button
+                        type='button'
+                        color="primary"
+                        className="btn-shadow"
+                        size="lg"
+                        onClick={() => this.props.history.push('/user/register')}
+                      >
+                        <IntlMessages id="user.create-super" />
+                      </Button> */}
+                      <Button
+                        type='submit'
+                        color="primary"
+                        className="btn-shadow"
+                        size="lg"
+                      >
+                        <IntlMessages id="user.login-otp" />
+                      </Button>
+                    </div>
+                  </Form>
+                )}</Formik>)
+              :
+              (<Formik id="otp" initialValues={{ code: '' }} onSubmit={(val) => confirmSignIn(val, props, setOtp, user)} >
+                {props =>
+                  <Form onSubmit={props.handleSubmit}>
+                    <Label className="form-group has-float-label mb-4">
+                      <Input required name='code' type="text" onChange={props.handleChange} value={props.values.code} />
+                      <IntlMessages id="user.otp" />
+                    </Label>
+                    <div className="d-flex justify-content-between align-items-center">
+                      {/* <Button
+                        type='button'
+                        color="primary"
+                        className="btn-shadow"
+                        size="lg"
+                        onClick={() => this.props.history.push('/user/register')}
+                      >
+                        <IntlMessages id="user.create-super" />
+                      </Button> */}
+                      <Button
+                        type='submit'
+                        color="primary"
+                        className="btn-shadow"
+                        size="lg"
+                      >
+                        <IntlMessages id="user.login-title" />
+                      </Button>
+                    </div>
+
+                  </Form>}
+              </Formik>)}
           </div>
         </Card>
       </Colxx>
