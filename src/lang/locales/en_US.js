@@ -43,6 +43,7 @@ module.exports = {
   "user.login-title": "Login",
   "user.logout": "Logout",
   "user.create": "Create User",
+  "user.update": "Update User",
   "user.register": "Register",
   "user.set-new-password": "Set New Password",
   "user.forgot-password": "Forgot Password",
@@ -59,7 +60,7 @@ module.exports = {
   "user.next-button": "NEXT",
   "user.reset-password-button": "RESET",
   "user.buy": "BUY",
-  "user.username": "Username",
+  "user.referralId": "Referral Id",
 
   /* 03.Menu */
   "menu.app": "Home",
@@ -68,6 +69,7 @@ module.exports = {
   "menu.orders": "Orders",
   "menu.staff": "Staffs",
   "menu.users": "Users",
+  "menu.transactions": "Transactions",
   "menu.listUsers": "Users",
   "menu.createUsers": "Users",
   "menu.default": "Default",
@@ -170,6 +172,17 @@ module.exports = {
   "product.price": "Price",
   "product.unitWeight": "Unit Weight",
   "product.categoryName": "Category Name",
+
+  /* products */
+  "transaction.name": "Transaction details",
+  "transaction.from": "From",
+  "transaction.to": "To",
+  "transaction.date": "Date",
+  "transaction.type": "Type of Transaction",
+  "transaction.amount": "Amount",
+
+   /* orders */
+   "order.add.name": "Add new Order",
 
   /* 04.Dashboards */
   "dashboards.pending-orders": "Pending Orders",

@@ -49,6 +49,7 @@ class UserDataListView extends React.Component {
       collect,
       onCheckItem,
       toggleModal,
+      toggleModalValue,
       order,
       users,
       selectStatus
@@ -61,7 +62,7 @@ class UserDataListView extends React.Component {
       <Colxx xxs="12" className="mb-3">
         <ContextMenuTrigger id="menu_id" data={users.id} collect={collect}>
           <Card
-            onClick={event => onCheckItem(event, users.id)}
+            onClick={toggleModalValue}
             className={classnames("d-flex flex-row", {
               active: isSelect
             })}

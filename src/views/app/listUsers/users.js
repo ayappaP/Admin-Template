@@ -12,6 +12,7 @@ import UserListPageHeading from "../../../containers/pages/UserListPageHeading";
 import ImageListView from "../../../containers/pages/ImageListView";
 import ThumbListView from "../../../containers/pages/ThumbListView";
 import AddNewUser from "../../../containers/pages/AddNewUser";
+import ViewUserModal from "./ViewUserModal";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import gql from "graphql-tag";
 
@@ -46,6 +47,7 @@ class ListUsers extends Component {
       selectedOrderOption: { column: "title", label: "Product Name" },
       dropdownSplitOpen: false,
       modalOpen: false,
+      modalOpenValue: false,
       currentPage: 1,
       totalItemCount: 0,
       totalPage: 1,
@@ -73,7 +75,7 @@ class ListUsers extends Component {
   fetchUsers = () => {
     Auth.currentAuthenticatedUser()
       .then(res => {
-        console.log("auth",res)
+        console.log("auth", res);
         const shopId = res.attributes["custom:shopId"];
         const query = fetchUsers(shopId);
         client(query)
@@ -97,15 +99,20 @@ class ListUsers extends Component {
     this.mouseTrap.unbind("command+d");
   }
 
-  toggleModal = product => {
+  toggleModal = users => {
     this.setState({
       modalOpen: !this.state.modalOpen,
-      selectedOrder: product
+      selectedUser: users
     });
   };
-
+  toggleModalValue = users => {
+    this.setState({
+      modalOpenValue: !this.state.modalOpenValue,
+      selectedUser: users
+    });
+  };
   handleClose = () => {
-    this.setState({ modalOpen: false, selectedOrder: null });
+    this.setState({modalOpen: false, modalOpenValue: false, selectedUser: null });
   };
 
   changeOrderBy = column => {
@@ -274,6 +281,7 @@ class ListUsers extends Component {
       orderOptions,
       pageSizes,
       modalOpen,
+      modalOpenValue,
       users,
       userCount,
       categories
@@ -315,8 +323,7 @@ class ListUsers extends Component {
 
           <AddNewUser
             modalOpen={modalOpen}
-            toggleModal={this.toggleModal}
-            categories={categories}
+            toggleModal={this.handleClose}
             order={this.state.selectedOrder}
             onClose={this.handleClose}
           />
@@ -353,6 +360,7 @@ class ListUsers extends Component {
                     onCheckItem={this.onCheckItem}
                     collect={collect}
                     toggleModal={() => this.toggleModal(users)}
+                    toggleModalValue={() => this.toggleModalValue(users)}
                     order={this.state.selectedOrder}
                   />
                 );
@@ -363,10 +371,14 @@ class ListUsers extends Component {
               totalPageSize={totalPageSize}
               onChangePage={i => this.onChangePage(i)}
             />
-            {/* <ContextMenuContainer
-              onContextMenuClick={this.onContextMenuClick}
-              onContextMenu={this.onContextMenu}
-            /> */}
+            {this.state.selectedUser && (
+              <ViewUserModal
+                modalOpenValue={modalOpenValue}
+                toggleModalValue={this.handleClose}
+                user={this.state.selectedUser}
+                onClose={this.handleClose}
+              />
+            )}
           </Row>
         </div>
       </Fragment>
