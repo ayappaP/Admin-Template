@@ -76,6 +76,7 @@ module.exports = {
   "menu.staff": "Staffs",
   "menu.users": "Users",
   "menu.transactions": "Transactions",
+  "menu.orderHistory": "Order History",
   "menu.listUsers": "Users",
   "menu.createUsers": "Users",
   "menu.default": "Default",

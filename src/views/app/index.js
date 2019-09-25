@@ -23,6 +23,9 @@ const Offers = React.lazy(() =>
 const Transactions = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './transactions')
 );
+const OrderHistory = React.lazy(() =>
+  import(/* webpackChunkName: "dashboards" */ './orderHistory')
+);
 const Dashboards = React.lazy(() =>
   import(/* webpackChunkName: "dashboards" */ './dashboards')
 );
@@ -84,6 +87,10 @@ class App extends Component {
                <Route
                 path={`${match.url}/transactions`}
                 render={props => <Transactions {...props} />}
+              />
+               <Route
+                path={`${match.url}/orderHistory`}
+                render={props => <OrderHistory {...props} />}
               />
               <Route
                 path={`${match.url}/dashboards`}
