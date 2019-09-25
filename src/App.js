@@ -49,14 +49,14 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => {
       render={props =>
         // authUser ? (
           <Component {...props} />
-        // ) : (
-        //     <Redirect
-        //       to={{
-        //         pathname: "/user/login",
-        //         state: { from: props.location }
-        //       }}
-        //     />
-        //   )
+  //       ) : (
+  //           <Redirect
+  //             to={{
+  //               pathname: "/user/login",
+  //               state: { from: props.location }
+  //             }}
+  //           />
+  //         )
       }
     />
   );
@@ -74,6 +74,7 @@ class App extends Component {
       document.body.classList.remove("rtl");
     }
   }
+
 
   render() {
     const { locale, loginUser } = this.props;
