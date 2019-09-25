@@ -24,8 +24,8 @@ const createNotification = (msg, req) => {
 
 
 const UserLogin = (values, props, setOtp, setUser) => {
-  const { phone, password } = values
-  // props.loginUser(values, props)
+  // props.loginUser(values, props, setOtp, setUser)
+  const { phone, password } = values;
   createNotification('Enter OTP')
   Auth.signIn({
     username: phone,
@@ -40,15 +40,16 @@ const UserLogin = (values, props, setOtp, setUser) => {
 }
 
 
-const confirmSignIn = ({ code }, props, setOtp, user) => {
+const confirmSignIn = ({ code }, props, user) => {
   // console.log(user)
   // console.log(code)
-  Auth.confirmSignIn(user, code)
-    .then((res) => {
-      console.log(res)
-      setOtp(false)
-    })
-    .catch((err) => console.log(err))
+  props.loginUser( user, code, props )
+  // Auth.confirmSignIn(user, code)
+  //   .then((res) => {
+  //     console.log(res)
+  //     setOtp(false)
+  //   })
+  //   .catch((err) => console.log(err))
 }
 
 // const { phone, password } = values
@@ -135,7 +136,7 @@ const Login = (props) => {
                   </Form>
                 )}</Formik>)
               :
-              (<Formik id="otp" initialValues={{ code: '' }} onSubmit={(val) => confirmSignIn(val, props, setOtp, user)} >
+              (<Formik id="otp" initialValues={{ code: '' }} onSubmit={(val) => confirmSignIn(val, props, user)} >
                 {props =>
                   <Form onSubmit={props.handleSubmit}>
                     <Label className="form-group has-float-label mb-4">

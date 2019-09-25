@@ -11,6 +11,7 @@ import {
   Collapse
 } from "reactstrap";
 import { injectIntl } from "react-intl";
+import { Auth } from "aws-amplify";
 
 import { Colxx, Separator } from "../../components/common/CustomBootstrap";
 import Breadcrumb from "../navs/Breadcrumb";
@@ -26,8 +27,19 @@ class UserListPageHeading extends Component {
     super();
     this.state = {
       dropdownSplitOpen: false,
-      displayOptionsIsOpen: false
+      displayOptionsIsOpen: false,
+      userRole: ""
     };
+  }
+
+
+  componentDidMount() {
+    Auth.currentAuthenticatedUser()
+      .then(res => {
+        // console.log(res)
+        this.setState({ userRole: res.attributes["custom:role"] })
+      })
+      .catch((err) => console.log(err))
   }
 
   toggleDisplayOptions = () => {
@@ -35,7 +47,7 @@ class UserListPageHeading extends Component {
       displayOptionsIsOpen: !prevState.displayOptionsIsOpen
     }));
   };
-  toggleSplit =()=> {
+  toggleSplit = () => {
     this.setState(prevState => ({
       dropdownSplitOpen: !prevState.dropdownSplitOpen
     }));
@@ -65,7 +77,7 @@ class UserListPageHeading extends Component {
       heading
     } = this.props;
 
-    const { displayOptionsIsOpen, dropdownSplitOpen } = this.state;
+    const { displayOptionsIsOpen, dropdownSplitOpen, userRole } = this.state;
     return (
       <Row>
         <Colxx xxs="12">
@@ -75,13 +87,13 @@ class UserListPageHeading extends Component {
             </h1>
 
             <div className="text-zero top-right-button-container">
-              <Button
+              {userRole !== "Staff" ? <Button
                 color="primary"
                 size="lg"
                 className="top-right-button"
-                onClick={()=>toggleModal()}>
+                onClick={() => toggleModal()}>
                 <IntlMessages id="pages.add-new-user" />
-              </Button>
+              </Button> : null}
               {"  "}
               {/* <ButtonDropdown
                 isOpen={dropdownSplitOpen}
