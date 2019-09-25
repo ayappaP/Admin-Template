@@ -3,14 +3,10 @@ import { Card, CustomInput, Badge } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import classnames from "classnames";
 import { ContextMenuTrigger } from "react-contextmenu";
-import { Colxx } from "../../components/common/CustomBootstrap";
-import Select from "react-select";
-import CustomSelectInput from "../../components/common/CustomSelectInput";
-import Dropdown from "react-dropdown";
+import { Colxx } from "../../../components/common/CustomBootstrap";
 import "react-dropdown/style.css";
-import client from "../../queries/client";
-import fetchUsers from "../../queries/fetchUsers";
-// const UserDataListView = ({
+
+// const ProductListView = ({
 //   product,
 //   isSelect,
 //   collect,
@@ -19,11 +15,11 @@ import fetchUsers from "../../queries/fetchUsers";
 //   order
 // }) =>
 
-class UserDataListView extends React.Component {
+class ShopsListView extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      users: props.users
+      shops: props.shop
     };
     // this.onSelect = this.onSelect.bind(this)
   }
@@ -49,20 +45,22 @@ class UserDataListView extends React.Component {
       collect,
       onCheckItem,
       toggleModal,
-      toggleModalValue,
       order,
-      users,
+      products,
+      shops,
       selectStatus
     } = this.props;
+
+    
     // const dateTime =
     //   product.createdAt.slice(0, 10) + " / " + product.createdAt.slice(11, 19);
-    // const address = `${product.address.city} ${product.address.region} ${product.address.address} ${product.address.address2} ${product.address.postcode}`;
-
+     const address = shops.address.postcode ?`${shops.address.postcode} ${shops.address.town} ${shops.address.number} ${shops.address.road} `: "Not Available";
+    
     return (
       <Colxx xxs="12" className="mb-3">
-        <ContextMenuTrigger id="menu_id" data={users.id} collect={collect}>
+        <ContextMenuTrigger id="menu_id" data={shops.id} collect={collect}>
           <Card
-            onClick={toggleModalValue}
+            onClick={toggleModal}
             className={classnames("d-flex flex-row", {
               active: isSelect
             })}
@@ -70,14 +68,21 @@ class UserDataListView extends React.Component {
             <div className="pl-2 d-flex flex-grow-1 min-width-zero">
               <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {users.name == null ? "NA" : users.name}
+                  {shops.shopName}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {users.number}
+                  {shops.contact.name} 
                 </p>
-                <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {users.referralId}
-                </p>
+          
+               
+                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
+                {/* { Object.keys(shops.address).forEach(key => shops.address[key] === undefined ? "" : shops.address[key])} */}
+              
+
+
+                   {address}
+               
+         </p>
               </div>
             </div>
           </Card>
@@ -88,4 +93,4 @@ class UserDataListView extends React.Component {
 }
 
 /* React.memo detail : https://reactjs.org/docs/react-api.html#reactpurecomponent  */
-export default React.memo(UserDataListView);
+export default React.memo(ShopsListView);

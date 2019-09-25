@@ -13,6 +13,7 @@ import ListPageHeading from "../../../containers/pages/ListPageHeading";
 import ImageListView from "../../../containers/pages/ImageListView";
 import ThumbListView from "../../../containers/pages/ThumbListView";
 import AddNewModal from "../../../containers/pages/AddNewModal";
+import AddNewOrder from "./AddNewOrder";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import gql from "graphql-tag";
 
@@ -57,6 +58,7 @@ class Orders extends Component {
       selectedOrderOption: { column: "title", label: "Product Name" },
       dropdownSplitOpen: false,
       modalOpen: false,
+      modalOpenValue:false,
       currentPage: 1,
       totalItemCount: 0,
       totalPage: 1,
@@ -149,9 +151,15 @@ class Orders extends Component {
       selectedOrder: product
     });
   };
+  toggleModalValue = product => {
+    this.setState({
+      modalOpenValue: !this.state.modalOpenValue,
+      selectedOrder: product
+    });
+  };
 
   handleClose = () => {
-    this.setState({ modalOpen: false, selectedOrder: null });
+    this.setState({modalOpenValue:false, modalOpen: false, selectedOrder: null });
   };
 
   changeOrderBy = column => {
@@ -323,6 +331,7 @@ class Orders extends Component {
       orderOptions,
       pageSizes,
       modalOpen,
+      modalOpenValue,
       ordersCount,
       categories
     } = this.state;
@@ -346,7 +355,7 @@ class Orders extends Component {
             changePageSize={this.changePageSize}
             selectedPageSize={selectedPageSize}
             // totalItemCount={totalItemCount}
-            ordersCount={ordersCount}
+            ordersCount={ordersCount}toggleModal
             selectedOrderOption={selectedOrderOption}
             match={match}
             startIndex={startIndex}
@@ -356,9 +365,8 @@ class Orders extends Component {
             onSearchKey={this.onSearchKey}
             orderOptions={orderOptions}
             pageSizes={pageSizes}
-            toggleModal={this.toggleModal}
+            toggleModalValue={this.toggleModalValue}
           />
-          {console.log("sel", this.state.selectedOrder)}
           {this.state.selectedOrder && (
             <AddNewModal
               modalOpen={modalOpen}
@@ -368,6 +376,12 @@ class Orders extends Component {
               onClose={this.handleClose}
             />
           )}
+           <AddNewOrder
+              modalOpenValue={modalOpenValue}
+              toggleModalValue={this.toggleModalValue}
+              product={this.state.selectedProduct}
+              onClose={this.handleClose}
+            />
           <Row>
             {this.state.orders.map(product => {
               // console.log("items",this.state.items)

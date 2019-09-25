@@ -61,7 +61,7 @@ class ListPageHeading extends Component {
       onSearchKey,
       orderOptions,
       pageSizes,
-      toggleModal,
+      toggleModalValue,
       heading
     } = this.props;
 
@@ -74,16 +74,16 @@ class ListPageHeading extends Component {
               <IntlMessages id={heading} />
             </h1>
 
-            {/* <div className="text-zero top-right-button-container">
+            <div className="text-zero top-right-button-container">
               <Button
                 color="primary"
                 size="lg"
                 className="top-right-button"
-                onClick={()=>toggleModal()}>
+                onClick={toggleModalValue}>
                 <IntlMessages id="pages.add-new" />
               </Button>
               {"  "}
-              <ButtonDropdown
+              {/* <ButtonDropdown
                 isOpen={dropdownSplitOpen}
                 toggle={this.toggleSplit}>
                 <div className="btn btn-primary btn-lg pl-4 pr-0 check-button check-all">
@@ -117,8 +117,8 @@ class ListPageHeading extends Component {
                     <IntlMessages id="pages.another-action" />
                   </DropdownItem>
                 </DropdownMenu>
-              </ButtonDropdown>
-            </div> */}
+              </ButtonDropdown> */}
+            </div>
             <Breadcrumb match={match} />
           </div>
 

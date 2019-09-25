@@ -43,6 +43,7 @@ module.exports = {
   "user.login-title": "Login",
   "user.logout": "Logout",
   "user.create": "Create User",
+  "user.update": "Update User",
   "user.register": "Register",
   "user.set-new-password": "Set New Password",
   "user.set-new-super-admin": "Super admin signUp",
@@ -65,7 +66,7 @@ module.exports = {
   "user.next-button": "NEXT",
   "user.reset-password-button": "RESET",
   "user.buy": "BUY",
-  "user.username": "Username",
+  "user.referralId": "Referral Id",
 
   /* 03.Menu */
   "menu.app": "Home",
@@ -74,6 +75,7 @@ module.exports = {
   "menu.orders": "Orders",
   "menu.staff": "Staffs",
   "menu.users": "Users",
+  "menu.transactions": "Transactions",
   "menu.listUsers": "Users",
   "menu.createUsers": "Users",
   "menu.default": "Default",
@@ -96,6 +98,7 @@ module.exports = {
   "menu.chat": "Chat",
   "menu.ui": "UI",
   "menu.products": "Products",
+  "menu.shops": "Shops",
   "menu.alerts": "Alerts",
   "menu.badges": "Badges",
   "menu.buttons": "Buttons",
@@ -177,6 +180,17 @@ module.exports = {
   "product.unitWeight": "Unit Weight",
   "product.categoryName": "Category Name",
 
+  /* products */
+  "transaction.name": "Transaction details",
+  "transaction.from": "From",
+  "transaction.to": "To",
+  "transaction.date": "Date",
+  "transaction.type": "Type of Transaction",
+  "transaction.amount": "Amount",
+
+   /* orders */
+   "order.add.name": "Add new Order",
+
   /* 04.Dashboards */
   "dashboards.pending-orders": "Pending Orders",
   "dashboards.completed-orders": "Completed Orders",
@@ -233,12 +247,17 @@ module.exports = {
   /* 05.Pages */
   "pages.add-new": "ADD NEW",
   "pages.add-new-user": "ADD NEW USER",
+  "pages.address":"Address",
+  "pages.contact":"Contact",
+  "pages.businessHours":"BusinessHours",
+  "pages.coverage" :"coverage",
   "pages.user-name": "Name",
   "pages.user-email": "Email",
   "pages.user-phone": "Phone",
   "pages.user-password": "Temporary Password",
   "pages.role": "Choose user role",
   "pages.shopId": "Shop ID",
+  "pages.shopDetails": "Shop Details",
   "pages.shopName": "Shop Name",
   "pages.add-new-modal-title": "Add New Item",
   "pages.orderNumber": "Order Number",

@@ -12,7 +12,7 @@ const data = [{
   },
   {
     id: "Carousel",
-    icon: "iconsminds-air-balloon-1",
+    icon: "simple-icon-picture",
     label: "menu.carousel",
     to: "/app/carousel",
   },
@@ -23,10 +23,22 @@ const data = [{
     to: "/app/products",
   },
   {
-    id: "Offers",
+    id: "Shop",
     icon: "iconsminds-pantone",
+    label: "menu.shops",
+    to: "/app/shops",
+  },
+  {
+    id: "Offers",
+    icon: "simple-icon-tag",
     label: "menu.offers",
     to: "/app/offers",
+  },
+  {
+    id: "Transactions",
+    icon: "iconsminds-bank",
+    label: "menu.transactions",
+    to: "/app/transactions",
   },
   //   subs: [{
   //       id: "pages-authorization",
