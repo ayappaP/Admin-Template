@@ -6,6 +6,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Form,
   Input,
   Label
 } from "reactstrap";
@@ -18,6 +19,10 @@ import IntlMessages from "../../helpers/IntlMessages";
 import client from "../../queries/client";
 import updateOrderProducts from "../../queries/updateOrderProducts";
 import fetchShops from "../../queries/fetchShops";
+import { Formik } from 'formik'
+
+
+
 class AddNewUser extends React.Component {
   constructor(props) {
     super();
@@ -30,7 +35,8 @@ class AddNewUser extends React.Component {
       name: "",
       email: "",
       success: "",
-      error: ""
+      error: "",
+      userRole: ""
     };
     this.onSelect = this.onSelect.bind(this);
     this.submit = this.submit.bind(this);
@@ -78,44 +84,61 @@ class AddNewUser extends React.Component {
     }));
   };
 
-  submit() {
+  submit = (values) => {
     Auth.currentAuthenticatedUser().then(res => {
       const shopId = res.attributes["custom:shopId"];
       const shopName = res.attributes["custom:shopName"];
       const data = {
-        name: this.state.name,
-        email: this.state.email,
+        name: values.name,
+        phone: values.phone,
+        role: values.role,
         shopName: shopName,
-        shopId: shopId
+        shopId: shopId,
       };
       console.log("data", data);
-      const url =
-        "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/createAdminUser";
-      fetch(url, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json"
+
+      Auth.signUp({
+        username: data.phone,
+        password: 'Arokiya@123',
+        attributes: {
+          'name': data.name,
+          'custom:shopName': data.shopName,
+          'custom:shopId': data.shopId,
+          'custom:role': data.role
         }
       })
-        .then(res => res.json())
-        .then(response => {
-          if (response.message == "Admin User created") {
-            this.setState(prevState => ({
-              success: response.message,
-              nestedModal: !prevState.nestedModal
-            }));
-          } else {
-            this.setState(prevState => ({
-              error: response.error.message,
-              nestedModal: !prevState.nestedModal
-            }));
-          }
+        .then((user) => {
+          console.log(user)
         })
-        .catch(error => {
-          console.log(error);
-        });
-    });
+        .catch((err) => console.log(err))
+
+      // const url =
+      //   "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/createAdminUser";
+      // fetch(url, {
+      //   method: "POST",
+      //   body: JSON.stringify(data),
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   }
+      // })
+      //   .then(res => res.json())
+      //   .then(response => {
+      //     if (response.message == "Admin User created") {
+      //       this.setState(prevState => ({
+      //         success: response.message,
+      //         nestedModal: !prevState.nestedModal
+      //       }));
+      //     } else {
+      //       this.setState(prevState => ({
+      //         error: response.error.message,
+      //         nestedModal: !prevState.nestedModal
+      //       }));
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+    }).catch((err) => console.log(err));
   }
 
   render() {
@@ -125,12 +148,14 @@ class AddNewUser extends React.Component {
       selectValue,
       selectedOption,
       success,
-      error
+      error,
+      userRole
     } = this.state;
-    const listShop = shopName.map(shop => ({
-      value: shop.id,
-      label: shop.shopName
-    }));
+    const listShop = ['Owner', 'Staff']
+    // const listShop = shopName.map(shop => ({
+    //   value: shop.id,
+    //   label: shop.shopName
+    // }));
     const closeBtn = (
       <button className="close" onClick={onClose}>
         &times;
@@ -150,55 +175,67 @@ class AddNewUser extends React.Component {
           </h3>
         </ModalHeader>
 
-        <ModalBody>
-          <Label className="mt-4">
-            <IntlMessages id="pages.user-name" />
-          </Label>
-          <Input
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-          <Label className="mt-4">
-            <IntlMessages id="pages.user-email" />
-          </Label>
-          <Input
-            name="email"
-            value={this.state.email}
-            onChange={this.handleChange}
-          />
-          {/* <Label className="mt-4">
+        <Formik initialValues={{ name: '', phone: '', role: '' }}
+          onSubmit={(val) => this.submit(val)}>
+          {props =>
+            <Form onSubmit={props.handleSubmit}>
+              <ModalBody>
+                <Label className="mt-4">
+                  <IntlMessages id="pages.user-name" />
+                </Label>
+                <Input
+                  name="name"
+                  value={props.values.name}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="pages.user-phone" />
+                </Label>
+                <Input
+                  type='tel'
+                  name="phone"
+                  value={props.values.phone}
+                  onChange={props.handleChange}
+                />
+                {/* <Label className="mt-4">
             <IntlMessages id="pages.user-password" />
           </Label>
           <Input /> */}
 
-          {/* <Label className="mt-4">
-            <IntlMessages id="pages.shopName" />
-          </Label>
-          <Dropdown
-            name="shopName"
-            options={listShop}
-            value={selectedOption}
-            onChange={this.onSelect}
-            placeholder="Select Shop"
-          />
-          <Label className="mt-4">
+                {userRole == 'Owner' ?
+                  (<><Label className="mt-4">
+                    <IntlMessages id="pages.role" />
+                  </Label>
+                    <Dropdown
+                      name="shopName"
+                      options={listShop}
+                      value={props.values.role}
+                      onChange={(e) => props.setFieldValue('role', e.value)}
+                      placeholder="Select role"
+                    /> </>)
+                  : null}
+                {/* <Label className="mt-4">
             <IntlMessages id="pages.shopId" />
           </Label>
           <Input name="shopId" disabled value={selectValue} /> */}
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" outline onClick={onClose}>
-            <IntlMessages id="pages.cancel" />
-          </Button>
-          <Button
-            color="primary"
-            disabled={(!this.state.email, !this.state.name)}
-            onClick={this.submit}
-          >
-            <IntlMessages id="pages.submit" />
-          </Button>{" "}
-        </ModalFooter>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button color="secondary" outline onClick={onClose}>
+                  <IntlMessages id="pages.cancel" />
+                </Button>
+                <Button
+                  type='submit'
+                  color="primary"
+                // disabled={(!this.state.phone, !this.state.name)}
+                // onClick={props.handleSubmit}
+                >
+                  <IntlMessages id="pages.submit" />
+                </Button>{" "}
+              </ModalFooter>
+            </Form>
+          }
+        </Formik>
 
         <Modal
           isOpen={this.state.nestedModal}
@@ -212,10 +249,10 @@ class AddNewUser extends React.Component {
               <h3>{success}</h3>
             </ModalBody>
           ) : (
-            <ModalBody>
-              <h3>{error}</h3>
-            </ModalBody>
-          )}
+              <ModalBody>
+                <h3>{error}</h3>
+              </ModalBody>
+            )}
           {/* {error ? (
             <ModalBody>{error}</ModalBody>
           ) : (

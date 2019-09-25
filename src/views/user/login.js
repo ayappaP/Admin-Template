@@ -35,16 +35,14 @@ const UserLogin = (values, props, setOtp, setUser) => {
       console.log(user)
       setOtp(true)
       setUser(user)
-      // localStorage.setItem('user', JSON.stringify(user))
     })
     .catch((err) => console.log(err))
 }
 
 
 const confirmSignIn = ({ code }, props, setOtp, user) => {
-  // const user = JSON.parse(localStorage.getItem('user'))
-  console.log(user)
-  console.log(code)
+  // console.log(user)
+  // console.log(code)
   Auth.confirmSignIn(user, code)
     .then((res) => {
       console.log(res)
