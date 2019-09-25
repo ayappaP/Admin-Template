@@ -15,6 +15,7 @@ import AddNewShop from "../../../containers/pages/AddNewShop";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import IntlMessages from "../../../helpers/IntlMessages";
 import gql from "graphql-tag";
+import ViewShopModal from "./ViewShopModal";
 
 function collect(props) {
   return { data: props.data };
@@ -97,7 +98,7 @@ class ListShop extends Component {
   toggleModal = shop => {
     this.setState({
       modalOpen: !this.state.modalOpen,
-      selectedOrder: shop
+      selectedShop: shop
     });
   };
 
@@ -301,15 +302,22 @@ class ListShop extends Component {
                   >
                     <IntlMessages id="todo.add-new" />
                   </Button>{" "} */}
-        
+         {this.state.selectedShop && (
+            <ViewShopModal
+              modalOpenValue={modalOpen}
+              toggleModal={this.handleClose}
+              shops={this.state.selectedShop}
+              onClose={this.handleClose}
+            />
+          )}
 
-            <AddNewShop
+            {/* <AddNewShop
             modalOpen={modalOpen}
             toggleModal={this.toggleModal}
             categories={categories}
             order={this.state.selectedOrder}
             onClose={this.handleClose}
-          />  
+          />   */}
           <Row>
             {shops.map(shops => {
                console.log("shops===>",shops)
