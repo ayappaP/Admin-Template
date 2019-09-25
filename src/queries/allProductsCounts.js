@@ -1,9 +1,8 @@
-export default (offset) => {
-  console.log(offset)
+export default (shopId) => {
     const query = `
     query fetchProducts
     {
-        product(offset: ${offset}, order_by: {id: asc_nulls_first}, limit: 10){
+        product{
           brand
           imageUrl
           categoryName

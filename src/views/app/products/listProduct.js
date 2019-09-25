@@ -5,12 +5,13 @@ import axios from "axios";
 import client from "../../../queries/client";
 import { Colxx, Separator } from "../../../components/common/CustomBootstrap";
 import fetchProducts from "../../../queries/fetchProducts";
+import allProductsCount from "../../../queries/allProductsCounts";
 import { servicePath } from "../../../constants/defaultValues";
 import ProductListView from "./productListView";
 import Breadcrumb from "../../../containers/navs/Breadcrumb";
 import IntlMessages from "../../../helpers/IntlMessages";
 import { injectIntl } from "react-intl";
-import Pagination from "../../../containers/pages/Pagination";
+import Pagination from "../../app/products/Pagination"
 import ContextMenuContainer from "../../../containers/pages/ContextMenuContainer";
 import UserListPageHeading from "../../../containers/pages/UserListPageHeading";
 import ImageListView from "../../../containers/pages/ImageListView";
@@ -20,6 +21,7 @@ import AddNewProduct from "./AddNewProduct"
 import AddNewUser from "../../../containers/pages/AddNewUser";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import gql from "graphql-tag";
+import ListPageHeading from "../../../containers/pages/ListPageHeading";
 
 function collect(props) {
   return { data: props.data };
@@ -74,14 +76,36 @@ class ListProduct extends Component {
       });
       return false;
     });
+    this.fetchTotalCount();
     this.fetchProducts();
   }
 
+  fetchTotalCount = ()=>{
+     // Fetch all products
+     const countQuery = allProductsCount();
+     client(countQuery)
+       .then(res => {
+         // console.log("all products", res);
+         const total = res.data.product ? res.data.product.length: 0;
+         this.setState({
+           totalItemCount: total,
+           totalPage: Math.round(total / 10),
+           isLoading: true
+         });
+       })
+       .catch(error => {
+         console.log(error);
+       });
+  }
+
   fetchProducts = () => {
-    const query = fetchProducts();
+    const {currentPage, totalItemCount, totalPage} = this.state;
+    const offset = (currentPage-1) * 10;
+
+    const query = fetchProducts(offset);
     client(query)
       .then(res => {
-        console.log("res products", res);
+        // console.log("res products", res);
         this.setState({
           products: res.data.product
         });
@@ -144,7 +168,7 @@ class ListProduct extends Component {
       {
         currentPage: page
       },
-      () => this.fetchUsers()
+      () => this.fetchProducts()
     );
   };
 
@@ -225,36 +249,36 @@ class ListProduct extends Component {
   };
 
   dataListRender() {
-    const {
-      selectedPageSize,
-      currentPage,
-      selectedOrderOption,
-      search
-    } = this.state;
-    axios
-      .get(
-        `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
-      )
-      .then(res => {
-        return res.data;
-      })
-      .then(data => {
-        this.setState({
-          totalPage: data.totalPage,
-          items: data.data,
-          selectedItems: [],
-          totalItemCount: data.totalItem,
-          isLoading: true
-        });
-      });
+    // const {
+    //   selectedPageSize,
+    //   currentPage,
+    //   selectedOrderOption,
+    //   search
+    // } = this.state;
+    // axios
+    //   .get(
+    //     `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
+    //   )
+    //   .then(res => {
+    //     return res.data;
+    //   })
+    //   .then(data => {
+    //     this.setState({
+    //       totalPage: data.totalPage,
+    //       items: data.data,
+    //       selectedItems: [],
+    //       totalItemCount: data.totalItem,
+    //       isLoading: true
+    //     });
+    //   });
   }
 
   onContextMenuClick = (e, data, target) => {
-    console.log(
-      "onContextMenuClick - selected items",
-      this.state.selectedItems
-    );
-    console.log("onContextMenuClick - action : ", data.action);
+    // console.log(
+    //   "onContextMenuClick - selected items",
+    //   this.state.selectedItems
+    // );
+    // console.log("onContextMenuClick - action : ", data.action);
   };
 
   onContextMenu = (e, data) => {
@@ -290,15 +314,17 @@ class ListProduct extends Component {
 
     const { match } = this.props;
     const startIndex = (currentPage - 1) * selectedPageSize;
+    // console.log("startIndex", startIndex);
     const endIndex = currentPage * userCount;
-    console.log("endIndex", endIndex);
+    // console.log("endIndex", endIndex);
     const totalPageSize = Math.ceil(userCount / pageSizes);
-    console.log("totalPageSize", totalPageSize);
+    // console.log("totalPageSize", totalPageSize);
     const orders = this.state.orders;
     return !this.state.isLoading ? (
       <div className="loading" />
     ) : (
       <Fragment>
+       
          <Row>
           <Colxx xxs="12">
             <div className="mb-2">
@@ -335,12 +361,16 @@ class ListProduct extends Component {
           toggleModal={() => this.toggleModal(products)}
           order={this.state.selectedOrder}
         />
+        
                 ))
               ) : (
                 <div className="loading" />
               )}
+         
             </Row>
+        
           </Colxx>
+          
         </Row>
 {this.state.selectedProduct && (
   <ViewProductModal
@@ -350,10 +380,24 @@ class ListProduct extends Component {
     onClose={this.handleClose}
   />
   )}
+      <Pagination
+        currentPage={this.state.currentPage}
+        totalPage={this.state.totalPage}
+        onChangePage={i => this.onChangePage(i)}
+      />
+  
   
   <AddNewProduct toggleModal={this.toggleModal} modalOpen={modalOpen} />
+ 
+
       </Fragment>
+       
+        
     );
+  
+    
   }
+ 
+
 }
 export default ListProduct;
