@@ -25,7 +25,13 @@ Amplify.configure({
     userPoolWebClientId: '5kpqpm50q8qmbvq4aaupcl7p26',
     userPoolId: 'eu-west-2_Mcy02qifr',
     responseType: 'token',
-  }
+  },
+  // Storage: {
+  //   AWSS3: {
+  //     bucket: 'www.arokiya.com/images/carousel',
+  //     region: 'eu-west-2',
+  //   }
+  // }
 });
 
 
@@ -48,15 +54,15 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => {
       {...rest}
       render={props =>
         // authUser ? (
-          <Component {...props} />
-  //       ) : (
-  //           <Redirect
-  //             to={{
-  //               pathname: "/user/login",
-  //               state: { from: props.location }
-  //             }}
-  //           />
-  //         )
+        <Component {...props} />
+        //       ) : (
+        //           <Redirect
+        //             to={{
+        //               pathname: "/user/login",
+        //               state: { from: props.location }
+        //             }}
+        //           />
+        //         )
       }
     />
   );

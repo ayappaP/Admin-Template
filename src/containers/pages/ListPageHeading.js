@@ -80,7 +80,7 @@ class ListPageHeading extends Component {
                 size="lg"
                 className="top-right-button"
                 onClick={toggleModalValue}>
-                <IntlMessages id="pages.add-new" />
+                <IntlMessages id="pages.add-new-order" />
               </Button>
               {"  "}
               {/* <ButtonDropdown
