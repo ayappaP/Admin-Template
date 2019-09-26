@@ -53,44 +53,67 @@ class ViewShopModal extends Component {
 
   render() {
     const { labels, categories } = this.props.todoApp;
-    const { toggleModalValue, toggleModal, shops, onClose,modalOpenValue } = this.props;
+    const {
+      toggleModalValue,
+      toggleModal,
+      shops,
+      onClose,
+      modalOpenValue
+    } = this.props;
     console.log("modal", shops);
-    const address = shops.address.postcode ?`${shops.address.postcode} ${shops.address.town} ${shops.address.number} ${shops.address.road} `: "Not Available";
+    const address = shops.address.postcode
+      ? `${shops.address.postcode} ${shops.address.town} ${shops.address.number} ${shops.address.road} `
+      : "Not Available";
 
     return (
       <Modal
         isOpen={modalOpenValue}
-        toggle={toggleModal}
+        toggle={toggleModalValue}
         wrapClassName="modal-right"
         backdrop="static"
       >
-        <ModalHeader toggle={toggleModal}>
-          <IntlMessages id="pages.shopDetails" />
+        <ModalHeader toggle={toggleModalValue}>
+          <IntlMessages id="shop.update" />
         </ModalHeader>
         <ModalBody>
-        <Label className="mt-4">
+          <Label className="mt-4">
             <IntlMessages id="pages.shopName" />
           </Label>
-          <Input value={shops.shopName}disabled  />
+          <Input
+            name="shopName"
+            value={shops.shopName}
+            onChange={this.handleChange}
+          />
           <Label className="mt-4">
             <IntlMessages id="pages.address" />
           </Label>
-          <Input value={address} disabled/>
+          <Input name="address" value={address} />
           <Label className="mt-4">
             <IntlMessages id="pages.contact" />
           </Label>
-          <Input value={shops.contact.name} disabled />
+          <Input
+            name="name"
+            value={shops.contact.name}
+            onChange={this.handleChange}
+          />
 
           <Label className="mt-4">
             <IntlMessages id="pages.businessHours" />
           </Label>
-          <Input value={shops.businessHours} disabled />
+          <Input
+            name="businessHours"
+            value={shops.businessHours}
+            onChange={this.handleChange}
+          />
 
           <Label className="mt-4">
             <IntlMessages id="pages.coverage" />
           </Label>
-          <Input value={shops.coverage} disabled/>
-
+          <Input
+            name="shopName"
+            value={shops.coverage}
+            onChange={this.handleChange}
+          />
 
           {/* <Label className="mt-4">
             <IntlMessages id="todo.category" />
@@ -158,14 +181,14 @@ class ViewShopModal extends Component {
             }}
           /> */}
         </ModalBody>
-        {/* <ModalFooter>
+        <ModalFooter>
           <Button color="secondary" outline onClick={onClose}>
             <IntlMessages id="todo.cancel" />
           </Button>
           <Button color="primary" onClick={() => this.addNetItem()}>
             <IntlMessages id="todo.submit" />
           </Button>{" "}
-        </ModalFooter> */}
+        </ModalFooter>
       </Modal>
     );
   }

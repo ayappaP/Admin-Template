@@ -44,23 +44,24 @@ class ShopsListView extends React.Component {
       isSelect,
       collect,
       onCheckItem,
-      toggleModal,
+      toggleModalValue,
       order,
       products,
       shops,
       selectStatus
     } = this.props;
 
-    
     // const dateTime =
     //   product.createdAt.slice(0, 10) + " / " + product.createdAt.slice(11, 19);
-     const address = shops.address.postcode ?`${shops.address.postcode} ${shops.address.town} ${shops.address.number} ${shops.address.road} `: "Not Available";
-    
+    const address = shops.address.postcode
+      ? `${shops.address.postcode} ${shops.address.town} ${shops.address.number} ${shops.address.road} `
+      : "Not Available";
+
     return (
       <Colxx xxs="12" className="mb-3">
         <ContextMenuTrigger id="menu_id" data={shops.id} collect={collect}>
           <Card
-            onClick={toggleModal}
+            onClick={toggleModalValue}
             className={classnames("d-flex flex-row", {
               active: isSelect
             })}
@@ -71,18 +72,11 @@ class ShopsListView extends React.Component {
                   {shops.shopName}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {shops.contact.name} 
+                  {shops.contact.name}
                 </p>
-          
-               
-                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                {/* { Object.keys(shops.address).forEach(key => shops.address[key] === undefined ? "" : shops.address[key])} */}
-              
-
-
-                   {address}
-               
-         </p>
+                <p className="mb-1 text-muted text-small w-15 w-sm-100">
+                  {address}
+                </p>
               </div>
             </div>
           </Card>

@@ -192,6 +192,9 @@ module.exports = {
    /* orders */
    "order.add.name": "Add new Order",
 
+    /* orders */
+    "shop.add.name": "Add new Shop",
+    "shop.update": "Update Shop",
   /* 04.Dashboards */
   "dashboards.pending-orders": "Pending Orders",
   "dashboards.completed-orders": "Completed Orders",
