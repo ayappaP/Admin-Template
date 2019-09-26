@@ -26,11 +26,8 @@ const createNotification = (msg, req) => {
     );
 }
 
-const loginWithEmailPasswordAsync = async (phone, password) =>
-    await Auth.signIn({
-        username: phone,
-        password
-    })
+const loginWithEmailPasswordAsync = async (user, code) =>
+    await Auth.confirmSignIn(user, code)
         .then((res) => res)
         .catch((err) => err)
 
@@ -45,18 +42,28 @@ const loginWithNewPasswordAsync = async (confirmUser) =>
 
 
 function* loginWithEmailPassword({ payload }) {
-    console.log(payload)
-    // const { phone, tempPass } = payload.user;
-    // const { history } = payload;
-    // const confirmUser = yield call(loginWithEmailPasswordAsync, phone, tempPass);
+    // console.log(payload)
+    const { user, code } = payload;
+    // const { phone, password } = payload.user;
+    const { history } = payload;
+    const confirmUser = yield call(loginWithEmailPasswordAsync, user, code);
     // console.log(confirmUser)
+    if (confirmUser.code == "CodeMismatchException") {
+        createNotification('Code Invalid', 'Enter valid OTP')
+    } else if (confirmUser.user.sub) {
+        yield put(loginUserSuccess(confirmUser));
+        history.history.push('/')
+    }
+
+    // payload.setUser(confirmUser)
+    // payload.setOtp(true)
     // if(confirmUser.challengeName == "NEW_PASSWORD_REQUIRED")
     // {
     //     const loginUser = yield call(loginWithNewPasswordAsync, confirmUser);
     //     console.log(loginUser)
     //     history.history.push('/user/forgot-password')
     // }
-    
+
 }
 
 const registerWithEmailPasswordAsync = async (email, password) =>

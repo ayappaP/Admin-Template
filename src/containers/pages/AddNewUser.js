@@ -20,6 +20,18 @@ import client from "../../queries/client";
 import updateOrderProducts from "../../queries/updateOrderProducts";
 import fetchShops from "../../queries/fetchShops";
 import { Formik } from 'formik'
+import { NotificationManager } from "../../components/common/react-notifications";
+
+
+const createNotification = (msg, req) => {
+  NotificationManager.primary(
+    req,
+    msg,
+    5000,
+    null,
+    null,
+  );
+}
 
 
 
@@ -45,6 +57,12 @@ class AddNewUser extends React.Component {
 
   componentDidMount() {
     this.fetchShops();
+    Auth.currentAuthenticatedUser()
+      .then(res => {
+        // console.log(res)
+        this.setState({ userRole: res.attributes["custom:role"] })
+      })
+      .catch((err) => console.log(err))
   }
 
   fetchShops = () => {
@@ -86,8 +104,9 @@ class AddNewUser extends React.Component {
 
   submit = (values) => {
     Auth.currentAuthenticatedUser().then(res => {
-      const shopId = res.attributes["custom:shopId"];
-      const shopName = res.attributes["custom:shopName"];
+      const userRole = res.attributes["custom:role"];
+      const shopId = userRole == "Super" ? values.shopId : res.attributes["custom:shopId"];
+      const shopName = userRole == "Super" ? values.shopName : res.attributes["custom:shopName"];
       const data = {
         name: values.name,
         phone: values.phone,
@@ -95,7 +114,7 @@ class AddNewUser extends React.Component {
         shopName: shopName,
         shopId: shopId,
       };
-      console.log("data", data);
+      // console.log("data", data);
 
       Auth.signUp({
         username: data.phone,
@@ -109,6 +128,7 @@ class AddNewUser extends React.Component {
       })
         .then((user) => {
           console.log(user)
+          createNotification('User created successfully')
         })
         .catch((err) => console.log(err))
 
@@ -151,11 +171,11 @@ class AddNewUser extends React.Component {
       error,
       userRole
     } = this.state;
-    const listShop = ['Owner', 'Staff']
-    // const listShop = shopName.map(shop => ({
-    //   value: shop.id,
-    //   label: shop.shopName
-    // }));
+    const listRole = ['Owner', 'Staff']
+    const listShop = shopName.map(shop => ({
+      value: shop.id,
+      label: shop.shopName
+    }));
     const closeBtn = (
       <button className="close" onClick={onClose}>
         &times;
@@ -175,7 +195,7 @@ class AddNewUser extends React.Component {
           </h3>
         </ModalHeader>
 
-        <Formik initialValues={{ name: '', phone: '', role: '' }}
+        <Formik initialValues={{ name: '', phone: '', role: '', shopName: '', shopId: '' }}
           onSubmit={(val) => this.submit(val)}>
           {props =>
             <Form onSubmit={props.handleSubmit}>
@@ -202,22 +222,35 @@ class AddNewUser extends React.Component {
           </Label>
           <Input /> */}
 
-                {userRole == 'Owner' ?
-                  (<><Label className="mt-4">
-                    <IntlMessages id="pages.role" />
+
+                <Label className="mt-4">
+                  <IntlMessages id="pages.role" />
+                </Label>
+                <Dropdown
+                  name="shopName"
+                  options={listRole}
+                  value={props.values.role}
+                  onChange={(e) => props.setFieldValue('role', e.value)}
+                  placeholder="Select role"
+                />
+                {userRole == 'Super' ?
+                  <><Label className="mt-4">
+                    <IntlMessages id="pages.shopName" />
                   </Label>
                     <Dropdown
                       name="shopName"
                       options={listShop}
-                      value={props.values.role}
-                      onChange={(e) => props.setFieldValue('role', e.value)}
+                      value={props.values.shopName}
+                      onChange={(e) => {
+                        props.setFieldValue('shopName', e.label)
+                        props.setFieldValue('shopId', e.value)
+                      }}
                       placeholder="Select role"
-                    /> </>)
-                  : null}
+                    /> </> : null}
                 {/* <Label className="mt-4">
-            <IntlMessages id="pages.shopId" />
-          </Label>
-          <Input name="shopId" disabled value={selectValue} /> */}
+                  <IntlMessages id="pages.shopId" />
+                </Label>
+                <Input name="shopId" disabled value={props.values.shop} /> */}
               </ModalBody>
 
               <ModalFooter>
@@ -227,7 +260,7 @@ class AddNewUser extends React.Component {
                 <Button
                   type='submit'
                   color="primary"
-                // disabled={(!this.state.phone, !this.state.name)}
+                  disabled={props.isSubmitting}
                 // onClick={props.handleSubmit}
                 >
                   <IntlMessages id="pages.submit" />

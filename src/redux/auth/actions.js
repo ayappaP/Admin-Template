@@ -6,9 +6,9 @@ import {
   REGISTER_USER_SUCCESS
 } from '../actions';
 
-export const loginUser = (user, history) => ({
+export const loginUser = ( user, code, history ) => ({
   type: LOGIN_USER,
-  payload: { user, history }
+  payload: { user, code, history,}
 });
 export const loginUserSuccess = (user) => ({
   type: LOGIN_USER_SUCCESS,
