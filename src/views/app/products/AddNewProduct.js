@@ -8,13 +8,16 @@ import {
   ModalBody,
   ModalFooter,
   Input,
-  Label
+  Label,
+  Form
 } from "reactstrap";
 import Select from "react-select";
 import CustomSelectInput from "../../../components/common/CustomSelectInput";
 import IntlMessages from "../../../helpers/IntlMessages";
+import { Formik } from 'formik'
 
 import { addTodoItem } from "../../../redux/actions";
+
 
 class AddNewProduct extends Component {
   constructor(props) {
@@ -63,36 +66,48 @@ class AddNewProduct extends Component {
         <ModalHeader toggle={toggleModal}>
           <IntlMessages id="product.new" />
         </ModalHeader>
-        <ModalBody>
-        <Label className="mt-4">
-            <IntlMessages id="product.name" />
-          </Label>
-          <Input  />
-          <Label className="mt-4">
-            <IntlMessages id="product.description" />
-          </Label>
-          <Input  />
-          <Label className="mt-4">
-            <IntlMessages id="product.price" />
-          </Label>
-          <Input  />
-          <Label className="mt-4">
-            <IntlMessages id="product.unitWeight" />
-          </Label>
-          <Input  />
-          <Label className="mt-4">
-            <IntlMessages id="product.categoryName" />
-          </Label>
-          <Input  />
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" outline onClick={toggleModal}>
-            <IntlMessages id="todo.cancel" />
-          </Button>
-          <Button color="primary" onClick={() => this.addNetItem()}>
-            <IntlMessages id="todo.submit" />
-          </Button>{" "}
-        </ModalFooter>
+        <Formik
+          initialValues={{ productName: '', description: '', price: '', unitWeight: '', category: '' }}
+          onSubmit={(values) => console.log(values)}
+        >{props => <Form onSubmit={props.handleSubmit}>
+          <ModalBody>
+            <Label className="mt-4">
+              <IntlMessages id="product.name" />
+            </Label>
+            <Input name='productName' type='text' value={props.values.productName}
+              onChange={props.handleChange} />
+            <Label className="mt-4">
+              <IntlMessages id="product.description" />
+            </Label>
+            <Input name='description' type='text' value={props.values.description}
+              onChange={props.handleChange} />
+            <Label className="mt-4">
+              <IntlMessages id="product.price" />
+            </Label>
+            <Input name='price' type='text' value={props.values.price}
+              onChange={props.handleChange} />
+            <Label className="mt-4">
+              <IntlMessages id="product.unitWeight" />
+            </Label>
+            <Input name='unitWeight' type='text' value={props.values.unitWeight}
+              onChange={props.handleChange} />
+            <Label className="mt-4">
+              <IntlMessages id="product.categoryName" />
+            </Label>
+            <Input name='category' type='text' value={props.values.category}
+              onChange={props.handleChange} />
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" outline onClick={toggleModal}>
+              <IntlMessages id="todo.cancel" />
+            </Button>
+            <Button type='submit' color="primary"
+            // onClick={() => this.addNetItem()}
+            >
+              <IntlMessages id="todo.submit" />
+            </Button>{" "}
+          </ModalFooter>
+        </Form>}</Formik>
       </Modal>
     );
   }

@@ -251,6 +251,7 @@ module.exports = {
   /* 05.Pages */
   "pages.add-new": "ADD NEW",
   "pages.add-new-user": "ADD NEW USER",
+  "pages.add-new-order": "ADD NEW ORDER",
   "pages.address":"Address",
   "pages.contact":"Contact",
   "pages.businessHours":"BusinessHours",

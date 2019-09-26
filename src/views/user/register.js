@@ -44,13 +44,15 @@ const setDetails = (values, props) => {
     username: phone,
     password,
     attributes: {
-      'custom:shopName': shop.label,
-      'custom:shopId': shop.value,
+      'name': "Super-Admin",
+      'custom:role': "Super",
+      'custom:shopName': "Admin",
+      'custom:shopId': "ef2d7030-d670-48a8-ab02-d09b58c36e15",
     }
   })
     .then((user) => {
       // console.log(user)
-      localStorage.setItem('phone', phone)
+      // localStorage.setItem('phone', phone)
       createNotification('Super admin created', 'Login with your OTP')
       props.history.push('/user/login')
     })
@@ -126,7 +128,7 @@ class Register extends Component {
                       <Input required type="text" name='phone' onChange={props.handleChange} value={props.values.phone} />
                       <IntlMessages id="user.phone" />
                     </Label>
-                    <Label className="form-group has-float-label mb-4">
+                    {/* <Label className="form-group has-float-label mb-4">
                       <Select
                         components={{ Input: CustomSelectInput }}
                         className="react-select"
@@ -140,7 +142,7 @@ class Register extends Component {
 
                         }
                       </Select>
-                    </Label>
+                    </Label> */}
                     {/* <Label className="form-group has-float-label mb-4">
                       <IntlMessages id="pages.shopName" />
                       <Dropdown

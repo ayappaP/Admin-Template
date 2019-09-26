@@ -30,24 +30,24 @@ class ViewCarouselModal extends Component {
     };
   }
 
-  addNetItem = () => {
-    const newItem = {
-      title: this.state.title,
-      detail: this.state.detail,
-      label: this.state.label.value,
-      labelColor: this.state.label.color,
-      category: this.state.category.value,
-      status: this.state.status
-    };
-    this.props.addTodoItem(newItem);
-    this.props.toggleModal();
-    this.setState({
-      title: "",
-      detail: "",
-      label: {},
-      category: {},
-      status: "PENDING"
-    });
+  editCarousel = () => {
+    // const newItem = {
+    //   title: this.state.title,
+    //   detail: this.state.detail,
+    //   label: this.state.label.value,
+    //   labelColor: this.state.label.color,
+    //   category: this.state.category.value,
+    //   status: this.state.status
+    // };
+    // this.props.addTodoItem(newItem);
+    // this.props.toggleModal();
+    // this.setState({
+    //   title: "",
+    //   detail: "",
+    //   label: {},
+    //   category: {},
+    //   status: "PENDING"
+    // });
   };
 
   render() {
@@ -153,7 +153,7 @@ class ViewCarouselModal extends Component {
           <Button color="secondary" outline onClick={onClose}>
             <IntlMessages id="todo.cancel" />
           </Button>
-          <Button color="primary" onClick={() => this.addNetItem()}>
+          <Button color="primary" onClick={() => this.editCarousel()}>
             <IntlMessages id="todo.submit" />
           </Button>{" "}
         </ModalFooter>

@@ -16,6 +16,8 @@ import IntlMessages from "../../../helpers/IntlMessages";
 
 import { addTodoItem } from "../../../redux/actions";
 
+import { Storage } from 'aws-amplify'
+
 class AddNewCarousel extends Component {
   constructor(props) {
     super(props);
@@ -30,24 +32,30 @@ class AddNewCarousel extends Component {
     };
   }
 
-  addNetItem = () => {
-    const newItem = {
-      title: this.state.title,
-      detail: this.state.detail,
-      label: this.state.label.value,
-      labelColor: this.state.label.color,
-      category: this.state.category.value,
-      status: this.state.status
-    };
-    this.props.addTodoItem(newItem);
-    this.props.toggleModal();
-    this.setState({
-      title: "",
-      detail: "",
-      label: {},
-      category: {},
-      status: "PENDING"
-    });
+  addNewCarousel = (e) => {
+    // const file = e.target.files[0];
+    // Storage.put(file.name, file, {
+    //   contentType: 'image/png',
+    // })
+    //   .then(result => console.log('result', result))
+    //   .catch(err => console.log('err', err));
+    // const newItem = {
+    //   title: this.state.title,
+    //   detail: this.state.detail,
+    //   label: this.state.label.value,
+    //   labelColor: this.state.label.color,
+    //   category: this.state.category.value,
+    //   status: this.state.status
+    // };
+    // this.props.addTodoItem(newItem);
+    // this.props.toggleModal();
+    // this.setState({
+    //   title: "",
+    //   detail: "",
+    //   label: {},
+    //   category: {},
+    //   status: "PENDING"
+    // });
   };
 
   render() {
@@ -71,7 +79,7 @@ class AddNewCarousel extends Component {
           <Label className="mt-4">
             <IntlMessages id="carousel.UploadImage" />
           </Label>
-          <Input type="file" />
+          <Input type="file" onChange={(e) => this.addNewCarousel(e)} />
 
           {/* <Label className="mt-4">
             <IntlMessages id="todo.category" />
@@ -143,7 +151,7 @@ class AddNewCarousel extends Component {
           <Button color="secondary" outline onClick={toggleModal}>
             <IntlMessages id="todo.cancel" />
           </Button>
-          <Button color="primary" onClick={() => this.addNetItem()}>
+          <Button color="primary" onClick={() => this.addNewCarousel()}>
             <IntlMessages id="todo.submit" />
           </Button>{" "}
         </ModalFooter>

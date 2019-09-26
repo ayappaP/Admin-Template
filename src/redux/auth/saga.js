@@ -47,10 +47,11 @@ function* loginWithEmailPassword({ payload }) {
     // const { phone, password } = payload.user;
     const { history } = payload;
     const confirmUser = yield call(loginWithEmailPasswordAsync, user, code);
-    // console.log(confirmUser)
+    console.log(confirmUser)
     if (confirmUser.code == "CodeMismatchException") {
         createNotification('Code Invalid', 'Enter valid OTP')
-    } else if (confirmUser.user.sub) {
+    } else if (confirmUser) {
+        localStorage.setItem('user', confirmUser);
         yield put(loginUserSuccess(confirmUser));
         history.history.push('/')
     }
@@ -91,15 +92,20 @@ function* registerWithEmailPassword({ payload }) {
 
 
 const logoutAsync = async (history) => {
-    await auth.signOut().then(authUser => authUser).catch(error => error);
-    history.push('/')
+    // await auth.signOut().then(authUser => authUser).catch(error => error);
+    // history.push('/')
+    Auth.signOut().then(()=>{
+        localStorage.clear()
+        this.props.history.push("/user/login")
+      }).catch(console.log);
+      
 }
 
 function* logout({ payload }) {
     const { history } = payload
     try {
         yield call(logoutAsync, history);
-        localStorage.removeItem('user_id');
+        // localStorage.removeItem('user_id');
     } catch (error) {
     }
 }

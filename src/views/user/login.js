@@ -43,7 +43,7 @@ const UserLogin = (values, props, setOtp, setUser) => {
 const confirmSignIn = ({ code }, props, user) => {
   // console.log(user)
   // console.log(code)
-  props.loginUser( user, code, props )
+  props.loginUser(user, code, props)
   // Auth.confirmSignIn(user, code)
   //   .then((res) => {
   //     console.log(res)
@@ -110,7 +110,7 @@ const Login = (props) => {
                 {props => (
                   <Form onSubmit={props.handleSubmit}>
                     <Label className="form-group has-float-label mb-4">
-                      <Input required name='phone' type="tel" onChange={props.handleChange} value={props.values.phone} />
+                      <Input required id="phone" name='phone' type="tel" onChange={props.handleChange} value={props.values.phone} />
                       <IntlMessages id="user.phone" />
                     </Label>
 
@@ -136,11 +136,11 @@ const Login = (props) => {
                   </Form>
                 )}</Formik>)
               :
-              (<Formik id="otp" initialValues={{ code: '' }} onSubmit={(val) => confirmSignIn(val, props, user)} >
+              (<Formik id="otp" initialValues={{ code: '' }} enableReinitialize={true} onSubmit={(val) => confirmSignIn(val, props, user)} >
                 {props =>
                   <Form onSubmit={props.handleSubmit}>
                     <Label className="form-group has-float-label mb-4">
-                      <Input required name='code' type="text" onChange={props.handleChange} value={props.values.code} />
+                      <Input required id="code" name='code' type="text" placeholder="Enter otp" onChange={props.handleChange} value={props.values.code} />
                       <IntlMessages id="user.otp" />
                     </Label>
                     <div className="d-flex justify-content-between align-items-center">
