@@ -320,12 +320,7 @@ class TopNav extends Component {
              <a
               className="btn btn-outline-primary btn-sm"
               target="_top"
-              onClick={()=>{
-                Auth.signOut().then(()=>{
-                  localStorage.clear()
-                  this.props.history.push("/user/login")
-                }).catch(console.log);
-              }}
+              onClick={()=>{this.handleLogout()}}
             >
              <IntlMessages id="user.logout"/>
             </a>

@@ -104,6 +104,7 @@ class AddNewUser extends React.Component {
 
   submit = (values) => {
     Auth.currentAuthenticatedUser().then(res => {
+      // const res = { attributes: { "custom:role": 'Super' } }
       const userRole = res.attributes["custom:role"];
       const shopId = userRole == "Super" ? values.shopId : res.attributes["custom:shopId"];
       const shopName = userRole == "Super" ? values.shopName : res.attributes["custom:shopName"];
