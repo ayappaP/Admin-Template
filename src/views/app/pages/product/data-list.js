@@ -32,7 +32,7 @@ class DataListPages extends Component {
         { column: "category", label: "Category" },
         { column: "status", label: "Status" }
       ],
-      pageSizes: [10, 20, 30, 50, 100],
+
 
       categories: [
         { label: "Cakes", value: "Cakes", key: 0 },
