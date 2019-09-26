@@ -130,6 +130,7 @@ class AddNewUser extends React.Component {
         .then((user) => {
           console.log(user)
           createNotification('User created successfully')
+          this.props.onClose();
         })
         .catch((err) => console.log(err))
 

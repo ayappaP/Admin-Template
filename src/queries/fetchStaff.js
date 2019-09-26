@@ -1,12 +1,12 @@
 export default (shopId) => {
     const query = `
-      query fetchUsers
+      query fetchStaff
       {
-        customer(where: {shop: {_eq: "${shopId}"}}) {
+        staff(where: {shopId: {_eq: "${shopId}"}}) {
           name
           number
-          referralId
         }
       }`;
     return { query: query };
   };
+  

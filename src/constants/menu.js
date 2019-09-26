@@ -2,6 +2,7 @@ import { Auth } from "aws-amplify";
 
 const sideBarMenu = () => {
   let role = localStorage.getItem("role") || "Default";
+  console.log("role",role)
   const data = [
     {
       id: "orders",
