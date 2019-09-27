@@ -8,12 +8,13 @@ import {
   ModalBody,
   ModalFooter,
   Input,
+  Form,
   Label
 } from "reactstrap";
-import Select from "react-select";
-import CustomSelectInput from "../../../components/common/CustomSelectInput";
+import { Formik } from "formik";
 import IntlMessages from "../../../helpers/IntlMessages";
-
+import updateShop from "../../../queries/updateShop";
+import client from "../../../queries/client";
 import { addTodoItem } from "../../../redux/actions";
 import shopsListView from "./shopsListView";
 
@@ -51,6 +52,20 @@ class ViewShopModal extends Component {
     });
   };
 
+  submit = values => {
+    console.log(values);
+    const query = updateShop(values);
+    client(query)
+      .then(res => {
+        console.log("update shop", res);
+        this.props.reloadShopList();
+        this.props.onClose();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   render() {
     const { labels, categories } = this.props.todoApp;
     const {
@@ -61,9 +76,9 @@ class ViewShopModal extends Component {
       modalOpenValue
     } = this.props;
     console.log("modal", shops);
-    const address = shops.address.postcode
-      ? `${shops.address.postcode} ${shops.address.town} ${shops.address.number} ${shops.address.road} `
-      : "Not Available";
+    // const address = shops.address.postcode
+    //   ? `${shops.address.postcode} ${shops.address.town} ${shops.address.number} ${shops.address.road} `
+    //   : "Not Available";
 
     return (
       <Modal
@@ -75,120 +90,119 @@ class ViewShopModal extends Component {
         <ModalHeader toggle={toggleModalValue}>
           <IntlMessages id="shop.update" />
         </ModalHeader>
-        <ModalBody>
-          <Label className="mt-4">
-            <IntlMessages id="pages.shopName" />
-          </Label>
-          <Input
-            name="shopName"
-            value={shops.shopName}
-            onChange={this.handleChange}
-          />
-          <Label className="mt-4">
-            <IntlMessages id="pages.address" />
-          </Label>
-          <Input name="address" value={address} />
-          <Label className="mt-4">
-            <IntlMessages id="pages.contact" />
-          </Label>
-          <Input
-            name="name"
-            value={shops.contact.name}
-            onChange={this.handleChange}
-          />
+        <Formik
+          initialValues={{
+            shopName: shops.shopName,
+            shopCode: shops.code,
+            contactName: shops.contact.name,
+            contactNumber: shops.contact.number,
+            businessHours: shops.businessHours,
+            coverage: shops.coverage,
+            addressRoad: shops.address.road,
+            addressTown: shops.address.town,
+            addressNumber: shops.address.number,
+            addressPostCode: shops.address.postcode,
+            shopId: shops.id
+          }}
+          onSubmit={val => this.submit(val)}
+        >
+          {props => (
+            <Form onSubmit={props.handleSubmit}>
+              <ModalBody>
+                <Label className="mt-4">
+                  <IntlMessages id="shop.name" />
+                </Label>
+                <Input
+                  name="shopName"
+                  value={props.values.shopName}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.code" />
+                </Label>
+                <Input
+                  name="shopCode"
+                  value={props.values.shopCode}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.addressRoad" />
+                </Label>
+                <Input
+                  name="addressRoad"
+                  value={props.values.addressRoad}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.addressTown" />
+                </Label>
+                <Input
+                  name="addressTown"
+                  value={props.values.addressTown}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.addressNumber" />
+                </Label>
+                <Input
+                  name="addressNumber"
+                  value={props.values.addressNumber}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.addressPostCode" />
+                </Label>
+                <Input
+                  name="addressPostCode"
+                  value={props.values.addressPostCode}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.contactName" />
+                </Label>
+                <Input
+                  name="contactName"
+                  value={props.values.contactName}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.contactNumber" />
+                </Label>
+                <Input
+                  name="contactNumber"
+                  value={props.values.contactNumber}
+                  onChange={props.handleChange}
+                />
 
-          <Label className="mt-4">
-            <IntlMessages id="pages.businessHours" />
-          </Label>
-          <Input
-            name="businessHours"
-            value={shops.businessHours}
-            onChange={this.handleChange}
-          />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.businessHours" />
+                </Label>
+                <Input
+                  name="businessHours"
+                  value={props.values.businessHours}
+                  onChange={props.handleChange}
+                />
 
-          <Label className="mt-4">
-            <IntlMessages id="pages.coverage" />
-          </Label>
-          <Input
-            name="shopName"
-            value={shops.coverage}
-            onChange={this.handleChange}
-          />
-
-          {/* <Label className="mt-4">
-            <IntlMessages id="todo.category" />
-          </Label>
-          <Select
-            components={{ Input: CustomSelectInput }}
-            className="react-select"
-            classNamePrefix="react-select"
-            name="form-field-name"
-            options={categories.map((x, i) => {
-              return { label: x, value: x, key: i };
-            })}
-            value={this.state.category}
-            onChange={val => {
-              this.setState({ category: val });
-            }}
-          />
-          <Label className="mt-4">
-            <IntlMessages id="todo.label" />
-          </Label>
-          <Select
-            components={{ Input: CustomSelectInput }}
-            className="react-select"
-            classNamePrefix="react-select"
-            name="form-field-name"
-            options={labels.map((x, i) => {
-              return {
-                label: x.label,
-                value: x.label,
-                key: i,
-                color: x.color
-              };
-            })}
-            value={this.state.label}
-            onChange={val => {
-              this.setState({ label: val });
-            }}
-          />
-
-          <Label className="mt-4">
-            <IntlMessages id="todo.status" />
-          </Label>
-          <CustomInput
-            type="radio"
-            id="exCustomRadio"
-            name="customRadio"
-            label="COMPLETED"
-            checked={this.state.status === "COMPLETED"}
-            onChange={event => {
-              this.setState({
-                status: event.target.value === "on" ? "COMPLETED" : "PENDING"
-              });
-            }}
-          />
-          <CustomInput
-            type="radio"
-            id="exCustomRadio2"
-            name="customRadio2"
-            label="PENDING"
-            defaultChecked={this.state.status === "PENDING"}
-            onChange={event => {
-              this.setState({
-                status: event.target.value !== "on" ? "COMPLETED" : "PENDING"
-              });
-            }}
-          /> */}
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" outline onClick={onClose}>
-            <IntlMessages id="todo.cancel" />
-          </Button>
-          <Button color="primary" onClick={() => this.addNetItem()}>
-            <IntlMessages id="todo.submit" />
-          </Button>{" "}
-        </ModalFooter>
+                <Label className="mt-4">
+                  <IntlMessages id="shop.coverage" />
+                </Label>
+                <Input
+                  name="coverage"
+                  value={props.values.coverage}
+                  onChange={props.handleChange}
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" outline onClick={onClose}>
+                  <IntlMessages id="todo.cancel" />
+                </Button>
+                <Button color="primary" type={"submit"}>
+                  <IntlMessages id="todo.submit" />
+                </Button>{" "}
+              </ModalFooter>
+            </Form>
+          )}
+        </Formik>
       </Modal>
     );
   }

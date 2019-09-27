@@ -15,7 +15,8 @@ import Select from "react-select";
 import { Formik } from "formik";
 import CustomSelectInput from "../../../components/common/CustomSelectInput";
 import IntlMessages from "../../../helpers/IntlMessages";
-
+import addShop from "../../../queries/addShop";
+import client from "../../../queries/client";
 import { addTodoItem } from "../../../redux/actions";
 
 class AddNewShop extends Component {
@@ -30,14 +31,13 @@ class AddNewShop extends Component {
       category: {},
       status: "PENDING",
       shopName: "",
-      address: "",
       contact: "",
       businessHours: "",
       coverage: "",
       addressRoad: "",
-      addressTown:"",
-      addressNumber:"",
-      addressPostCode:""
+      addressTown: "",
+      addressNumber: "",
+      addressPostCode: ""
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -69,7 +69,20 @@ class AddNewShop extends Component {
   }
 
   submit = values => {
-    console.log(values);
+    // console.log(values)
+    const query = addShop(values);
+    client(query)
+      .then(res => {
+        console.log("insert shop", res);
+        // this.setState({
+        //   shops: res.data.shop
+        // });
+        this.props.reloadShopList()
+        this.props.onClose()
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   render() {
@@ -88,14 +101,16 @@ class AddNewShop extends Component {
         <Formik
           initialValues={{
             shopName: "",
-            address: "",
+            shopCode: "",
             contact: "",
             businessHours: "",
             coverage: "",
             addressRoad: "",
-            addressTown:"",
-            addressNumber:"",
-            addressPostCode:""
+            addressTown: "",
+            addressNumber: "",
+            addressPostCode: "",
+            contactName:"",
+            contactNumber:""
           }}
           onSubmit={val => this.submit(val)}
         >
@@ -103,7 +118,7 @@ class AddNewShop extends Component {
             <Form onSubmit={props.handleSubmit}>
               <ModalBody>
                 <Label className="mt-4">
-                  <IntlMessages id="pages.shopName" />
+                  <IntlMessages id="shop.name" />
                 </Label>
                 <Input
                   name="shopName"
@@ -111,48 +126,63 @@ class AddNewShop extends Component {
                   onChange={props.handleChange}
                 />
                 <Label className="mt-4">
-                  <IntlMessages id="pages.address" />
+                  <IntlMessages id="shop.code" />
+                </Label>
+                <Input
+                  name="shopCode"
+                  value={props.values.shopCode}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.addressRoad" />
                 </Label>
                 <Input
                   name="addressRoad"
                   value={props.values.addressRoad}
                   onChange={props.handleChange}
                 />
-                  <Label className="mt-4">
-                  <IntlMessages id="pages.address" />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.addressTown" />
                 </Label>
                 <Input
                   name="addressTown"
-                  value={props.values.addressRoad}
+                  value={props.values.addressTown}
                   onChange={props.handleChange}
                 />
-                  <Label className="mt-4">
-                  <IntlMessages id="pages.address" />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.addressNumber" />
                 </Label>
                 <Input
                   name="addressNumber"
-                  value={props.values.addressRoad}
+                  value={props.values.addressNumber}
                   onChange={props.handleChange}
                 />
-                  <Label className="mt-4">
-                  <IntlMessages id="pages.address" />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.addressPostCode" />
                 </Label>
                 <Input
                   name="addressPostCode"
-                  value={props.values.addressRoad}
+                  value={props.values.addressPostCode}
                   onChange={props.handleChange}
                 />
                 <Label className="mt-4">
-                  <IntlMessages id="pages.contact" />
+                  <IntlMessages id="shop.contactName" />
                 </Label>
                 <Input
-                  name="contact"
-                  value={props.values.contact}
+                  name="contactName"
+                  value={props.values.contactName}
                   onChange={props.handleChange}
                 />
-
                 <Label className="mt-4">
-                  <IntlMessages id="pages.businessHours" />
+                  <IntlMessages id="shop.contactNumber" />
+                </Label>
+                <Input
+                  name="contactNumber"
+                  value={props.values.contactNumber}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="shop.businessHours" />
                 </Label>
                 <Input
                   name="businessHours"
@@ -161,7 +191,7 @@ class AddNewShop extends Component {
                 />
 
                 <Label className="mt-4">
-                  <IntlMessages id="pages.coverage" />
+                  <IntlMessages id="shop.coverage" />
                 </Label>
                 <Input
                   name="coverage"
@@ -170,7 +200,12 @@ class AddNewShop extends Component {
                 />
               </ModalBody>
               <ModalFooter>
-                <Button color="secondary" outline onClick={onClose}>
+                <Button
+                  type={"button"}
+                  color="secondary"
+                  outline
+                  onClick={onClose}
+                >
                   <IntlMessages id="todo.cancel" />
                 </Button>
                 <Button type={"submit"} color="primary">
