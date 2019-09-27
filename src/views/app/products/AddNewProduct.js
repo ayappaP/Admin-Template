@@ -15,7 +15,8 @@ import Select from "react-select";
 import CustomSelectInput from "../../../components/common/CustomSelectInput";
 import IntlMessages from "../../../helpers/IntlMessages";
 import { Formik } from 'formik'
-
+import addProduct from "../../../queries/addProduct";
+import client from "../../../queries/client";
 import { addTodoItem } from "../../../redux/actions";
 
 
@@ -53,6 +54,24 @@ class AddNewProduct extends Component {
     });
   };
 
+  submit = values => {
+    // console.log(values)
+    const query = addProduct(values);
+    client(query)
+      .then(res => {
+        console.log("insert shop", res);
+        // this.setState({
+        //   shops: res.data.shop
+        // });
+        // this.props.reloadShopList()
+        // this.props.onClose()
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+
   render() {
     const { labels, categories } = this.props.todoApp;
     const { modalOpen, toggleModal } = this.props;
@@ -68,7 +87,7 @@ class AddNewProduct extends Component {
         </ModalHeader>
         <Formik
           initialValues={{ productName: '', description: '', price: '', unitWeight: '', category: '' }}
-          onSubmit={(values) => console.log(values)}
+          onSubmit={val => this.submit(val)}
         >{props => <Form onSubmit={props.handleSubmit}>
           <ModalBody>
             <Label className="mt-4">

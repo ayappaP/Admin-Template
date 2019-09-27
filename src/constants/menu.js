@@ -29,8 +29,8 @@ const sideBarMenu = () => {
       id: "Products",
       icon: "iconsminds-pantone",
       label: "menu.products",
-      to: "/app/products"
-      // permission: ["Super", "Owner", "Staff"]
+      to: "/app/products",
+      permission: ["Super"]
     },
     {
       id: "Shop",
