@@ -41,7 +41,7 @@ const setDetails = (values, props) => {
   // props.loginUser(values, props)
   const { phone, password, shop } = values
   Auth.signUp({
-    username: phone,
+    username: `+44${phone}`,
     password,
     attributes: {
       'name': "Super-Admin",
