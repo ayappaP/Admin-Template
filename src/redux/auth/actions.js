@@ -26,5 +26,5 @@ export const registerUserSuccess = (user) => ({
 
 export const logoutUser = (history) => ({
   type: LOGOUT_USER,
-  payload : {history}
+  payload : {user: null, history}
 });

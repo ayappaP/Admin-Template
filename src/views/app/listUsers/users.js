@@ -3,7 +3,8 @@ import { Row } from "reactstrap";
 import { Auth } from "aws-amplify";
 import axios from "axios";
 import client from "../../../queries/client";
-import fetchUsers from "../../../queries/fetchUsers";
+import fetchStaff from "../../../queries/fetchStaff";
+import fetchAllStaff from "../../../queries/fetchAllStaff";
 import { servicePath } from "../../../constants/defaultValues";
 import UserDataListView from "../../../containers/pages/UserDataListView";
 import Pagination from "../../../containers/pages/Pagination";
@@ -69,20 +70,26 @@ class ListUsers extends Component {
       });
       return false;
     });
-    this.fetchUsers();
+    this.fetchStaff();
   }
 
-  fetchUsers = () => {
+  fetchStaff = () => {
     Auth.currentAuthenticatedUser()
       .then(res => {
         console.log("auth", res);
         const shopId = res.attributes["custom:shopId"];
-        const query = fetchUsers(shopId);
+        console.log("shopId", shopId);
+        const role = res.attributes["custom:role"];
+        console.log("role", role);
+        let query = fetchStaff(shopId);
+        if ((role == "Super")) {
+          query = fetchAllStaff();
+        } 
         client(query)
           .then(res => {
             this.setState({
-              users: res.data.customer,
-              userCount: res.data.customer.length
+              users: res.data.staff,
+              userCount: res.data.staff.length
             });
           })
           .catch(error => {
@@ -112,7 +119,12 @@ class ListUsers extends Component {
     });
   };
   handleClose = () => {
-    this.setState({modalOpen: false, modalOpenValue: false, selectedUser: null });
+    this.setState({
+      modalOpen: false,
+      modalOpenValue: false,
+      selectedUser: null
+    });
+    this.fetchStaff();
   };
 
   changeOrderBy = column => {
@@ -145,7 +157,7 @@ class ListUsers extends Component {
       {
         currentPage: page
       },
-      () => this.fetchUsers()
+      () => this.fetchStaff()
     );
   };
 

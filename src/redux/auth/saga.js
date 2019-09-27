@@ -47,14 +47,18 @@ function* loginWithEmailPassword({ payload }) {
     // const { phone, password } = payload.user;
     const { history } = payload;
     const confirmUser = yield call(loginWithEmailPasswordAsync, user, code);
-    console.log(confirmUser)
+    // console.log("confirmUser",confirmUser)
     if (confirmUser.code == "CodeMismatchException") {
         createNotification('Code Invalid', 'Enter valid OTP')
     } else if (confirmUser) {
         createNotification("Success", 'Login completed')
+        localStorage.setItem('role', confirmUser.signInUserSession.idToken.payload["custom:role"])
         localStorage.setItem('user', confirmUser);
         yield put(loginUserSuccess(confirmUser));
-        history.history.push('/')
+        setTimeout(()=>{
+            history.history.push('/');
+            window.location.reload()
+        },2000)
     }
 
     // payload.setUser(confirmUser)

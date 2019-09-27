@@ -5,6 +5,7 @@ import { Auth } from "aws-amplify";
 import axios from "axios";
 import client from "../../../queries/client";
 import fetchOrders from "../../../queries/fetchOrders";
+import fetchAllOrders from "../../../queries/fetchAllOrders";
 import { servicePath } from "../../../constants/defaultValues";
 import DataListView from "../../../containers/pages/DataListView";
 import Pagination from "../../../containers/pages/Pagination";
@@ -58,7 +59,7 @@ class Orders extends Component {
       selectedOrderOption: { column: "title", label: "Product Name" },
       dropdownSplitOpen: false,
       modalOpen: false,
-      modalOpenValue:false,
+      modalOpenValue: false,
       currentPage: 1,
       totalItemCount: 0,
       totalPage: 1,
@@ -121,11 +122,13 @@ class Orders extends Component {
     Auth.currentAuthenticatedUser()
       .then(res => {
         const shopId = res.attributes["custom:shopId"];
-        console.log(shopId);
-        const query = fetchOrders(shopId);
+        const role = res.attributes["custom:role"];
+        let query = fetchOrders(shopId);
+        if (role == "Super") {
+          query = fetchAllOrders();
+        }
         client(query)
           .then(res => {
-            console.log("resres", res);
             this.setState({
               orders: res.data.order,
               ordersCount: res.data.order.length
@@ -159,7 +162,11 @@ class Orders extends Component {
   };
 
   handleClose = () => {
-    this.setState({modalOpenValue:false, modalOpen: false, selectedOrder: null });
+    this.setState({
+      modalOpenValue: false,
+      modalOpen: false,
+      selectedOrder: null
+    });
   };
 
   changeOrderBy = column => {
@@ -188,7 +195,7 @@ class Orders extends Component {
     return false;
   };
   onChangePage = page => {
-    console.log("page", page);
+    // console.log("page", page);
     this.setState(
       {
         currentPage: page
@@ -285,7 +292,7 @@ class Orders extends Component {
         `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${selectedOrderOption.column}&search=${search}`
       )
       .then(res => {
-        console.log("data res", res);
+        // console.log("data res", res);
         return res.data;
       })
       .then(data => {
@@ -300,11 +307,11 @@ class Orders extends Component {
   }
 
   onContextMenuClick = (e, data, target) => {
-    console.log(
-      "onContextMenuClick - selected items",
-      this.state.selectedItems
-    );
-    console.log("onContextMenuClick - action : ", data.action);
+    // console.log(
+    //   "onContextMenuClick - selected items",
+    //   this.state.selectedItems
+    // );
+    // console.log("onContextMenuClick - action : ", data.action);
   };
 
   onContextMenu = (e, data) => {
@@ -339,7 +346,6 @@ class Orders extends Component {
     const startIndex = (currentPage - 1) * selectedPageSize;
     const endIndex = currentPage * ordersCount;
     const totalPageSize = Math.ceil(ordersCount / pageSizes);
-    console.log("total", totalPageSize);
     const orders = this.state.orders;
     return !this.state.isLoading ? (
       <div className="loading" />
@@ -355,7 +361,8 @@ class Orders extends Component {
             changePageSize={this.changePageSize}
             selectedPageSize={selectedPageSize}
             // totalItemCount={totalItemCount}
-            ordersCount={ordersCount}toggleModal
+            ordersCount={ordersCount}
+            toggleModal
             selectedOrderOption={selectedOrderOption}
             match={match}
             startIndex={startIndex}
@@ -376,12 +383,12 @@ class Orders extends Component {
               onClose={this.handleClose}
             />
           )}
-           <AddNewOrder
-              modalOpenValue={modalOpenValue}
-              toggleModalValue={this.toggleModalValue}
-              product={this.state.selectedProduct}
-              onClose={this.handleClose}
-            />
+          <AddNewOrder
+            modalOpenValue={modalOpenValue}
+            toggleModalValue={this.toggleModalValue}
+            product={this.state.selectedProduct}
+            onClose={this.handleClose}
+          />
           <Row>
             {this.state.orders.map(product => {
               // console.log("items",this.state.items)

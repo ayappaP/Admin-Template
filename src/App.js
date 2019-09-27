@@ -49,7 +49,7 @@ const ViewError = React.lazy(() =>
 );
 
 const AuthRoute = ({ component: Component, authUser, ...rest }) => {
-  console.log(authUser)
+  // console.log(authUser)
   return (
     <Route
       {...rest}

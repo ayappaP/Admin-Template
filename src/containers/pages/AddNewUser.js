@@ -130,8 +130,16 @@ class AddNewUser extends React.Component {
         .then((user) => {
           console.log(user)
           createNotification('User created successfully')
+          this.props.onClose();
         })
-        .catch((err) => console.log(err))
+        .catch((err) =>{
+          console.log(err)
+          if(err.code == "UsernameExistsException"){
+          createNotification('User already exsits',err.message)
+          } else if (err.code == "InvalidParameterException") {
+            createNotification('Please check your phone number',err.message)
+          }
+        })
 
       // const url =
       //   "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/createAdminUser";
@@ -246,7 +254,7 @@ class AddNewUser extends React.Component {
                         props.setFieldValue('shopName', e.label)
                         props.setFieldValue('shopId', e.value)
                       }}
-                      placeholder="Select role"
+                      placeholder="Select Shop"
                     /> </> : null}
                 {/* <Label className="mt-4">
                   <IntlMessages id="pages.shopId" />
@@ -261,7 +269,7 @@ class AddNewUser extends React.Component {
                 <Button
                   type='submit'
                   color="primary"
-                  disabled={props.isSubmitting}
+                  disabled={props.isSubmitting, !props.values.name,!props.values.phone,!props.values.role,!props.values.shopName}
                 // onClick={props.handleSubmit}
                 >
                   <IntlMessages id="pages.submit" />
