@@ -51,6 +51,7 @@ function* loginWithEmailPassword({ payload }) {
     if (confirmUser.code == "CodeMismatchException") {
         createNotification('Code Invalid', 'Enter valid OTP')
     } else if (confirmUser) {
+        createNotification("Success", 'Login completed')
         localStorage.setItem('user', confirmUser);
         yield put(loginUserSuccess(confirmUser));
         history.history.push('/')
@@ -94,11 +95,12 @@ function* registerWithEmailPassword({ payload }) {
 const logoutAsync = async (history) => {
     // await auth.signOut().then(authUser => authUser).catch(error => error);
     // history.push('/')
-    Auth.signOut().then(()=>{
+    Auth.signOut().then(() => {
         localStorage.clear()
+        createNotification('User logged out successfully', 'Login again to show orders page')
         this.props.history.push("/user/login")
-      }).catch(console.log);
-      
+    }).catch(console.log);
+
 }
 
 function* logout({ payload }) {

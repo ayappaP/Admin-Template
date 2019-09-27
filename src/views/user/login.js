@@ -26,17 +26,22 @@ const createNotification = (msg, req) => {
 const UserLogin = (values, props, setOtp, setUser) => {
   // props.loginUser(values, props, setOtp, setUser)
   const { phone, password } = values;
-  createNotification('Enter OTP')
   Auth.signIn({
     username: phone,
     password
   })
     .then((user) => {
-      console.log(user)
+      createNotification('Enter OTP', 'Check your mobile')
+      // console.log(user)
       setOtp(true)
       setUser(user)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      // console.log(err)
+      if (err.code == "UserNotFoundException") {
+        createNotification('User is not valid', 'Enter valid phone number')
+      }
+    })
 }
 
 
@@ -90,12 +95,13 @@ const Login = (props) => {
             <p className="white mb-0">
               Please use your credentials to login.
                 <br />
-              If you are not a member, please{" "}
+              {/* If you are not a member,
+               please{" "}
               <NavLink to={`/user/register`} className="white">
                 register
                 </NavLink>
-              .
-              </p>
+              . */}
+            </p>
           </div>
           <div className="form-side">
             <NavLink to={`/`} className="white">
