@@ -269,7 +269,7 @@ class AddNewUser extends React.Component {
                 <Button
                   type='submit'
                   color="primary"
-                  disabled={props.isSubmitting, !props.values.name,!props.values.phone,!props.values.role,!props.values.shopName}
+                  disabled={props.isSubmitting || !props.values.name || !props.values.phone || !props.values.role ||!props.values.shopName}
                 // onClick={props.handleSubmit}
                 >
                   <IntlMessages id="pages.submit" />
