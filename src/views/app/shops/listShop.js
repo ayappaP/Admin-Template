@@ -28,9 +28,8 @@ import AddNewShop from "./AddNewShop";
 import ViewShopModal from "./ViewShopModal";
 
 import TodoApplicationMenu from "../../../containers/applications/TodoApplicationMenu";
-import client from "../../../queries/client"
-import fetchShops from "../../../queries/fetchShops"
-
+import client from "../../../queries/client";
+import fetchShops from "../../../queries/fetchShops";
 
 class ListShop extends Component {
   constructor(props) {
@@ -39,9 +38,9 @@ class ListShop extends Component {
     this.state = {
       dropdownSplitOpen: false,
       modalOpen: false,
-      modalOpenValue:false,
+      modalOpenValue: false,
       lastChecked: null,
-      shops:[],
+      shops: [],
       displayOptionsIsOpen: false
     };
   }
@@ -59,7 +58,7 @@ class ListShop extends Component {
     const query = fetchShops();
     client(query)
       .then(res => {
-        console.log("resss shop",res)
+        console.log("resss shop", res);
         this.setState({
           shops: res.data.shop
         });
@@ -87,8 +86,6 @@ class ListShop extends Component {
       selectedItem: item
     });
   };
-
-
 
   toggleSplit = () => {
     this.setState(prevState => ({
@@ -175,10 +172,10 @@ class ListShop extends Component {
 
     const { messages } = this.props.intl;
 
-    const { modalOpen,shops,modalOpenValue } = this.state;
+    const { modalOpen, shops, modalOpenValue } = this.state;
     return (
       <Fragment>
-        <Row >
+        <Row>
           <Colxx xxs="12">
             <div className="mb-2">
               <h1>
@@ -186,14 +183,14 @@ class ListShop extends Component {
               </h1>
               {loading && (
                 <div className="text-zero top-right-button-container">
-                  {/* <Button
+                  <Button
                     color="primary"
                     size="lg"
                     className="top-right-button"
                     onClick={this.toggleModal}
                   >
                     <IntlMessages id="todo.add-new" />
-                  </Button>{" "} */}
+                  </Button>{" "}
                   {/* <ButtonDropdown
                     isOpen={this.state.dropdownSplitOpen}
                     toggle={this.toggleSplit}
@@ -237,52 +234,6 @@ class ListShop extends Component {
               <Breadcrumb match={this.props.match} />
             </div>
 
-            {/* <div className="mb-2">
-              <Button
-                color="empty"
-                className="pt-0 pl-0 d-inline-block d-md-none"
-                onClick={this.toggleDisplayOptions}
-              >
-                <IntlMessages id="todo.display-options" />{" "}
-                <i className="simple-icon-arrow-down align-middle" />
-              </Button>
-              <Collapse
-                id="displayOptions"
-                className="d-md-block"
-                isOpen={this.state.displayOptionsIsOpen}
-              >
-                <div className="d-block mb-2 d-md-inline-block">
-                  <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
-                    <DropdownToggle caret color="outline-dark" size="xs">
-                      <IntlMessages id="todo.orderby" />
-                      {orderColumn ? orderColumn.label : ""}
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      {orderColumns.map((o, index) => {
-                        return (
-                          <DropdownItem
-                            key={index}
-                            onClick={() => this.changeOrderBy(o.column)}
-                          >
-                            {o.label}
-                          </DropdownItem>
-                        );
-                      })}
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                  <div className="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
-                    <input
-                      type="text"
-                      name="keyword"
-                      id="search"
-                      placeholder={messages["menu.search"]}
-                      defaultValue={searchKeyword}
-                      onKeyPress={e => this.handleKeyPress(e)}
-                    />
-                  </div>
-                </div>
-              </Collapse>
-            </div> */}
             <Separator className="mb-5" />
             <Row>
               {loading ? (
@@ -304,15 +255,21 @@ class ListShop extends Component {
           </Colxx>
         </Row>
         {this.state.selectedItem && (
-            <ViewShopModal
-              modalOpenValue={modalOpenValue}
-              toggleModalValue={this.handleClose}
-              shops={this.state.selectedItem}
-              onClose={this.handleClose}
-            />
-          )}
+          <ViewShopModal
+            modalOpenValue={modalOpenValue}
+            toggleModalValue={this.handleClose}
+            shops={this.state.selectedItem}
+            onClose={this.handleClose}
+            reloadShopList={this.fetchShops}
+          />
+        )}
         {/* {loading && <TodoApplicationMenu />} */}
-        <AddNewShop toggleModal={this.toggleModal} modalOpen={modalOpen} />
+        <AddNewShop
+          toggleModal={this.toggleModal}
+          modalOpen={modalOpen}
+          onClose={this.handleClose}
+          reloadShopList={this.fetchShops}
+        />
       </Fragment>
     );
   }

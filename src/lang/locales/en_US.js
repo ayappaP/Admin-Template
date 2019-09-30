@@ -192,9 +192,22 @@ module.exports = {
    /* orders */
    "order.add.name": "Add new Order",
 
-    /* orders */
+    /* shops */
     "shop.add.name": "Add new Shop",
     "shop.update": "Update Shop",
+    "shop.name": "Shop Name",
+    "shop.address": "Address",
+    "shop.addressRoad": "Address-Road",
+    "shop.addressTown": "Address-Town",
+    "shop.addressNumber": "Address-Number",
+    "shop.addressPostCode": "Address-PostCode",
+    "shop.contact": "Contact",
+    "shop.contactName": "Contact name",
+    "shop.contactNumber": "Contact number",
+    "shop.businessHours": "Business Hours",
+    "shop.coverage": "Coverage",
+    "shop.code": "Shop Code",
+
   /* 04.Dashboards */
   "dashboards.pending-orders": "Pending Orders",
   "dashboards.completed-orders": "Completed Orders",
