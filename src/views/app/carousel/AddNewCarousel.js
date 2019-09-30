@@ -7,12 +7,14 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Form,
   Input,
   Label
 } from "reactstrap";
 import Select from "react-select";
 import CustomSelectInput from "../../../components/common/CustomSelectInput";
 import IntlMessages from "../../../helpers/IntlMessages";
+import { Formik } from 'formik'
 
 import { addTodoItem } from "../../../redux/actions";
 
@@ -33,7 +35,22 @@ class AddNewCarousel extends Component {
   }
 
   addNewCarousel = (e) => {
-    // const file = e.target.files[0];
+    const file = e.target.files[0];
+    const url =
+      "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/uploadCarosuel";
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      body: file,
+      // header: {
+      //   // "Access-Control-Allow-Origin": "*"
+      // }
+    })
+      .then(res => res.json())
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err))
+
+    // console.log(file)
     // Storage.put(file.name, file, {
     //   contentType: 'image/png',
     // })
@@ -71,17 +88,21 @@ class AddNewCarousel extends Component {
         <ModalHeader toggle={toggleModal}>
           <IntlMessages id="carousel.title" />
         </ModalHeader>
-        <ModalBody>
-          <Label className="mt-4">
-            <IntlMessages id="carousel.alt" />
-          </Label>
-          <Input />
-          <Label className="mt-4">
-            <IntlMessages id="carousel.UploadImage" />
-          </Label>
-          <Input type="file" onChange={(e) => this.addNewCarousel(e)} />
+        <Formik initialValues={{ alt: '', imageUrl: '' }}
+          onSubmit={(values) => console.log(values)}>
+          {props =>
+            <Form onSubmit={props.handleSubmit}>
+              <ModalBody>
+                <Label className="mt-4">
+                  <IntlMessages id="carousel.alt" />
+                </Label>
+                <Input type='text' />
+                <Label className="mt-4">
+                  <IntlMessages id="carousel.UploadImage" />
+                </Label>
+                <Input type="file" onChange={(e) => this.addNewCarousel(e)} />
 
-          {/* <Label className="mt-4">
+                {/* <Label className="mt-4">
             <IntlMessages id="todo.category" />
           </Label>
           <Select
@@ -146,15 +167,19 @@ class AddNewCarousel extends Component {
               });
             }}
           /> */}
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" outline onClick={toggleModal}>
-            <IntlMessages id="todo.cancel" />
-          </Button>
-          <Button color="primary" onClick={() => this.addNewCarousel()}>
-            <IntlMessages id="todo.submit" />
-          </Button>{" "}
-        </ModalFooter>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" outline onClick={toggleModal}>
+                  <IntlMessages id="todo.cancel" />
+                </Button>
+                <Button type='submit' color="primary"
+                //  onClick={() => this.addNewCarousel()}
+                >
+                  <IntlMessages id="todo.submit" />
+                </Button>{" "}
+              </ModalFooter>
+            </Form>}
+        </Formik>
       </Modal>
     );
   }
