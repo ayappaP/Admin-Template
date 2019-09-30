@@ -11,13 +11,16 @@ import {
   Label,
   Form
 } from "reactstrap";
-import Select from "react-select";
-import CustomSelectInput from "../../../components/common/CustomSelectInput";
+import fetchCategoryName from "../../../queries/fetchCategoryName";
 import IntlMessages from "../../../helpers/IntlMessages";
-import { Formik } from 'formik'
+import { Formik } from "formik";
 import addProduct from "../../../queries/addProduct";
 import client from "../../../queries/client";
 import { addTodoItem } from "../../../redux/actions";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
+import Switch from "rc-switch";
+import "rc-switch/assets/index.css";
 
 
 class AddNewProduct extends Component {
@@ -30,8 +33,12 @@ class AddNewProduct extends Component {
       label: {},
       labelColor: "",
       category: {},
-      status: "PENDING"
+      status: "PENDING",
+      categoryName: [],
+      selectedOption: "",
+      selectValue: ""
     };
+    this.onSelect = this.onSelect.bind(this);
   }
 
   addNetItem = () => {
@@ -54,27 +61,55 @@ class AddNewProduct extends Component {
     });
   };
 
-  submit = values => {
-    // console.log(values)
-    const query = addProduct(values);
+  componentDidMount() {
+    this.fetchCategoryName();
+  }
+
+  fetchCategoryName = () => {
+    const query = fetchCategoryName();
     client(query)
       .then(res => {
-        console.log("insert shop", res);
-        // this.setState({
-        //   shops: res.data.shop
-        // });
-        // this.props.reloadShopList()
-        // this.props.onClose()
+        console.log("cat name", res);
+        this.setState({ categoryName: res.data.category });
       })
       .catch(error => {
         console.log(error);
       });
   };
 
+  onSelect(option) {
+    const selectedOption = option.label;
+    const selectedValue = option.value;
+    this.setState({
+      selectValue: selectedValue,
+      selectedOption: selectedOption
+    });
+  }
+
+  submit = values => {
+    console.log(values);
+    const query = addProduct(values);
+    client(query)
+      .then(res => {
+        console.log("insert prod", res);
+        this.props.reloadProductList();
+        this.props.onClose();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   render() {
     const { labels, categories } = this.props.todoApp;
     const { modalOpen, toggleModal } = this.props;
+    const { categoryName } = this.state;
+
+    const listCategory = categoryName.map(category => ({
+      value: category.categoryId,
+      label: category.name
+    }));
+
     return (
       <Modal
         isOpen={modalOpen}
@@ -86,47 +121,154 @@ class AddNewProduct extends Component {
           <IntlMessages id="product.new" />
         </ModalHeader>
         <Formik
-          initialValues={{ productName: '', description: '', price: '', unitWeight: '', category: '' }}
+          initialValues={{
+            category: "",
+            categoryId: "",
+            brand: "",
+            distributor: "",
+            productName: "",
+            description: "",
+            price: "",
+            offerPrice: "",
+            wholeSalePrice: "",
+            unitWeight: "",
+            offerProduct: false,
+            sellable: false
+          }}
           onSubmit={val => this.submit(val)}
-        >{props => <Form onSubmit={props.handleSubmit}>
-          <ModalBody>
-            <Label className="mt-4">
-              <IntlMessages id="product.name" />
-            </Label>
-            <Input name='productName' type='text' value={props.values.productName}
-              onChange={props.handleChange} />
-            <Label className="mt-4">
-              <IntlMessages id="product.description" />
-            </Label>
-            <Input name='description' type='text' value={props.values.description}
-              onChange={props.handleChange} />
-            <Label className="mt-4">
-              <IntlMessages id="product.price" />
-            </Label>
-            <Input name='price' type='text' value={props.values.price}
-              onChange={props.handleChange} />
-            <Label className="mt-4">
-              <IntlMessages id="product.unitWeight" />
-            </Label>
-            <Input name='unitWeight' type='text' value={props.values.unitWeight}
-              onChange={props.handleChange} />
-            <Label className="mt-4">
-              <IntlMessages id="product.categoryName" />
-            </Label>
-            <Input name='category' type='text' value={props.values.category}
-              onChange={props.handleChange} />
-          </ModalBody>
-          <ModalFooter>
-            <Button color="secondary" outline onClick={toggleModal}>
-              <IntlMessages id="todo.cancel" />
-            </Button>
-            <Button type='submit' color="primary"
-            // onClick={() => this.addNetItem()}
-            >
-              <IntlMessages id="todo.submit" />
-            </Button>{" "}
-          </ModalFooter>
-        </Form>}</Formik>
+        >
+          {props => (
+            <Form onSubmit={props.handleSubmit}>
+              <ModalBody>
+                <Label className="mt-4">
+                  <IntlMessages id="product.categoryName" />
+                </Label>
+                <Dropdown
+                  name="category"
+                  options={listCategory}
+                  value={props.values.categoryId}
+                  onChange={selected => {
+                    props.setFieldValue("category", selected.label);
+                    props.setFieldValue("categoryId", selected.value);
+                  }}
+                  placeholder="Select Category"
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="Brand" />
+                </Label>
+                <Input
+                  name="brand"
+                  type="text"
+                  value={props.values.brand}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="Distributor" />
+                </Label>
+                <Input
+                  name="distributor"
+                  type="text"
+                  value={props.values.distributor}
+                  onChange={props.handleChange}
+                />
+
+                <Label className="mt-4">
+                  <IntlMessages id="product.name" />
+                </Label>
+                <Input
+                  name="productName"
+                  type="text"
+                  value={props.values.productName}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="product.description" />
+                </Label>
+                <Input
+                  name="description"
+                  type="text"
+                  value={props.values.description}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="product.price" />
+                </Label>
+                <Input
+                  name="price"
+                  type="text"
+                  value={props.values.price}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="Offer Product" />
+                </Label>
+                <Switch
+                  name="offerProduct"
+                  className="custom-switch custom-switch-primary"
+                  onChange={checked =>
+                    props.setFieldValue("offerProduct", checked)
+                  }
+                  checked={props.values.offerProduct}
+                />
+
+                {props.values.offerProduct == true ? (
+                  <div>
+                    <Label className="mt-4">
+                      <IntlMessages id="Offer price" />
+                    </Label>
+                    <Input
+                      name="offerPrice"
+                      type="text"
+                      value={props.values.offerPrice}
+                      onChange={props.handleChange}
+                    />
+                  </div>
+                ) : null}
+                <Label className="mt-4">
+                  <IntlMessages id="Wholesale Price" />
+                </Label>
+                <Input
+                  name="wholeSalePrice"
+                  type="text"
+                  value={props.values.wholeSalePrice}
+                  onChange={props.handleChange}
+                />
+
+                <Label className="mt-4">
+                  <IntlMessages id="product.unitWeight" />
+                </Label>
+                <Input
+                  name="unitWeight"
+                  type="text"
+                  value={props.values.unitWeight}
+                  onChange={props.handleChange}
+                />
+                <Label className="mt-4">
+                  <IntlMessages id="Sellable" />
+                </Label>
+
+                <Switch
+                  name="sellable"
+                  className="custom-switch custom-switch-primary"
+                  onChange={checked => props.setFieldValue("sellable", checked)}
+                  checked={props.values.sellable}
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" outline onClick={toggleModal}>
+                  <IntlMessages id="todo.cancel" />
+                </Button>
+                <Button
+                  type="submit"
+                  color="primary"
+                  // onClick={() => this.addNetItem()}
+                >
+                  <IntlMessages id="todo.submit" />
+                </Button>{" "}
+              </ModalFooter>
+            </Form>
+          )}
+        </Formik>
       </Modal>
     );
   }

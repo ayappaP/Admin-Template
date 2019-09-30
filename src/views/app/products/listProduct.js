@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Row,Button } from "reactstrap";
+import { Row, Button } from "reactstrap";
 import { Auth } from "aws-amplify";
 import axios from "axios";
 import client from "../../../queries/client";
@@ -11,13 +11,13 @@ import ProductListView from "./productListView";
 import Breadcrumb from "../../../containers/navs/Breadcrumb";
 import IntlMessages from "../../../helpers/IntlMessages";
 import { injectIntl } from "react-intl";
-import Pagination from "../../app/products/Pagination"
+import Pagination from "../../app/products/Pagination";
 import ContextMenuContainer from "../../../containers/pages/ContextMenuContainer";
 import UserListPageHeading from "../../../containers/pages/UserListPageHeading";
 import ImageListView from "../../../containers/pages/ImageListView";
 import ThumbListView from "../../../containers/pages/ThumbListView";
-import ViewProductModal from "./ViewProductModal"
-import AddNewProduct from "./AddNewProduct"
+import ViewProductModal from "./ViewProductModal";
+import AddNewProduct from "./AddNewProduct";
 import AddNewUser from "../../../containers/pages/AddNewUser";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import gql from "graphql-tag";
@@ -54,7 +54,7 @@ class ListProduct extends Component {
       selectedOrderOption: { column: "title", label: "Product Name" },
       dropdownSplitOpen: false,
       modalOpen: false,
-      modalOpenValue:false,
+      modalOpenValue: false,
       currentPage: 1,
       totalItemCount: 0,
       totalPage: 1,
@@ -66,7 +66,7 @@ class ListProduct extends Component {
     };
   }
   componentDidMount() {
-     this.dataListRender();
+    this.dataListRender();
     this.mouseTrap.bind(["ctrl+a", "command+a"], () =>
       this.handleChangeSelectAll(false)
     );
@@ -80,32 +80,32 @@ class ListProduct extends Component {
     this.fetchProducts();
   }
 
-  fetchTotalCount = ()=>{
-     // Fetch all products
-     const countQuery = allProductsCount();
-     client(countQuery)
-       .then(res => {
-         // console.log("all products", res);
-         const total = res.data.product ? res.data.product.length: 0;
-         this.setState({
-           totalItemCount: total,
-           totalPage: Math.round(total / 10),
-           isLoading: true
-         });
-       })
-       .catch(error => {
-         console.log(error);
-       });
-  }
+  fetchTotalCount = () => {
+    // Fetch all products
+    const countQuery = allProductsCount();
+    client(countQuery)
+      .then(res => {
+        // console.log("all products", res);
+        const total = res.data.product ? res.data.product.length : 0;
+        this.setState({
+          totalItemCount: total,
+          totalPage: Math.round(total / 10),
+          isLoading: true
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   fetchProducts = () => {
-    const {currentPage, totalItemCount, totalPage} = this.state;
-    const offset = (currentPage-1) * 10;
+    const { currentPage, totalItemCount, totalPage } = this.state;
+    const offset = (currentPage - 1) * 10;
 
     const query = fetchProducts(offset);
     client(query)
       .then(res => {
-        // console.log("res products", res);
+        console.log("res products", res);
         this.setState({
           products: res.data.product
         });
@@ -135,7 +135,7 @@ class ListProduct extends Component {
     });
   };
   handleClose = () => {
-    this.setState({ modalOpenValue: false, selectedProduct: null });
+    this.setState({ modalOpenValue: false,modalOpen: false, selectedProduct: null });
   };
 
   changeOrderBy = column => {
@@ -324,8 +324,7 @@ class ListProduct extends Component {
       <div className="loading" />
     ) : (
       <Fragment>
-       
-         <Row>
+        <Row>
           <Colxx xxs="12">
             <div className="mb-2">
               <h1>
@@ -352,52 +351,45 @@ class ListProduct extends Component {
                 products &&
                 products.map((products, index) => (
                   <ProductListView
-          key={products.id}
-          products={products}
-          toggleModalValue={() => this.toggleModalValue(products)}
-          isSelect={this.state.selectedItems.includes(products.id)}
-          onCheckItem={this.onCheckItem}
-          collect={collect}
-          toggleModal={() => this.toggleModal(products)}
-          order={this.state.selectedOrder}
-        />
-        
+                    key={products.id}
+                    products={products}
+                    toggleModalValue={() => this.toggleModalValue(products)}
+                    isSelect={this.state.selectedItems.includes(products.id)}
+                    onCheckItem={this.onCheckItem}
+                    collect={collect}
+                    toggleModal={() => this.toggleModal(products)}
+                    order={this.state.selectedOrder}
+                  />
                 ))
               ) : (
                 <div className="loading" />
               )}
-         
             </Row>
-        
           </Colxx>
-          
         </Row>
-{this.state.selectedProduct && (
-  <ViewProductModal
-    modalOpenValue={modalOpenValue}
-    toggleModalValue={this.toggleModalValue}
-    product={this.state.selectedProduct}
-    onClose={this.handleClose}
-  />
-  )}
-      <Pagination
-        currentPage={this.state.currentPage}
-        totalPage={this.state.totalPage}
-        onChangePage={i => this.onChangePage(i)}
-      />
-  
-  
-  <AddNewProduct toggleModal={this.toggleModal} modalOpen={modalOpen} />
- 
+        {this.state.selectedProduct && (
+          <ViewProductModal
+            modalOpenValue={modalOpenValue}
+            toggleModalValue={this.toggleModalValue}
+            product={this.state.selectedProduct}
+            reloadProductList={this.fetchProducts}
+            onClose={this.handleClose}
+          />
+        )}
+        <Pagination
+          currentPage={this.state.currentPage}
+          totalPage={this.state.totalPage}
+          onChangePage={i => this.onChangePage(i)}
+        />
 
+        <AddNewProduct
+          toggleModal={this.toggleModal}
+          modalOpen={modalOpen}
+          reloadProductList={this.fetchProducts}
+          onClose={this.handleClose}
+        />
       </Fragment>
-       
-        
     );
-  
-    
   }
- 
-
 }
 export default ListProduct;
