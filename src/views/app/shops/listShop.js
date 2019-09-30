@@ -134,7 +134,7 @@ class ListShop extends Component {
     return;
   };
   handleClose = () => {
-    this.setState({ modalOpenValue: false, selectedItem: null });
+    this.setState({ modalOpenValue: false,modalOpen:false, selectedItem: null });
   };
   handleChangeSelectAll = () => {
     if (this.props.todoApp.loading) {
@@ -259,7 +259,7 @@ class ListShop extends Component {
             modalOpenValue={modalOpenValue}
             toggleModalValue={this.handleClose}
             shops={this.state.selectedItem}
-            onClose={this.handleClose}
+            onClose={this.handleClose}  
             reloadShopList={this.fetchShops}
           />
         )}

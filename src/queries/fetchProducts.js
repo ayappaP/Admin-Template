@@ -3,19 +3,22 @@ export default (offset) => {
     const query = `
     query fetchProducts
     {
-        product(offset: ${offset}, order_by: {id: asc_nulls_first}, limit: 10){
-          brand
-          imageUrl
-          categoryName
-          englishName
+      product(offset: ${offset}, order_by: {id: asc_nulls_first}, limit: 10){
           id
-          price
-          unitWeight
-          unitPrice
-          offerPrice
+          categoryName
+          categoryId
+          brand
+          distributor
+          englishName
+          description                  
+          price 
           offerProduct
-          description
+          offerPrice
+          wholesalePrice
+          unitWeight
+          sellable
         }
       }`;
     return { query: query };
   };
+
