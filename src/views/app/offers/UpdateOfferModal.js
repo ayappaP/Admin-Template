@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Formik } from 'formik'
 import {
   CustomInput,
   Button,
@@ -12,19 +11,19 @@ import {
   Input,
   Label
 } from "reactstrap";
+import moment from "moment";
+import Select from "react-select";
+import client from "../../../queries/client";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-//import updateOffer from "../../queries/updateOffer";
-import client from "../../../queries/client";
-import addOffer from "../../../queries/addOffer";
-import Select from "react-select";
 import CustomSelectInput from "../../../components/common/CustomSelectInput";
 import IntlMessages from "../../../helpers/IntlMessages";
+import updateOffer from "../../../queries/updateOffer";
 
 import { addTodoItem } from "../../../redux/actions";
+import { Formik } from 'formik'
 
-
-class AddNewCarousel extends Component {
+class UpdateOfferModal extends Component {
   constructor(props) {
     super(props);
 
@@ -34,33 +33,25 @@ class AddNewCarousel extends Component {
       label: {},
       labelColor: "",
       category: {},
-      status: "PENDING",
-       startDateLabelTop:null,
-       startDate: null,
-       endDate: null
+      status: "PENDING"
     };
   }
   submit = (values) => {
     console.log("submitted",values)
-    
-      const query = addOffer(values);
+    const {offerTitle,startDate,endDate}= values;
+      const query = updateOffer(this.props.offer.id,offerTitle,startDate,endDate);
       client(query)
         .then(res => {
-          console.log("res offer insert",res)
+          console.log("res offer update",res)
+          this.props.refetchOfferList();
+          this.props.onClose();
         })
         .catch(error => {
           console.log(error);
         });
+      }
 
-         
-        
-  }
-
-  handleChangeLabelTop = selectedOptionLabelTop => {
-    this.setState({ selectedOptionLabelTop });
-  };
-    
-  addNetItem =() => {
+  addNetItem = () => {
     const newItem = {
       title: this.state.title,
       detail: this.state.detail,
@@ -80,12 +71,13 @@ class AddNewCarousel extends Component {
     });
   };
 
+ 
   render() {
-    const { labels, categories,onClose } = this.props.todoApp;
-    const { modalOpen, toggleModal } = this.props;
+    // const { labels, categories } = this.props.todoApp;
+    const { modalOpenValue, toggleModal, offer,onClose} = this.props;
     return (
       <Modal
-        isOpen={modalOpen}
+        isOpen={modalOpenValue}
         toggle={toggleModal}
         wrapClassName="modal-right"
         backdrop="static"
@@ -93,7 +85,7 @@ class AddNewCarousel extends Component {
         <ModalHeader toggle={toggleModal}>
           <IntlMessages id="offer.new" />
         </ModalHeader>
-        <Formik initialValues={{ offerTitle: '', startDate: null, endDate: null }}
+        <Formik initialValues={{ offerTitle: offer.offerTitle, startDate: moment (offer.startDate), endDate:moment(offer.endDate) }}
           onSubmit={(val) => this.submit(val)}>
           {props =>
             <Form onSubmit={props.handleSubmit}>
@@ -114,16 +106,7 @@ class AddNewCarousel extends Component {
                       selected={props.values.startDate}
                       onChange={(selectedDate)=>{props.setFieldValue("startDate", selectedDate)}}
                     />
-                {/* <Input
-                 // type='tel'
-                  name="startDate"
-                  value={props.values.startDate}
-                  onChange={props.handleChange}
-                /> */}
-                {/* <Label className="mt-4">
-            <IntlMessages id="pages.user-password" />
-          </Label>
-          <Input /> */}
+              
            <Label className="mt-4">
                   <IntlMessages id="offer.endDate" />
                 </Label>
@@ -132,12 +115,7 @@ class AddNewCarousel extends Component {
                       selected={props.values.endDate}
                       onChange={(selectedDate)=>{props.setFieldValue("endDate",selectedDate)}}
                     />
-                {/* <Input
-                 // type='tel'
-                  name="endDate"
-                  value={props.values.endDate}
-                  onChange={props.handleChange}
-                /> */}
+               
                 </ModalBody>
                 <ModalFooter>
                 <Button color="secondary" outline onClick={onClose}>
@@ -149,56 +127,20 @@ class AddNewCarousel extends Component {
                   disabled={props.isSubmitting}
                 // onClick={props.handleSubmit}
                 >
-                  <IntlMessages id="pages.submit" />
+                  <IntlMessages id="offer.update" />
                 </Button>{" "}
         </ModalFooter>
-{/* 
-                <ModalFooter>
-                <Button color="secondary" outline onClick={onClose}>
-                  <IntlMessages id="pages.cancel" />
-                </Button>
-                <Button
-                  type='submit'
-                  color="primary"
-                  disabled={props.isSubmitting}
-                // onClick={props.handleSubmit}
-                >
-                  <IntlMessages id="pages.submit" />
-                </Button>{" "}
-              </ModalFooter> */}
+
+              
             </Form>
           }
         </Formik>
 
-{/*         
-        <ModalBody>
-        <Label className="mt-4">
-            <IntlMessages id="offer.title" />
-          </Label>
-          <Input />
-          <Label className="mt-4">
-            <IntlMessages id="offer.startDate" />
-          </Label>
-          <Input />
-          <Label className="mt-4">
-            <IntlMessages id="offer.endDate" />
-          </Label>
-          <Input />
 
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" outline onClick={toggleModal}>
-            <IntlMessages id="todo.cancel" />
-          </Button>
-          <Button color="primary" onClick={() => this.addNetItem()}>
-            <IntlMessages id="todo.submit" />
-          </Button>{" "}
-        </ModalFooter> */}
       </Modal>
     );
   }
 }
-
 const mapStateToProps = ({ todoApp }) => {
   return {
     todoApp
@@ -209,4 +151,4 @@ export default connect(
   {
     addTodoItem
   }
-)(AddNewCarousel);
+)(UpdateOfferModal);

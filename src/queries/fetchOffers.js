@@ -3,6 +3,7 @@ export default (shopId) => {
     query fetchOffers
     {
         offer {
+          id
             startDate
           endDate
           offerTitle
