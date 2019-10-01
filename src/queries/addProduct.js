@@ -16,7 +16,8 @@ export default values => {
                 offerPrice: "${values.offerPrice}",
                 wholesalePrice: "${values.wholeSalePrice}",
                 unitWeight: "${values.unitWeight}",
-                sellable: "${values.sellable}"
+                sellable: "${values.sellable}",
+                imageUrl: "${values.imageUrl}"
             }) {
           returning {
                 categoryName
