@@ -64,3 +64,5 @@ build/
 
 TODO
 .history
+.env.development
+.env.production

@@ -20,11 +20,11 @@ import Amplify, { Auth } from 'aws-amplify';
 
 Amplify.configure({
   Auth: {
-    identityPoolId: "eu-west-2:1eecd4cb-f0e7-4dd3-ba8a-d72b175bb8b6",
-    region: 'eu-west-2',
-    userPoolWebClientId: '5kpqpm50q8qmbvq4aaupcl7p26',
-    userPoolId: 'eu-west-2_Mcy02qifr',
-    responseType: 'token',
+    identityPoolId: process.env.REACT_APP_AWS_IDENTITY_POOL_ID,
+    region: process.env.REACT_APP_AWS_REGION,
+    userPoolWebClientId: process.env.REACT_APP_AWS_USER_WEB_CLIENT_ID,
+    userPoolId: process.env.REACT_APP_AWS_USER_POOL_ID,
+    responseType: process.env.REACT_APP_AWS_RESPONSE_TYPE,
   },
   Storage: {
     AWSS3: {

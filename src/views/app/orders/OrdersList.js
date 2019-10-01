@@ -23,16 +23,21 @@ function collect(props) {
 }
 const apiUrl = servicePath + "/cakes/paging";
 
-const GRAPHQL_ENDPOINT = "wss://arokiya.7zero.com/v1/graphql";
+// const GRAPHQL_ENDPOINT = "wss://arokiya.7zero.com/v1/graphql";
 
-const wsclient = new SubscriptionClient(GRAPHQL_ENDPOINT, {
-  reconnect: true,
-  connectionParams: {
-    headers: {
-      "x-hasura-admin-secret": "9J8q3FCeFH63Rzqb"
+const wsclient = new SubscriptionClient(
+  process.env.REACT_APP_GATSBY_GRAPHQL_SUBSCRIPTION_ENDPOINT,
+  {
+    reconnect: true,
+    connectionParams: {
+      headers: {
+        // "x-hasura-admin-secret": "9J8q3FCeFH63Rzqb"
+        "x-hasura-admin-secret":
+          process.env.REACT_APP_GATSBY_X_HASURA_ADMIN_SECRET
+      }
     }
   }
-});
+);
 
 class Orders extends Component {
   constructor(props) {
