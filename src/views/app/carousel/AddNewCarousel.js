@@ -17,8 +17,22 @@ import IntlMessages from "../../../helpers/IntlMessages";
 import { Formik } from 'formik'
 
 import { addTodoItem } from "../../../redux/actions";
+import addCarousel from '../../../queries/addCarousel';
+import client from "../../../queries/client";
 
 import { Storage } from 'aws-amplify'
+import { NotificationManager } from "../../../components/common/react-notifications";
+
+
+const createNotification = (msg, req) => {
+  NotificationManager.primary(
+    req,
+    msg,
+    5000,
+    null,
+    null,
+  );
+}
 
 class AddNewCarousel extends Component {
   constructor(props) {
@@ -34,46 +48,51 @@ class AddNewCarousel extends Component {
     };
   }
 
-  addNewCarousel = (e) => {
+  addNewCarousel = async (e, props) => {
     const file = e.target.files[0];
+    // console.log(file)
+    const fileName = file.name;
+    const toBase64 = file => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+      // console.log(reader)
+    });
+
+    console.log(await toBase64(file));
+    const image = await toBase64(file)
     const url =
       "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/uploadCarosuel";
     fetch(url, {
       method: "POST",
       mode: "cors",
-      body: file,
-      // header: {
-      //   // "Access-Control-Allow-Origin": "*"
-      // }
+      body: JSON.stringify({
+        image: image,
+        key: fileName,
+        bucket: "www.arokiya.com/images/carousel"
+      }),
     })
       .then(res => res.json())
-      .then((response) => console.log(response))
+      .then((response) => {
+        if (response.code == 1) {
+          props.setFieldValue('imageUrl', response.Url)
+        }
+      })
       .catch((err) => console.log(err))
-
-    // console.log(file)
-    // Storage.put(file.name, file, {
-    //   contentType: 'image/png',
-    // })
-    //   .then(result => console.log('result', result))
-    //   .catch(err => console.log('err', err));
-    // const newItem = {
-    //   title: this.state.title,
-    //   detail: this.state.detail,
-    //   label: this.state.label.value,
-    //   labelColor: this.state.label.color,
-    //   category: this.state.category.value,
-    //   status: this.state.status
-    // };
-    // this.props.addTodoItem(newItem);
-    // this.props.toggleModal();
-    // this.setState({
-    //   title: "",
-    //   detail: "",
-    //   label: {},
-    //   category: {},
-    //   status: "PENDING"
-    // });
   };
+
+  onSubmit = (values) => {
+    const query = addCarousel(values)
+    client(query)
+      .then(res => {
+        console.log(res);
+        createNotification('Carousel added', 'Refresh webpage')
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   render() {
     const { labels, categories } = this.props.todoApp;
@@ -89,18 +108,18 @@ class AddNewCarousel extends Component {
           <IntlMessages id="carousel.title" />
         </ModalHeader>
         <Formik initialValues={{ alt: '', imageUrl: '' }}
-          onSubmit={(values) => console.log(values)}>
+          onSubmit={(values) => this.onSubmit(values)}>
           {props =>
             <Form onSubmit={props.handleSubmit}>
               <ModalBody>
                 <Label className="mt-4">
                   <IntlMessages id="carousel.alt" />
                 </Label>
-                <Input type='text' />
+                <Input name='alt' type='text' value={props.values.alt} onChange={props.handleChange} />
                 <Label className="mt-4">
                   <IntlMessages id="carousel.UploadImage" />
                 </Label>
-                <Input type="file" onChange={(e) => this.addNewCarousel(e)} />
+                <Input name='imageUrl' type="file" onChange={(e) => this.addNewCarousel(e, props)} />
 
                 {/* <Label className="mt-4">
             <IntlMessages id="todo.category" />
@@ -173,6 +192,7 @@ class AddNewCarousel extends Component {
                   <IntlMessages id="todo.cancel" />
                 </Button>
                 <Button type='submit' color="primary"
+                  disabled={props.isSubmitting}
                 //  onClick={() => this.addNewCarousel()}
                 >
                   <IntlMessages id="todo.submit" />
