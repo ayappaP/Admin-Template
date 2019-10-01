@@ -186,14 +186,14 @@ class ListCarousel extends Component {
               </h1>
               {loading && (
                 <div className="text-zero top-right-button-container">
-                  {/* <Button
+                  <Button
                     color="primary"
                     size="lg"
                     className="top-right-button"
                     onClick={this.toggleModal}
                   >
                     <IntlMessages id="todo.add-new" />
-                  </Button>{" "} */}
+                  </Button>{" "}
                   {/* <ButtonDropdown
                     isOpen={this.state.dropdownSplitOpen}
                     toggle={this.toggleSplit}

@@ -202,6 +202,7 @@ class AddNewShop extends Component {
               </ModalBody>
               <ModalFooter>
                 <Button
+                  type={"button"}
                   color="secondary"
                   outline
                   onClick={onClose}

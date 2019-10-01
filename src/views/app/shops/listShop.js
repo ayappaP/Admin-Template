@@ -259,7 +259,7 @@ class ListShop extends Component {
             modalOpenValue={modalOpenValue}
             toggleModalValue={this.handleClose}
             shops={this.state.selectedItem}
-            onClose={this.handleClose}  
+            onClose={this.handleClose}
             reloadShopList={this.fetchShops}
           />
         )}

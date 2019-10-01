@@ -110,7 +110,7 @@ class AddNewUser extends React.Component {
       const shopName = userRole == "Super" ? values.shopName : res.attributes["custom:shopName"];
       const data = {
         name: values.name,
-        phone: values.phone,
+        phone: `+44${values.phone}`,
         role: values.role,
         shopName: shopName,
         shopId: shopId,
@@ -132,12 +132,12 @@ class AddNewUser extends React.Component {
           createNotification('User created successfully')
           this.props.onClose();
         })
-        .catch((err) =>{
+        .catch((err) => {
           console.log(err)
-          if(err.code == "UsernameExistsException"){
-          createNotification('User already exsits',err.message)
+          if (err.code == "UsernameExistsException") {
+            createNotification('User already exsits', err.message)
           } else if (err.code == "InvalidParameterException") {
-            createNotification('Please check your phone number',err.message)
+            createNotification('Please check your phone number', err.message)
           }
         })
 
@@ -214,6 +214,7 @@ class AddNewUser extends React.Component {
                 </Label>
                 <Input
                   name="name"
+                  placeholder='Enetr staff name'
                   value={props.values.name}
                   onChange={props.handleChange}
                 />
@@ -223,6 +224,9 @@ class AddNewUser extends React.Component {
                 <Input
                   type='tel'
                   name="phone"
+                  placeholder='Enter 10-digit phone number'
+                  maxLength='10'
+                  minLength='10'
                   value={props.values.phone}
                   onChange={props.handleChange}
                 />
@@ -269,7 +273,7 @@ class AddNewUser extends React.Component {
                 <Button
                   type='submit'
                   color="primary"
-                  disabled={props.isSubmitting || !props.values.name || !props.values.phone || !props.values.role ||!props.values.shopName}
+                  disabled={props.isSubmitting || !props.values.name || !props.values.phone || !props.values.role}
                 // onClick={props.handleSubmit}
                 >
                   <IntlMessages id="pages.submit" />

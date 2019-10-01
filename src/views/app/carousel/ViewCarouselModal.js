@@ -8,13 +8,30 @@ import {
   ModalBody,
   ModalFooter,
   Input,
+  Form,
   Label
 } from "reactstrap";
 import Select from "react-select";
 import CustomSelectInput from "../../../components/common/CustomSelectInput";
 import IntlMessages from "../../../helpers/IntlMessages";
+import { Formik } from 'formik';
 
+import updateCarousel from '../../../queries/updateCarousel';
+import client from "../../../queries/client";
 import { addTodoItem } from "../../../redux/actions";
+import { __values } from "tslib";
+import { NotificationManager } from "../../../components/common/react-notifications";
+
+
+const createNotification = (msg, req) => {
+  NotificationManager.primary(
+    req,
+    msg,
+    5000,
+    null,
+    null,
+  );
+}
 
 class ViewCarouselModal extends Component {
   constructor(props) {
@@ -30,29 +47,53 @@ class ViewCarouselModal extends Component {
     };
   }
 
-  editCarousel = () => {
-    // const newItem = {
-    //   title: this.state.title,
-    //   detail: this.state.detail,
-    //   label: this.state.label.value,
-    //   labelColor: this.state.label.color,
-    //   category: this.state.category.value,
-    //   status: this.state.status
-    // };
-    // this.props.addTodoItem(newItem);
-    // this.props.toggleModal();
-    // this.setState({
-    //   title: "",
-    //   detail: "",
-    //   label: {},
-    //   category: {},
-    //   status: "PENDING"
-    // });
+  editCarousel = async (e, props, carousel) => {
+    const file = e.target.files[0];
+    const toBase64 = file => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+
+    // console.log(await toBase64(file));
+    const image = await toBase64(file)
+    const fileName = carousel.imageUrl.split('carousel/')
+    const url =
+      "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/uploadCarosuel";
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify({
+        image: image,
+        key: fileName[1],
+        bucket: "www.arokiya.com/images/carousel"
+      }),
+    })
+      .then(res => res.json())
+      .then((response) => {
+        if (response.code == 1) {
+          props.setFieldValue('imageUrl', response.Url)
+        }
+      })
+      .catch((err) => console.log(err))
   };
+
+  onSubmit = (values, carousel) => {
+    const query = updateCarousel(values, carousel);
+    client(query)
+      .then(res => {
+        console.log(res);
+        createNotification('Carousel updated successFully', 'Refresh webpage')
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   render() {
     const { labels, categories } = this.props.todoApp;
-    const { toggleModalValue, toggleModal, carousel, onClose,modalOpenValue } = this.props;
+    const { toggleModalValue, toggleModal, carousel, onClose, modalOpenValue } = this.props;
     console.log("modal", carousel);
     return (
       <Modal
@@ -64,26 +105,32 @@ class ViewCarouselModal extends Component {
         <ModalHeader toggle={toggleModalValue}>
           <IntlMessages id="carousel.update" />
         </ModalHeader>
-        <ModalBody>
-          <Label className="mt-4">
-            <IntlMessages id="carousel.alt" />
-          </Label>
-          <Input value={carousel.alt} />
-          <Label className="mt-4">
-            <IntlMessages id="carousel.image" />
-          </Label>
-          <img
-            style={{ width: "100%" }}
-            src={carousel.imageUrl}
-            alt={carousel.alt}
-          />
+        <Formik
+          initialValues={{ alt: '', imageUrl: '', index: carousel.index }}
+          onSubmit={(val) => this.onSubmit(val, carousel)}
+        >
+          {props =>
+            <Form onSubmit={props.handleSubmit}>
+              <ModalBody>
+                <Label className="mt-4">
+                  <IntlMessages id="carousel.alt" />
+                </Label>
+                <Input name='alt' type='text' placeholder={carousel.alt} value={props.values.alt} onChange={props.handleChange} />
+                <Label className="mt-4">
+                  <IntlMessages id="carousel.image" />
+                </Label>
+                <img
+                  style={{ width: "100%" }}
+                  src={carousel.imageUrl}
+                  alt={carousel.alt}
+                />
 
-          <Label className="mt-4">
-            <IntlMessages id="carousel.UploadImage" />
-          </Label>
-          <Input type="file" />
+                <Label className="mt-4">
+                  <IntlMessages id="carousel.UploadImage" />
+                </Label>
+                <Input type="file" name='imageUrl' onChange={(e) => this.editCarousel(e, props, carousel)} />
 
-          {/* <Label className="mt-4">
+                {/* <Label className="mt-4">
             <IntlMessages id="todo.category" />
           </Label>
           <Select
@@ -148,15 +195,17 @@ class ViewCarouselModal extends Component {
               });
             }}
           /> */}
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" outline onClick={onClose}>
-            <IntlMessages id="todo.cancel" />
-          </Button>
-          <Button color="primary" onClick={() => this.editCarousel()}>
-            <IntlMessages id="todo.submit" />
-          </Button>{" "}
-        </ModalFooter>
+              </ModalBody>
+              <ModalFooter>
+                <Button type='button' color="secondary" outline onClick={onClose}>
+                  <IntlMessages id="todo.cancel" />
+                </Button>
+                <Button type='submit' color="primary" disabled={props.isSubmitting} >
+                  <IntlMessages id="todo.submit" />
+                </Button>{" "}
+              </ModalFooter>
+            </Form>}
+        </Formik>
       </Modal>
     );
   }

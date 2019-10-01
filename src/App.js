@@ -26,12 +26,12 @@ Amplify.configure({
     userPoolId: 'eu-west-2_Mcy02qifr',
     responseType: 'token',
   },
-  // Storage: {
-  //   AWSS3: {
-  //     bucket: 'www.arokiya.com/images/carousel',
-  //     region: 'eu-west-2',
-  //   }
-  // }
+  Storage: {
+    AWSS3: {
+      bucket: 'www.arokiya.com',
+      region: 'eu-west-2',
+    }
+  }
 });
 
 

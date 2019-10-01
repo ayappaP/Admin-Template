@@ -27,7 +27,7 @@ const UserLogin = (values, props, setOtp, setUser) => {
   // props.loginUser(values, props, setOtp, setUser)
   const { phone, password } = values;
   Auth.signIn({
-    username: phone,
+    username: `+44${phone}`,
     password
   })
     .then((user) => {
@@ -37,7 +37,7 @@ const UserLogin = (values, props, setOtp, setUser) => {
       setUser(user)
     })
     .catch((err) => {
-      // console.log(err)
+      console.log(err)
       if (err.code == "UserNotFoundException") {
         createNotification('User is not valid', 'Enter valid phone number')
       }
@@ -116,7 +116,7 @@ const Login = (props) => {
                 {props => (
                   <Form onSubmit={props.handleSubmit}>
                     <Label className="form-group has-float-label mb-4">
-                      <Input required id="phone" name='phone' type="tel" onChange={props.handleChange} value={props.values.phone} />
+                      <Input required id="phone" name='phone' placeholder='Enter 10-digit phone number' type="tel" onChange={props.handleChange} value={props.values.phone} />
                       <IntlMessages id="user.phone" />
                     </Label>
 
