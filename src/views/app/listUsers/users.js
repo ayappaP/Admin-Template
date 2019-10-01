@@ -14,8 +14,8 @@ import ImageListView from "../../../containers/pages/ImageListView";
 import ThumbListView from "../../../containers/pages/ThumbListView";
 import AddNewUser from "../../../containers/pages/AddNewUser";
 import ViewUserModal from "./ViewUserModal";
-import { SubscriptionClient } from "subscriptions-transport-ws";
-import gql from "graphql-tag";
+//import { SubscriptionClient } from "subscriptions-transport-ws";
+// import gql from "graphql-tag";
 
 function collect(props) {
   return { data: props.data };

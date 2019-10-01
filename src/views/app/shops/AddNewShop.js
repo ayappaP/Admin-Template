@@ -88,6 +88,7 @@ class AddNewShop extends Component {
   render() {
     const { labels, categories } = this.props.todoApp;
     const { toggleModal, modalOpen, onClose } = this.props;
+    console.log("props",onClose)
     return (
       <Modal
         isOpen={modalOpen}

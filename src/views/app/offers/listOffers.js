@@ -24,7 +24,7 @@ import {
   selectedTodoItemsChange
 } from "../../../redux/actions";
 import OfferListView from "./offerListView";
-import ViewOfferModal from "./ViewOfferModal";
+import UpdateOfferModal from "./UpdateOfferModal";
 
 import TodoApplicationMenu from "../../../containers/applications/TodoApplicationMenu";
 import client from "../../../queries/client";
@@ -199,7 +199,7 @@ class ListOffer extends Component {
 
             <Separator className="mb-5" />
             <Row>
-              {console.log("offers ", offers)}
+              {/* {console.log("offers ", offers)} */}
               {loading ? (
                 offers &&
                 offers.map((item, index) => (
@@ -220,11 +220,12 @@ class ListOffer extends Component {
           </Colxx>
         </Row>
         {this.state.selectedOffer && (
-          <ViewOfferModal
+          <UpdateOfferModal
             modalOpenValue={modalOpenValue}
             toggleModalValue={this.toggleModalValue}
             offer={this.state.selectedOffer}
             onClose={this.handleClose}
+            refetchOfferList={this.fetchOffers}
           />
         )}
 
