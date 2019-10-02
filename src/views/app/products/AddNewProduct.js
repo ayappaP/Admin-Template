@@ -21,6 +21,18 @@ import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import Switch from "rc-switch";
 import "rc-switch/assets/index.css";
+import { NotificationManager } from "../../../components/common/react-notifications";
+
+
+const createNotification = (msg, req) => {
+  NotificationManager.primary(
+    req,
+    msg,
+    5000,
+    null,
+    null,
+  );
+}
 
 
 class AddNewProduct extends Component {
@@ -86,12 +98,43 @@ class AddNewProduct extends Component {
     });
   }
 
+  addNewProduct = async (e, props) => {
+    const file = e.target.files[0];
+    const fileName = file.name;
+    const toBase64 = file => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+    const image = await toBase64(file)
+    const url =
+      "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/uploadCarosuel";
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify({
+        image: image,
+        key: fileName,
+        bucket: "www.arokiya.com/images"
+      }),
+    })
+      .then(res => res.json())
+      .then((response) => {
+        if (response.code == 1) {
+          props.setFieldValue('imageUrl', response.Url)
+        }
+      })
+      .catch((err) => console.log(err))
+  };
+
   submit = values => {
     console.log(values);
     const query = addProduct(values);
     client(query)
       .then(res => {
         console.log("insert prod", res);
+        createNotification('Success', 'New product added')
         this.props.reloadProductList();
         this.props.onClose();
       })
@@ -133,7 +176,8 @@ class AddNewProduct extends Component {
             wholeSalePrice: "",
             unitWeight: "",
             offerProduct: false,
-            sellable: false
+            sellable: false,
+            imageUrl: ''
           }}
           onSubmit={val => this.submit(val)}
         >
@@ -253,6 +297,11 @@ class AddNewProduct extends Component {
                   onChange={checked => props.setFieldValue("sellable", checked)}
                   checked={props.values.sellable}
                 />
+                <Label className="mt-4">
+                  <IntlMessages id="product.image-upload" />
+                </Label>
+                <Input type='file' name='imageUrl'
+                  onChange={(e) => this.addNewProduct(e, props)} />
               </ModalBody>
               <ModalFooter>
                 <Button color="secondary" outline onClick={toggleModal}>
@@ -261,7 +310,7 @@ class AddNewProduct extends Component {
                 <Button
                   type="submit"
                   color="primary"
-                  // onClick={() => this.addNetItem()}
+                // onClick={() => this.addNetItem()}
                 >
                   <IntlMessages id="todo.submit" />
                 </Button>{" "}

@@ -21,6 +21,19 @@ import "rc-switch/assets/index.css";
 import IntlMessages from "../../../helpers/IntlMessages";
 import { addTodoItem } from "../../../redux/actions";
 import updateProduct from "../../../queries/updateProduct";
+import { NotificationManager } from "../../../components/common/react-notifications";
+
+
+const createNotification = (msg, req) => {
+  NotificationManager.primary(
+    req,
+    msg,
+    5000,
+    null,
+    null,
+  );
+}
+
 
 class ViewCarouselModal extends Component {
   constructor(props) {
@@ -73,12 +86,45 @@ class ViewCarouselModal extends Component {
       });
   };
 
+  editproduct = async (e, props, product) => {
+    const file = e.target.files[0];
+    const toBase64 = file => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+
+    // console.log(await toBase64(file));
+    const image = await toBase64(file)
+    const fileName = product.imageUrl.split('images/')
+    const url =
+      "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/uploadCarosuel";
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify({
+        image: image,
+        key: fileName[1],
+        bucket: "www.arokiya.com/images"
+      }),
+    })
+      .then(res => res.json())
+      .then((response) => {
+        if (response.code == 1) {
+          props.setFieldValue('imageUrl', response.Url)
+        }
+      })
+      .catch((err) => console.log(err))
+  };
+
   submit = values => {
     console.log(values);
     const query = updateProduct(values);
     client(query)
       .then(res => {
         console.log("update shop", res);
+        createNotification('Succes', 'Product details updated')
         this.props.reloadProductList();
         this.props.onClose();
       })
@@ -127,7 +173,8 @@ class ViewCarouselModal extends Component {
             unitWeight: product.unitWeight,
             offerProduct: product.offerProduct,
             sellable: product.sellable,
-            productId: product.id
+            productId: product.id,
+            imageUrl: ''
           }}
           onSubmit={val => this.submit(val)}
         >
@@ -247,6 +294,11 @@ class ViewCarouselModal extends Component {
                   onChange={checked => props.setFieldValue("sellable", checked)}
                   checked={props.values.sellable}
                 />
+                <Label className="mt-4">
+                  <IntlMessages id="product.image-upload" />
+                </Label>
+                <img src={product.imageUrl} alt="Current Image" style={{ height: '100px', width: '100px' }} />
+                <Input type='file' name='imageUrl' onChange={(e) => this.editproduct(e, props, product)} />
               </ModalBody>
               <ModalFooter>
                 <Button color="secondary" outline onClick={onClose}>

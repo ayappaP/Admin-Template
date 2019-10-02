@@ -1,6 +1,6 @@
 export default (offset) => {
   console.log(offset)
-    const query = `
+  const query = `
     query fetchProducts
     {
       product(offset: ${offset}, order_by: {id: asc_nulls_first}, limit: 10){
@@ -17,8 +17,9 @@ export default (offset) => {
           wholesalePrice
           unitWeight
           sellable
+          imageUrl
         }
       }`;
-    return { query: query };
-  };
+  return { query: query };
+};
 
