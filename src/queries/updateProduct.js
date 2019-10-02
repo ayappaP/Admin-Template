@@ -1,7 +1,7 @@
 export default values => {
-    console.log("query", values);
-  
-    const query = `
+  console.log("query", values);
+
+  const query = `
       mutation {
           update_product(where: {id: {_eq: "${values.productId}"}},_set: { 
                 categoryName: "${values.category}",
@@ -15,7 +15,8 @@ export default values => {
                 offerPrice: "${values.offerPrice}",
                 wholesalePrice: "${values.wholeSalePrice}",
                 unitWeight: "${values.unitWeight}",
-                sellable: "${values.sellable}"
+                sellable: "${values.sellable}",
+                imageUrl: "${values.imageUrl}",
             }) {
             returning {
                 categoryName
@@ -34,6 +35,5 @@ export default values => {
           }
         }
         `;
-    return { query: query };
-  };
-  
+  return { query: query };
+};

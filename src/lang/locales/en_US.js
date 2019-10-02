@@ -180,6 +180,7 @@ module.exports = {
   "product.price": "Price",
   "product.unitWeight": "Unit Weight",
   "product.categoryName": "Category Name",
+  "product.image-upload": "Upload image",
 
   /* products */
   "transaction.name": "Transaction details",
@@ -189,24 +190,24 @@ module.exports = {
   "transaction.type": "Type of Transaction",
   "transaction.amount": "Amount",
 
-   /* orders */
-   "order.add.name": "Add new Order",
+  /* orders */
+  "order.add.name": "Add new Order",
 
-    /* shops */
-    "shop.add.name": "Add new Shop",
-    "shop.update": "Update Shop",
-    "shop.name": "Shop Name",
-    "shop.address": "Address",
-    "shop.addressRoad": "Address-Road",
-    "shop.addressTown": "Address-Town",
-    "shop.addressNumber": "Address-Number",
-    "shop.addressPostCode": "Address-PostCode",
-    "shop.contact": "Contact",
-    "shop.contactName": "Contact name",
-    "shop.contactNumber": "Contact number",
-    "shop.businessHours": "Business Hours",
-    "shop.coverage": "Coverage",
-    "shop.code": "Shop Code",
+  /* shops */
+  "shop.add.name": "Add new Shop",
+  "shop.update": "Update Shop",
+  "shop.name": "Shop Name",
+  "shop.address": "Address",
+  "shop.addressRoad": "Address-Road",
+  "shop.addressTown": "Address-Town",
+  "shop.addressNumber": "Address-Number",
+  "shop.addressPostCode": "Address-PostCode",
+  "shop.contact": "Contact",
+  "shop.contactName": "Contact name",
+  "shop.contactNumber": "Contact number",
+  "shop.businessHours": "Business Hours",
+  "shop.coverage": "Coverage",
+  "shop.code": "Shop Code",
 
   /* 04.Dashboards */
   "dashboards.pending-orders": "Pending Orders",
@@ -265,10 +266,10 @@ module.exports = {
   "pages.add-new": "ADD NEW",
   "pages.add-new-user": "ADD NEW USER",
   "pages.add-new-order": "ADD NEW ORDER",
-  "pages.address":"Address",
-  "pages.contact":"Contact",
-  "pages.businessHours":"BusinessHours",
-  "pages.coverage" :"coverage",
+  "pages.address": "Address",
+  "pages.contact": "Contact",
+  "pages.businessHours": "BusinessHours",
+  "pages.coverage": "coverage",
   "pages.user-name": "Name",
   "pages.user-email": "Email",
   "pages.user-phone": "Phone",

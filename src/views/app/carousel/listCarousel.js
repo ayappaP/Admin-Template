@@ -39,9 +39,9 @@ class ListCarousel extends Component {
     this.state = {
       dropdownSplitOpen: false,
       modalOpen: false,
-      modalOpen:false,
+      modalOpenValue: false,
       lastChecked: null,
-      carousel:[],
+      carousel: [],
       displayOptionsIsOpen: false
     };
   }
@@ -59,7 +59,7 @@ class ListCarousel extends Component {
     const query = fetchCarousel();
     client(query)
       .then(res => {
-        console.log("resss car",res)
+        console.log("resss car", res)
         this.setState({
           carousel: res.data.carousel
         });
@@ -137,7 +137,7 @@ class ListCarousel extends Component {
     return;
   };
   handleClose = () => {
-    this.setState({ modalOpenValue: false, selectedItem: null });
+    this.setState({ modalOpenValue: false, modalOpen: false, selectedItem: null });
   };
   handleChangeSelectAll = () => {
     if (this.props.todoApp.loading) {
@@ -175,7 +175,7 @@ class ListCarousel extends Component {
 
     const { messages } = this.props.intl;
 
-    const { modalOpen,carousel,modalOpenValue } = this.state;
+    const { modalOpen, carousel, modalOpenValue } = this.state;
     return (
       <Fragment>
         <Row >
@@ -298,21 +298,24 @@ class ListCarousel extends Component {
                   />
                 ))
               ) : (
-                <div className="loading" />
-              )}
+                  <div className="loading" />
+                )}
             </Row>
           </Colxx>
         </Row>
         {this.state.selectedItem && (
-            <ViewCarouselModal
-              modalOpenValue={modalOpenValue}
-              toggleModalValue={this.toggleModalValue}
-              carousel={this.state.selectedItem}
-              onClose={this.handleClose}
-            />
-          )}
+          <ViewCarouselModal
+            modalOpenValue={modalOpenValue}
+            toggleModalValue={this.toggleModalValue}
+            carousel={this.state.selectedItem}
+            reloadCarousel={this.fetchCarousel}
+            onClose={this.handleClose}
+          />
+        )}
         {/* {loading && <TodoApplicationMenu />} */}
-        <AddNewCarousel toggleModal={this.toggleModal} modalOpen={modalOpen} />
+        <AddNewCarousel toggleModal={this.toggleModal} modalOpen={modalOpen}
+          reloadCarousel={this.fetchCarousel}
+          onClose={this.handleClose} />
       </Fragment>
     );
   }

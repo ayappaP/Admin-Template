@@ -84,7 +84,9 @@ class ViewCarouselModal extends Component {
     client(query)
       .then(res => {
         console.log(res);
-        createNotification('Carousel updated successFully', 'Refresh webpage')
+        createNotification('Success', 'Carousel updated')
+        this.props.reloadCarousel();
+        this.props.onClose();
       })
       .catch(error => {
         console.log(error);
