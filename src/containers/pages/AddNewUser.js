@@ -214,7 +214,7 @@ class AddNewUser extends React.Component {
                 </Label>
                 <Input
                   name="name"
-                  placeholder='Enetr staff name'
+                  placeholder='Enter staff name'
                   value={props.values.name}
                   onChange={props.handleChange}
                 />
