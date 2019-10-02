@@ -21,6 +21,18 @@ import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import Switch from "rc-switch";
 import "rc-switch/assets/index.css";
+import { NotificationManager } from "../../../components/common/react-notifications";
+
+
+const createNotification = (msg, req) => {
+  NotificationManager.primary(
+    req,
+    msg,
+    5000,
+    null,
+    null,
+  );
+}
 
 
 class AddNewProduct extends Component {
@@ -104,7 +116,7 @@ class AddNewProduct extends Component {
       body: JSON.stringify({
         image: image,
         key: fileName,
-        bucket: "www.arokiya.com/newProducts"
+        bucket: "www.arokiya.com/images"
       }),
     })
       .then(res => res.json())
@@ -122,6 +134,7 @@ class AddNewProduct extends Component {
     client(query)
       .then(res => {
         console.log("insert prod", res);
+        createNotification('Success', 'New product added')
         this.props.reloadProductList();
         this.props.onClose();
       })
@@ -285,7 +298,7 @@ class AddNewProduct extends Component {
                   checked={props.values.sellable}
                 />
                 <Label className="mt-4">
-                  <IntlMessages id="Upload an image" />
+                  <IntlMessages id="product.image-upload" />
                 </Label>
                 <Input type='file' name='imageUrl'
                   onChange={(e) => this.addNewProduct(e, props)} />

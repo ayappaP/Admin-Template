@@ -87,7 +87,9 @@ class AddNewCarousel extends Component {
     client(query)
       .then(res => {
         console.log(res);
-        createNotification('Carousel added', 'Refresh webpage')
+        createNotification('Success', 'Carousel added');
+        this.props.reloadCarousel();
+        this.props.onClose();
       })
       .catch(error => {
         console.log(error);
