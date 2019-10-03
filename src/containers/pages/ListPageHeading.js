@@ -75,13 +75,13 @@ class ListPageHeading extends Component {
             </h1>
 
             <div className="text-zero top-right-button-container">
-              <Button
+              {/* <Button
                 color="primary"
                 size="lg"
                 className="top-right-button"
                 onClick={toggleModalValue}>
                 <IntlMessages id="pages.add-new-order" />
-              </Button>
+              </Button> */}
               {"  "}
               {/* <ButtonDropdown
                 isOpen={dropdownSplitOpen}
