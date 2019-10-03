@@ -134,7 +134,11 @@ class ListOffer extends Component {
     return;
   };
   handleClose = () => {
-    this.setState({ modalOpenValue: false, selectedOffer: null });
+    this.setState({
+      modalOpen: false,
+      modalOpenValue: false,
+      selectedOffer: null
+    });
   };
   handleChangeSelectAll = () => {
     if (this.props.todoApp.loading) {
@@ -229,7 +233,12 @@ class ListOffer extends Component {
           />
         )}
 
-        <AddNewOffer toggleModal={this.toggleModal} modalOpen={modalOpen} />
+        <AddNewOffer
+          toggleModal={this.toggleModal}
+          modalOpen={modalOpen}
+          onClose={this.handleClose}
+          refetchOfferList={this.fetchOffers}
+        />
       </Fragment>
     );
   }

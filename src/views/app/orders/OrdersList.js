@@ -17,6 +17,7 @@ import AddNewModal from "../../../containers/pages/AddNewModal";
 import AddNewOrder from "./AddNewOrder";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import gql from "graphql-tag";
+import { NotificationManager } from "../../../components/common/react-notifications";
 
 function collect(props) {
   return { data: props.data };
@@ -24,6 +25,10 @@ function collect(props) {
 const apiUrl = servicePath + "/cakes/paging";
 
 // const GRAPHQL_ENDPOINT = "wss://arokiya.7zero.com/v1/graphql";
+
+const createNotification = (msg, req) => {
+  NotificationManager.primary(req, msg, 5000, null, null);
+};
 
 const wsclient = new SubscriptionClient(
   process.env.REACT_APP_GATSBY_GRAPHQL_SUBSCRIPTION_ENDPOINT,
@@ -108,7 +113,8 @@ class Orders extends Component {
           if (this.startSubscription) {
             // console.log(result)
             this.showBrowserNotification();
-            this.props.changeOpenSnackBar();
+            // this.props.changeOpenSnackBar();
+            createNotification("You have new order");
             this.fetchOrders();
           } else {
             this.startSubscription = true;
@@ -328,6 +334,21 @@ class Orders extends Component {
     }
 
     return true;
+  };
+
+  showBrowserNotification = () => {
+    // if (Notification.permission != "granted") {
+    //   alert("You have a new order");
+    // }
+    console.log("notification");
+    new Notification("You have a new order", { tag: "newOrderNotification" });
+    // } else if (Notification.permission !== "denied") {
+    //     Notification.requestPermission(function (status) {
+    //         if (status === "granted") {
+    //             new Notification("You have a new order", { tag: 'newOrderNotification' })
+    //         }
+    //     });
+    // }
   };
 
   render() {
