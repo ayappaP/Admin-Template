@@ -1,68 +1,123 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Netlify Status](https://api.netlify.com/api/v1/badges/04c38603-4452-4ad5-b375-f17a80f2931d/deploy-status)](https://app.netlify.com/sites/arokiya-dashboard/deploys)
 
-## Available Scripts
+production https://backend.arokiya.com/
 
-In the project directory, you can run:
+build hook https://api.netlify.com/build_hooks/5d7bcc483c56add9dd9d3cba
 
-### `npm start`
+development https://arokiya-dashboard-backend-dev.netlify.com/
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+build hook https://api.netlify.com/build_hooks/5d7bcceb3c56addad59d3cb7
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Requirements
 
-### `npm test`
+To run this project, you’ll need to install [node 5 and above with NPM](https://nodejs.org/en/). The latest version of Node.js is recommended.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The dependencies of this project are managed with yarn (see installation guide [here](https://yarnpkg.com/en/)). However you can simply use the node package manager, npm for your dependency management.
 
-### `npm run build`
+## Setting up
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Clone this project to any folder on your local machine
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```bash
+git@github.com:rahulan/serverless-arokiya-backend.git
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Navigate into the folder name specified
 
-### `npm run eject`
+```bash
+cd serverless-arokiya-backend
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Installing Packages
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- For those who love yarn
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+yarn install
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- For those who love NPM 
 
-## Learn More
+```bash
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Run `yarn start` or `npm start` to intialize and run the webpack development server. Navigate to [http://localhost:3000/](http://localhost:3000). The app will automatically reload if you change any of the source files.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+#### Sample login
+```
+You can login with any credentials.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```
 
-### Analyzing the Bundle Size
+### App layout
+We are using a paid material ui theme, so we have components made by them in `src` folder. Whatever logic that we write for our app is under `src/app` you could take a look at the `src/app/routes` and see how the code is structured. 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+1. `src/app/app.js` :  
 
-### Making a Progressive Web App
+    Code starts running from here . Here we are  
+     - Applying dark/light theme and changing that theme based on condition.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+     - Authentication. Only Authenticated User can view main pages. For that we are using Private/ Public Route concept based on `react-router-dom`.
 
-### Advanced Configuration
+2. `src/app/layouts/index.js` :
+    
+    Here we are having main layout with Header, SideMenu, Content Components.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+    - Content components loading from routes. These routes are getting from `src/app/routes/dashboard.js`. Each Module has many routes (Create, List, Edit/ Update) so we separated with folders. All the routes then compained in dashboard main route. 
 
-### Deployment
+    - Sidemenu getting routes from `src/app/routes/sideBarRoutes.js`. If you wants to navigate from side menu then add that route to sideBarRoutes file. (refer sideBarRoutes.js for example).
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+3.  `src/app/views` :
 
-### `npm run build` fails to minify
+    - This folder contains all the modules with their features in separated module named folders.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+4. `src/graphql` :
+
+    - we separated `mutation` and `query` queries. 
+
+    - `src/graphql/mutation` has Create and Update queries in different files.
+
+    - `src/graphql/query` has get and list queries files.
+
+##### Git:
+
+- Always checkout from master. And create a new branch.
+- Commit often, push often. Even if the feature is incomplete try to push often.
+- Please do not work or push to master branch
+- Write useful commit messages. Good title and good description.
+- After few commits or at the end of day, try to rebase with the remote master. This way you will always be upto date
+  with the master branch
+
+```
+git pull --rebase origin master
+```
+
+##### Pull Request:
+
+###### Before Pull Request
+
+- [x] Squash commits if needed.
+- [x] Be up to date with master
+
+```
+git pull --rebase origin master
+```
+
+- [x] Make sure there are no errors in your tests.
+- [x] Make sure there are no errors while you do manual testing/checking.
+
+###### After
+
+- [x] Give pull request
+- [x] Look at the diff of your pull request, just skim through to find any spelling or any other error.
+- [x] Wait for some one to review your code.
+- [x] Do not merge the pull request yourself.
+
+#### Debugging or when you get stuck:
+
+- Check the code flow. Identify the exact line that causes the issue. Use console.log and debugger as possible.
+- After debugging, googling in stackoverflow, if you're stuck for hours please tell about this issue in gitlab or github repo or email.
+- You could create an issue in the repo. Tell where the issue occurs and in which scenario it fails, in which it works. And to reproduce the bug what the person should install or run or click. And what you have tried. You could also attach screenshot or stack trace of the error, anything that would help for
+  others to suggest a solution at a glance
