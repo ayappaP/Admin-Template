@@ -11,7 +11,7 @@ import ProductListView from "./productListView";
 import Breadcrumb from "../../../containers/navs/Breadcrumb";
 import IntlMessages from "../../../helpers/IntlMessages";
 import { injectIntl } from "react-intl";
-import Pagination from "../../app/products/Pagination";
+import Pagination from "./Pagination";
 import ContextMenuContainer from "../../../containers/pages/ContextMenuContainer";
 import UserListPageHeading from "../../../containers/pages/UserListPageHeading";
 import ImageListView from "../../../containers/pages/ImageListView";

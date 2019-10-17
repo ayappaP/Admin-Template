@@ -4,20 +4,17 @@ import { connect } from 'react-redux';
 
 import AppLayout from '../../layout/AppLayout';
 
-const Orders = React.lazy(() =>
-  import(/* webpackChunkName: "dashboards" */ './orders')
+const Primary = React.lazy(() =>
+  import(/* webpackChunkName: "dashboards" */ './primary')
 );
-const ListUsers = React.lazy(() =>
-  import(/* webpackChunkName: "dashboards" */ './listUsers')
+const Secondary = React.lazy(() =>
+  import(/* webpackChunkName: "dashboards" */ './secondary')
 );
-const Carousel = React.lazy(() =>
-  import(/* webpackChunkName: "dashboards" */ './carousel')
+const Organization = React.lazy(() =>
+  import(/* webpackChunkName: "dashboards" */ './organization')
 );
-const Products = React.lazy(() =>
-  import(/* webpackChunkName: "dashboards" */ './products')
-);
-const Shops = React.lazy(() =>
-  import(/* webpackChunkName: "dashboards" */ './shops')
+const User = React.lazy(() =>
+  import(/* webpackChunkName: "dashboards" */ './user')
 );
 const BlankPage = React.lazy(() =>
   import(/* webpackChunkName: "blank-page" */ './blank-page')
@@ -30,37 +27,33 @@ class App extends Component {
     return (
       <AppLayout>
         <div className="dashboard-wrapper">
-        <Suspense fallback={<div className="loading" />}>
+          <Suspense fallback={<div className="loading" />}>
             <Switch>
-            <Redirect
+              <Redirect
                 exact
                 from={`${match.url}`}
-                to={`${match.url}/orders`}
+                to={`${match.url}/primary`}
               />
               {/* <Redirect
                 exact
                 from={`${match.url}/`}
                 to={`${match.url}/dashboards`}
               /> */}
-               <Route
-                path={`${match.url}/orders`}
-                render={props => <Orders {...props} />}
+              <Route
+                path={`${match.url}/primary`}
+                render={props => <Primary {...props} />}
               />
               <Route
-                path={`${match.url}/listUsers`}
-                render={props => <ListUsers {...props} />}
+                path={`${match.url}/secondary`}
+                render={props => <Secondary {...props} />}
               />
               <Route
-                path={`${match.url}/carousel`}
-                render={props => <Carousel {...props} />}
+                path={`${match.url}/organization`}
+                render={props => <Organization {...props} />}
               />
               <Route
-                path={`${match.url}/shops`}
-                render={props => <Shops {...props} />}
-              />
-                <Route
-                path={`${match.url}/products`}
-                render={props => <Products {...props} />}
+                path={`${match.url}/user`}
+                render={props => <User {...props} />}
               />
               <Route
                 path={`${match.url}/blank-page`}
