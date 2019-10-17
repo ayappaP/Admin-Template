@@ -1,0 +1,17 @@
+service: sam-admin-otp-login
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: eu-west-1
+  environment:
+    AWS_CONFIG_REGION: "eu-west-1"
+    STAFF_TABLE_NAME: "UserTable"
+    USERPOOLID: "eu-west-1_j1w5crano"
+
+functions:
+  confirmUser:
+    handler: autoConfirmUser.confirmUser
+  createStaff:
+    handler: createStaffUser.createStaff

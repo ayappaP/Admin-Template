@@ -32,7 +32,7 @@ const UserLogin = (values, props, setOtp, setUser) => {
   })
     .then((user) => {
       createNotification('Enter OTP', 'Check your mobile')
-      // console.log(user)
+      console.log(user)
       setOtp(true)
       setUser(user)
     })

@@ -46,8 +46,8 @@ const setDetails = (values, props) => {
     attributes: {
       'name': "Super-Admin",
       'custom:role': "Super",
-      'custom:shopName': "Admin",
-      'custom:shopId': "ef2d7030-d670-48a8-ab02-d09b58c36e15",
+      // 'custom:shopName': "Admin",
+      // 'custom:shopId': "ef2d7030-d670-48a8-ab02-d09b58c36e15",
     }
   })
     .then((user) => {
