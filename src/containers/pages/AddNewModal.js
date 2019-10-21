@@ -148,9 +148,9 @@ class AddNewModal extends React.Component {
               </Label>
               <Input disabled value={primaryData.id} />
               <Label className="mt-4">
-                <IntlMessages id="pages.item" />
+                <IntlMessages id="pages.total" />
               </Label>
-              <Input value={primaryData.items[0].title}/>
+              <Input value={primaryData.total}/>
               <Label className="mt-4">
                 <IntlMessages id="pages.count" />
               </Label>
@@ -206,7 +206,7 @@ class AddNewModal extends React.Component {
               <Label className="mt-4">
                 <IntlMessages id="pages.deliveryDate" />
               </Label>
-              <Input disabled value={primaryData.deliveryDate}/>
+              <Input value={primaryData.deliveryDate}/>
               <hr />
               {/* <Select
           components={{ Input: CustomSelectInput }}
