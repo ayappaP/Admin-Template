@@ -25,11 +25,11 @@ class AddNewModal extends React.Component {
   }
 
   componentDidMount() {
-    const { order } = this.props;
-    console.log("test", order);
-    if (order && order.products && order.products.length) {
-      this.setState({ productList: order.products });
-    }
+    const { primaryData } = this.props;
+    // console.log("test", order);
+    // if (order && order.products && order.products.length) {
+      this.setState({ productList: primaryData });
+    // }
   }
 
   decrementQuantity = data => {
@@ -108,9 +108,9 @@ class AddNewModal extends React.Component {
   };
 
   render() {
-    const { modalOpen, toggleModal, categories, order, onClose } = this.props;
-    const products = this.state.productList;
-    console.log("order", order);
+    const { modalOpen, toggleModal, categories, primaryData, onClose } = this.props;
+   
+    console.log("primaryData", primaryData);
     const closeBtn = (
       <button className="close" onClick={onClose}>
         &times;
@@ -125,36 +125,38 @@ class AddNewModal extends React.Component {
         backdrop="static"
       >
         <ModalHeader toggle={toggleModal} close={closeBtn}>
-          <h3>Order Number: {order && order.reference}</h3>
+          {/* <h3>Order Number: {primaryData && primaryData.id}</h3> */}
+          Update
         </ModalHeader>
-        {order &&
-          products.map((product, index) => (
+        {/* {primaryData &&
+          products.map((product, index) => ( */}
             <ModalBody>
-              <Label>
+              {/* <Label>
                 <h4>Item({index})</h4>
               </Label>
-              <br />
+              <br /> */}
               <Label>
-                <img
+                {/* <img
                   style={{ height: 174, paddingLeft: 50 }}
                   src={order && product.imageUrl}
                   alt={order && product.imageUrl}
-                />
+                /> */}
               </Label>
               <br />
               <Label className="mt-4">
-                <IntlMessages id="pages.product-name" />
+                <IntlMessages id="pages.id" />
               </Label>
-              <Input disabled value={order && product.englishName} />
+              <Input disabled value={primaryData.id} />
               <Label className="mt-4">
-                <IntlMessages id="pages.price" />
+                <IntlMessages id="pages.item" />
               </Label>
-              <Input disabled value={order && product.price} />
+              <Input value={primaryData.items[0].title}/>
               <Label className="mt-4">
-                <IntlMessages id="pages.quantity" />
+                <IntlMessages id="pages.count" />
               </Label>
-              <br />
-              <div className="row" style={{ paddingLeft: 71 }}>
+              <Input value={primaryData.count}/>
+             
+              {/* <div className="row" style={{ paddingLeft: 71 }}>
                 <div>
                   <button
                     aria-label="Decrease Value"
@@ -162,7 +164,8 @@ class AddNewModal extends React.Component {
                     id="decrease"
                     value="Decrease Value"
                     style={{ cursor: "pointer" }}
-                    onClick={() => this.decrementQuantity(product)}
+                    // onClick={() => this.decrementQuantity(product)}
+                    onClick={() => this.decrementQuantity(primaryData.count)}
                   >
                     -
                   </button>
@@ -170,9 +173,10 @@ class AddNewModal extends React.Component {
                 <div>
                   <Input
                     style={{ height: 10, width: 50 }}
-                    value={order && product.quantity}
+                    // value={order && product.quantity}
                     onChange={e => {
-                      this.handleQuantityChange(product.id, e.target.value);
+                      // this.handleQuantityChange(product.id, e.target.value);
+                      this.handleQuantityChange(primaryData.id,e.target.value);
                     }}
                   />
                 </div>
@@ -183,12 +187,13 @@ class AddNewModal extends React.Component {
                     id="increase"
                     value="Increase Value"
                     style={{ cursor: "pointer" }}
-                    onClick={() => this.incrementQuantity(product)}
+                    // onClick={() => this.incrementQuantity(product)}
+                    onClick={() => this.incrementQuantity(primaryData.count)}
                   >
                     +
                   </button>
                 </div>
-              </div>
+              </div> */}
               {/* <input
                           // className={classes.qtyInput}
                           type="number"
@@ -199,9 +204,9 @@ class AddNewModal extends React.Component {
                         /> */}
               <br />
               <Label className="mt-4">
-                <IntlMessages id="pages.unitWeight" />
+                <IntlMessages id="pages.deliveryDate" />
               </Label>
-              <Input disabled value={order && product.unitWeight} />
+              <Input disabled value={primaryData.deliveryDate}/>
               <hr />
               {/* <Select
           components={{ Input: CustomSelectInput }}
@@ -230,7 +235,7 @@ class AddNewModal extends React.Component {
           label="PROCESSED"
         /> */}
             </ModalBody>
-          ))}
+          {/* ))} */}
         <ModalFooter>
           <Button color="secondary" outline onClick={onClose}>
             <IntlMessages id="pages.cancel" />

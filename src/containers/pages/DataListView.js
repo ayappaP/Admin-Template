@@ -23,7 +23,7 @@ class DataListView extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      product: props.product
+      primaryData: props.primaryData
     };
     this.onSelect = this.onSelect.bind(this);
   }
@@ -46,7 +46,7 @@ class DataListView extends React.Component {
 
   render() {
     const {
-      // product,
+      primaryData,
       isSelect,
       collect,
       onCheckItem,
@@ -54,72 +54,72 @@ class DataListView extends React.Component {
       order,
       selectStatus
     } = this.props;
-    const product = this.state.product;
-    const dateTime =
-      product.createdAt.slice(0, 10) + " / " + product.createdAt.slice(11, 19);
-    const address = `${product.address.city} ${product.address.region} ${product.address.address} ${product.address.address2} ${product.address.postcode}`;
+
+    // const primaryData = this.state.primaryData;
+    console.log("props", primaryData);
+    // const dateTime =
+    //   product.createdAt.slice(0, 10) + " / " + product.createdAt.slice(11, 19);
+    // const address = `${product.address.city} ${product.address.region} ${product.address.address} ${product.address.address2} ${product.address.postcode}`;
 
     return (
       <Colxx xxs="12" className="mb-3">
-        <ContextMenuTrigger id="menu_id" data={product.id} collect={collect}>
+        <ContextMenuTrigger id="menu_id" data={primaryData.id} collect={collect}>
           <Card
-            onClick={event => onCheckItem(event, product.id)}
+            onClick={event => onCheckItem(event, primaryData.id)}
             className={classnames("d-flex flex-row", {
               active: isSelect
             })}
           >
             <div className="pl-2 d-flex flex-grow-1 min-width-zero">
               <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
-                {/* <NavLink to={`?p=${product.id}`} className="w-40 w-sm-100"> */}
+                {/* <NavLink to={`?p=${primaryData.id}`} className="w-40 w-sm-100"> */}
 
-                <Badge color={product.statusColor} pill onClick={toggleModal}>
-                  {product.reference}
+                <Badge color={primaryData.statusColor} pill onClick={toggleModal}>
+                  {primaryData.id}
                 </Badge>
                 {/* </NavLink> */}
                 <p
                   className="mb-1 text-muted text-small w-15 w-sm-100"
                   onClick={toggleModal}
                 >
-                  {product.type}
+                  {primaryData.count}
                 </p>
                 <p
                   className="mb-1 text-muted text-small w-15 w-sm-100"
                   onClick={toggleModal}
                 >
-                  {dateTime}
+                    {primaryData.total}
                 </p>
                 <p
                   className="mb-1 text-muted text-small w-15 w-sm-100"
                   onClick={toggleModal}
                 >
-                  {product.products && product.products.length
-                    ? product.products[0].quantity
-                    : 0}
+                   {primaryData.deliveryDate}
                 </p>
                 <p
                   className="mb-1 text-muted text-small w-15 w-sm-100"
                   onClick={toggleModal}
                 >
-                  {product.type == "COLLECTION" ? "-" : address}
+                  {/* {primaryData.type == "COLLECTION" ? "-" : address} */}
                 </p>
               </div>
-              <div
+              {/* <div
                 className="w-15 w-sm-100"
                 style={{ marginTop: 20, marginRight: 20 }}
               >
                 <div>
                   <Dropdown
                     options={
-                      product.type == "DELIVERY"
+                      primaryData.type == "DELIVERY"
                         ? ["PICKED", "DISPATCHED", "DELIVERED"]
                         : ["PICKED", "COLLECTED"]
                     }
-                    value={product.status}
+                    value={primaryData.status}
                     onChange={this.onSelect}
                     placeholder="Select Status"
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </Card>
         </ContextMenuTrigger>

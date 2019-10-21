@@ -47,34 +47,35 @@ class ProductListView extends React.Component {
       toggleModal,
       toggleModalValue,
       order,
-      products,
+      ListSecondaryData,
       selectStatus
     } = this.props;
 
-    // console.log("products",products)
+    console.log("ListSecondaryData",ListSecondaryData)
     // const dateTime =
     //   product.createdAt.slice(0, 10) + " / " + product.createdAt.slice(11, 19);
     // const address = `${product.address.city} ${product.address.region} ${product.address.address} ${product.address.address2} ${product.address.postcode}`;
 
     return (
       <Colxx xxs="12" className="mb-3">
-        <ContextMenuTrigger id="menu_id" data={products.id} collect={collect}>
+        <ContextMenuTrigger id="menu_id"  collect={collect}>
           <Card
             onClick={toggleModalValue}
           >
+            
             <div className="pl-2 d-flex flex-grow-1 min-width-zero">
               <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {products.englishName}
+                  {ListSecondaryData.title}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {products.description}
+                  {ListSecondaryData.description}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {products.brand}
+                  {ListSecondaryData.price}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {products.price}
+                  {ListSecondaryData.rating}
                 </p>
               </div>
             </div>

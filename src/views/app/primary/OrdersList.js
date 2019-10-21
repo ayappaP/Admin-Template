@@ -18,6 +18,7 @@ import AddNewOrder from "./AddNewOrder";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import gql from "graphql-tag";
 import { NotificationManager } from "../../../components/common/react-notifications";
+import { primaryData } from "../../../data/primaryData";
 
 function collect(props) {
   return { data: props.data };
@@ -52,6 +53,7 @@ class Orders extends Component {
     this.state = {
       displayMode: "list",
       orders: [],
+      primaryData,
       selectedPageSize: 10,
       orderOptions: [
         { column: "title", label: "Product Name" },
@@ -159,16 +161,16 @@ class Orders extends Component {
     this.mouseTrap.unbind("command+d");
   }
 
-  toggleModal = product => {
+  toggleModal = primaryData  => {
     this.setState({
       modalOpen: !this.state.modalOpen,
-      selectedOrder: product
+      selectedPrimaryData: primaryData  
     });
   };
-  toggleModalValue = product => {
+  toggleModalValue = primaryData   => {
     this.setState({
       modalOpenValue: !this.state.modalOpenValue,
-      selectedOrder: product
+      selectedPrimaryData: primaryData  
     });
   };
 
@@ -176,7 +178,7 @@ class Orders extends Component {
     this.setState({
       modalOpenValue: false,
       modalOpen: false,
-      selectedOrder: null
+      selectedPrimaryData: null
     });
   };
 
@@ -366,13 +368,15 @@ class Orders extends Component {
       modalOpen,
       modalOpenValue,
       ordersCount,
-      categories
+      categories,
+      primaryData
     } = this.state;
     const { match } = this.props;
     const startIndex = (currentPage - 1) * selectedPageSize;
     const endIndex = currentPage * ordersCount;
     const totalPageSize = Math.ceil(ordersCount / pageSizes);
-    const orders = this.state.orders;
+    // const orders = primaryData;
+    console.log("orders",primaryData)
     return !this.state.isLoading ? (
       <div className="loading" />
     ) : (
@@ -400,31 +404,31 @@ class Orders extends Component {
             pageSizes={pageSizes}
             toggleModalValue={this.toggleModalValue}
           />
-          {this.state.selectedOrder && (
+          {this.state.selectedPrimaryData && (
             <AddNewModal
               modalOpen={modalOpen}
               toggleModal={this.toggleModal}
               categories={categories}
-              order={this.state.selectedOrder}
+              primaryData={this.state.selectedPrimaryData}
               onClose={this.handleClose}
             />
           )}
           <AddNewOrder
             modalOpenValue={modalOpenValue}
             toggleModalValue={this.toggleModalValue}
-            product={this.state.selectedProduct}
+            primaryData ={this.state.selectedProduct}
             onClose={this.handleClose}
           />
           <Row>
-            {this.state.orders.map(product => {
+            {primaryData.map(primaryData => {
               // console.log("items",this.state.items)
               // console.log("orders",this.state.orders)
               if (this.state.displayMode === "imagelist") {
                 return (
                   <ImageListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                    key={primaryData.id}
+                    primaryData={primaryData}
+                    isSelect={this.state.selectedItems.includes(primaryData.id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
@@ -432,9 +436,9 @@ class Orders extends Component {
               } else if (this.state.displayMode === "thumblist") {
                 return (
                   <ThumbListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                    key={primaryData.id}
+                    primaryData={primaryData}
+                    isSelect={this.state.selectedItems.includes(primaryData.id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
@@ -442,13 +446,13 @@ class Orders extends Component {
               } else {
                 return (
                   <DataListView
-                    key={product.id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                    key={primaryData.id}
+                    primaryData={primaryData}
+                    isSelect={this.state.selectedItems.includes(primaryData.id)}
                     onCheckItem={this.onCheckItem}
                     collect={collect}
-                    toggleModal={() => this.toggleModal(product)}
-                    order={this.state.selectedOrder}
+                    toggleModal={() => this.toggleModal(primaryData)}
+                    order={this.state.selectedPrimaryData}
                   />
                 );
               }

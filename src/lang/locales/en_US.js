@@ -42,6 +42,7 @@ module.exports = {
   /* 02.User Login, Logout, Register */
   "user.login-title": "Login",
   "user.logout": "Logout",
+  "user.role": "Role",
   "user.create": "Create User",
   "user.update": "Update User",
   "user.register": "Register",
@@ -67,6 +68,12 @@ module.exports = {
   "user.reset-password-button": "RESET",
   "user.buy": "BUY",
   "user.referralId": "Referral Id",
+
+
+
+  "organization.name": "Organization Name",
+  "organization.address": "Organization Address",
+  "organization.contactName": "Contact Name",
 
   /* 03.Menu */
   "menu.app": "Home",
@@ -343,7 +350,16 @@ module.exports = {
   "pages.price.useractionsauditlog": "User actions audit log",
   "pages.prices.featurecomparison": "Feature Comparison",
   "pages.prices.pricecomparison": "Price Comparison",
-
+  "pages.item": "Item name",
+  "pages.count": "Number of items",
+  "pages.total": "Total",
+  "pages.deliveryDate": "Delivery Date",
+  "pages.id": "ID",
+  "secondary.new": "Add new",
+  "secondary.title": "Title",
+  "secondary.description": "Description",
+  "secondary.price": "Price",
+  "secondary.rating": "Rating",
   /* 06.Applications */
 
   /* 06.01.Chat */

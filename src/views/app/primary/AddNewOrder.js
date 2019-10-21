@@ -64,7 +64,7 @@ class AddNewOrder extends Component {
         backdrop="static"
       >
         <ModalHeader toggle={toggleModalValue}>
-          <IntlMessages id="order.add.name" />
+          <IntlMessages id="Add new" />
         </ModalHeader>
         <Formik
           initialValues={{ productName: '', price: '', quantity: '', unitWeight: '' }}
@@ -73,22 +73,22 @@ class AddNewOrder extends Component {
 
           <ModalBody>
             <Label className="mt-4">
-              <IntlMessages id="pages.product-name" />
+              <IntlMessages id="pages.item" />
             </Label>
             <Input name='productName' type='text' value={props.values.productName}
               onChange={props.handleChange} />
             <Label className="mt-4">
-              <IntlMessages id="pages.price" />
+              <IntlMessages id="pages.count" />
             </Label>
             <Input name='price' type='text' value={props.values.price}
               onChange={props.handleChange} />
             <Label className="mt-4">
-              <IntlMessages id="pages.quantity" />
+              <IntlMessages id="pages.total" />
             </Label>
             <Input name='quantity' type='text' value={props.values.quantity}
               onChange={props.handleChange} />
             <Label className="mt-4">
-              <IntlMessages id="pages.unitWeight" />
+              <IntlMessages id="pages.deliveryDate" />
             </Label>
             <Input name='unitWeight' type='text' value={props.values.unitWeight}
               onChange={props.handleChange} />

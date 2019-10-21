@@ -22,6 +22,7 @@ import AddNewUser from "../../../containers/pages/AddNewUser";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import gql from "graphql-tag";
 import ListPageHeading from "../../../containers/pages/ListPageHeading";
+import { ListSecondaryData } from "../../../data/secondaryData"
 
 function collect(props) {
   return { data: props.data };
@@ -37,6 +38,7 @@ class ListProduct extends Component {
       displayMode: "list",
       orders: [],
       products: [],
+      ListSecondaryData,
       selectedPageSize: 10,
       orderOptions: [
         { column: "title", label: "Product Name" },
@@ -122,20 +124,22 @@ class ListProduct extends Component {
     this.mouseTrap.unbind("command+d");
   }
 
-  toggleModal = product => {
+  toggleModal = ListSecondaryData => {
+   
     this.setState({
       modalOpen: !this.state.modalOpen,
-      selectedOrder: product
+      selectedsecondaryData: ListSecondaryData
     });
   };
   toggleModalValue = item => {
+    console.log(ListSecondaryData)
     this.setState({
       modalOpenValue: !this.state.modalOpenValue,
-      selectedProduct: item
+      selectedsecondaryData: item
     });
   };
   handleClose = () => {
-    this.setState({ modalOpenValue: false,modalOpen: false, selectedProduct: null });
+    this.setState({ modalOpenValue: false,modalOpen: false, selectedsecondaryData: null });
   };
 
   changeOrderBy = column => {
@@ -308,6 +312,7 @@ class ListProduct extends Component {
       users,
       userCount,
       products,
+      ListSecondaryData,
       isLoading,
       categories
     } = this.state;
@@ -348,17 +353,17 @@ class ListProduct extends Component {
             <Separator className="mb-5" />
             <Row>
               {isLoading ? (
-                products &&
-                products.map((products, index) => (
+                // products &&
+                ListSecondaryData.map((ViewSecondaryData, index) => (
                   <ProductListView
-                    key={products.id}
-                    products={products}
-                    toggleModalValue={() => this.toggleModalValue(products)}
-                    isSelect={this.state.selectedItems.includes(products.id)}
+                    key={ListSecondaryData.id}
+                    ListSecondaryData={ViewSecondaryData}
+                    toggleModalValue={() => this.toggleModalValue(ViewSecondaryData)}
+                    isSelect={this.state.selectedItems.includes(ListSecondaryData.id)}
                     onCheckItem={this.onCheckItem}
                     collect={collect}
-                    toggleModal={() => this.toggleModal(products)}
-                    order={this.state.selectedOrder}
+                    // toggleModal={() => this.toggleModal(ViewSecondaryData)}
+                    order={this.state.selectedsecondaryData}
                   />
                 ))
               ) : (
@@ -367,15 +372,15 @@ class ListProduct extends Component {
             </Row>
           </Colxx>
         </Row>
-        {this.state.selectedProduct && (
+        {this.state.selectedsecondaryData && (
           <ViewProductModal
             modalOpenValue={modalOpenValue}
             toggleModalValue={this.toggleModalValue}
-            product={this.state.selectedProduct}
+            selectedsecondaryData={this.state.selectedsecondaryData}
             reloadProductList={this.fetchProducts}
             onClose={this.handleClose}
           />
-        )}
+         )} 
         <Pagination
           currentPage={this.state.currentPage}
           totalPage={this.state.totalPage}

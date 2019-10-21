@@ -73,10 +73,10 @@ class UserDataListView extends React.Component {
                   {users.name == null ? "NA" : users.name}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {users.number}
+                  {users.phone}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {users.referralId}
+                  {users.role}
                 </p>
               </div>
             </div>

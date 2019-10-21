@@ -246,7 +246,7 @@ class AddNewUser extends React.Component {
                   onChange={(e) => props.setFieldValue('role', e.value)}
                   placeholder="Select role"
                 />
-                {userRole == 'Super' ?
+                {/* {userRole == 'Super' ?
                   <><Label className="mt-4">
                     <IntlMessages id="pages.shopName" />
                   </Label>
@@ -259,7 +259,7 @@ class AddNewUser extends React.Component {
                         props.setFieldValue('shopId', e.value)
                       }}
                       placeholder="Select Shop"
-                    /> </> : null}
+                    /> </> : null} */}
                 {/* <Label className="mt-4">
                   <IntlMessages id="pages.shopId" />
                 </Label>

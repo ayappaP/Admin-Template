@@ -14,6 +14,7 @@ import ImageListView from "../../../containers/pages/ImageListView";
 import ThumbListView from "../../../containers/pages/ThumbListView";
 import AddNewUser from "../../../containers/pages/AddNewUser";
 import ViewUserModal from "./ViewUserModal";
+import {userData} from "../../../data/userData"
 //import { SubscriptionClient } from "subscriptions-transport-ws";
 // import gql from "graphql-tag";
 
@@ -32,6 +33,7 @@ class ListUsers extends Component {
       orders: [],
       users: [],
       selectedPageSize: 10,
+      userData,
       orderOptions: [
         { column: "title", label: "Product Name" },
         { column: "category", label: "Category" },
@@ -296,6 +298,7 @@ class ListUsers extends Component {
       modalOpenValue,
       users,
       userCount,
+      userData,
       categories
     } = this.state;
 
@@ -340,7 +343,7 @@ class ListUsers extends Component {
             onClose={this.handleClose}
           />
           <Row>
-            {this.state.users.map(users => {
+            {userData.map(users => {
               // console.log("items",this.state.items)
               // console.log("orders",this.state.orders)
               if (this.state.displayMode === "imagelist") {

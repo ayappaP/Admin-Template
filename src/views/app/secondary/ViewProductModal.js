@@ -86,7 +86,7 @@ class ViewCarouselModal extends Component {
       });
   };
 
-  editproduct = async (e, props, product) => {
+  editproduct = async (e, props, secondaryData) => {
     const file = e.target.files[0];
     const toBase64 = file => new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -97,7 +97,7 @@ class ViewCarouselModal extends Component {
 
     // console.log(await toBase64(file));
     const image = await toBase64(file)
-    const fileName = product.imageUrl.split('images/')
+    const fileName = secondaryData.imageUrl.split('images/')
     const url =
       "https://743rzka0ah.execute-api.eu-west-2.amazonaws.com/dev/uploadCarosuel";
     fetch(url, {
@@ -139,11 +139,11 @@ class ViewCarouselModal extends Component {
       toggleModalValue,
       toggleModal,
       onClose,
-      product,
+      selectedsecondaryData,
       modalOpenValue
     } = this.props;
     const { categoryName } = this.state;
-    console.log("product", product);
+    console.log("selectedsecondaryData", selectedsecondaryData);
     const listCategory = categoryName.map(category => ({
       value: category.categoryId,
       label: category.name
@@ -157,32 +157,32 @@ class ViewCarouselModal extends Component {
         backdrop="static"
       >
         <ModalHeader toggle={toggleModalValue}>
-          <IntlMessages id="product.update" />
+          <IntlMessages id="Update" />
         </ModalHeader>
         <Formik
           initialValues={{
-            category: product.categoryName,
-            categoryId: product.categoryId,
-            brand: product.brand,
-            distributor: product.distributor,
-            productName: product.englishName,
-            description: product.description,
-            price: product.price,
-            offerPrice: product.offerPrice,
-            wholeSalePrice: product.wholesalePrice,
-            unitWeight: product.unitWeight,
-            offerProduct: product.offerProduct,
-            sellable: product.sellable,
-            productId: product.id,
-            imageUrl: ''
+            // category: secondaryData.categoryName,
+            // categoryId: secondaryData.categoryId,
+            // brand: secondaryData.brand,
+            // distributor: secondaryData.distributor,
+            // productName: secondaryData.englishName,
+            // description: secondaryData.description,
+            // price: secondaryData.price,
+            // offerPrice: secondaryData.offerPrice,
+            // wholeSalePrice: secondaryData.wholesalePrice,
+            // unitWeight: secondaryData.unitWeight,
+            // offerProduct: secondaryData.offerProduct,
+            // sellable: secondaryData.sellable,
+            // productId: secondaryData.id,
+            // imageUrl: ''
           }}
           onSubmit={val => this.submit(val)}
         >
           {props => (
             <Form onSubmit={props.handleSubmit}>
               <ModalBody>
-                <Label className="mt-4">
-                  <IntlMessages id="product.categoryName" />
+                {/* <Label className="mt-4">
+                  <IntlMessages id="secondaryData.categoryName" />
                 </Label>
                 <Dropdown
                   name="category"
@@ -193,8 +193,8 @@ class ViewCarouselModal extends Component {
                     props.setFieldValue("categoryId", selected.value);
                   }}
                   placeholder="Select Category"
-                />
-                <Label className="mt-4">
+                /> */}
+                {/* <Label className="mt-4">
                   <IntlMessages id="Brand" />
                 </Label>
                 <Input
@@ -211,94 +211,47 @@ class ViewCarouselModal extends Component {
                   type="text"
                   value={props.values.distributor}
                   onChange={props.handleChange}
-                />
+                /> */}
 
                 <Label className="mt-4">
-                  <IntlMessages id="product.name" />
+                  <IntlMessages id="secondary.title" />
                 </Label>
                 <Input
                   name="productName"
                   type="text"
-                  value={props.values.productName}
+                  value={selectedsecondaryData.title}
                   onChange={props.handleChange}
                 />
                 <Label className="mt-4">
-                  <IntlMessages id="product.description" />
+                  <IntlMessages id="secondary.description" />
                 </Label>
                 <Input
                   name="description"
                   type="text"
-                  value={props.values.description}
+                  value={selectedsecondaryData.description}
                   onChange={props.handleChange}
                 />
                 <Label className="mt-4">
-                  <IntlMessages id="product.price" />
+                  <IntlMessages id="secondary.price" />
                 </Label>
                 <Input
                   name="price"
                   type="text"
-                  value={props.values.price}
+                  value={selectedsecondaryData.price}
                   onChange={props.handleChange}
                 />
+                
                 <Label className="mt-4">
-                  <IntlMessages id="Offer Product" />
-                </Label>
-                <Switch
-                  name="offerProduct"
-                  className="custom-switch custom-switch-primary"
-                  onChange={checked =>
-                    props.setFieldValue("offerProduct", checked)
-                  }
-                  checked={props.values.offerProduct}
-                />
-
-                {props.values.offerProduct == true ? (
-                  <div>
-                    <Label className="mt-4">
-                      <IntlMessages id="Offer price" />
-                    </Label>
-                    <Input
-                      name="offerPrice"
-                      type="text"
-                      value={props.values.offerPrice}
-                      onChange={props.handleChange}
-                    />
-                  </div>
-                ) : null}
-                <Label className="mt-4">
-                  <IntlMessages id="Wholesale Price" />
+                  <IntlMessages id="secondary.rating" />
                 </Label>
                 <Input
                   name="wholeSalePrice"
                   type="text"
-                  value={props.values.wholeSalePrice}
+                  value={selectedsecondaryData.rating}
                   onChange={props.handleChange}
                 />
 
-                <Label className="mt-4">
-                  <IntlMessages id="product.unitWeight" />
-                </Label>
-                <Input
-                  name="unitWeight"
-                  type="text"
-                  value={props.values.unitWeight}
-                  onChange={props.handleChange}
-                />
-                <Label className="mt-4">
-                  <IntlMessages id="Sellable" />
-                </Label>
-
-                <Switch
-                  name="sellable"
-                  className="custom-switch custom-switch-primary"
-                  onChange={checked => props.setFieldValue("sellable", checked)}
-                  checked={props.values.sellable}
-                />
-                <Label className="mt-4">
-                  <IntlMessages id="product.image-upload" />
-                </Label>
-                <img src={product.imageUrl} alt="Current Image" style={{ height: '100px', width: '100px' }} />
-                <Input type='file' name='imageUrl' onChange={(e) => this.editproduct(e, props, product)} />
+               
               </ModalBody>
               <ModalFooter>
                 <Button color="secondary" outline onClick={onClose}>

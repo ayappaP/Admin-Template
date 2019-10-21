@@ -26,7 +26,7 @@ import {
 import ShopsListView from "./shopsListView";
 import AddNewShop from "./AddNewShop";
 import ViewShopModal from "./ViewShopModal";
-
+import {ListOrganizationData} from "../../../data/organizationData"
 import TodoApplicationMenu from "../../../containers/applications/TodoApplicationMenu";
 import client from "../../../queries/client";
 import fetchShops from "../../../queries/fetchShops";
@@ -40,6 +40,7 @@ class ListShop extends Component {
       modalOpen: false,
       modalOpenValue: false,
       lastChecked: null,
+      ListOrganizationData,
       shops: [],
       displayOptionsIsOpen: false
     };
@@ -172,7 +173,7 @@ class ListShop extends Component {
 
     const { messages } = this.props.intl;
 
-    const { modalOpen, shops, modalOpenValue } = this.state;
+    const { modalOpen, ListOrganizationData, modalOpenValue } = this.state;
     return (
       <Fragment>
         <Row>
@@ -237,10 +238,10 @@ class ListShop extends Component {
             <Separator className="mb-5" />
             <Row>
               {loading ? (
-                shops.map((item, index) => (
+                ListOrganizationData.map((item, index) => (
                   <ShopsListView
                     key={`todo_item_${index}`}
-                    shops={item}
+                    ListOrganizationData={item}
                     toggleModalValue={() => this.toggleModalValue(item)}
                     handleCheckChange={this.handleCheckChange}
                     isSelected={
@@ -258,7 +259,7 @@ class ListShop extends Component {
           <ViewShopModal
             modalOpenValue={modalOpenValue}
             toggleModalValue={this.handleClose}
-            shops={this.state.selectedItem}
+            ListOrganizationData={this.state.selectedItem}
             onClose={this.handleClose}
             reloadShopList={this.fetchShops}
           />

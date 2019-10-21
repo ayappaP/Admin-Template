@@ -57,7 +57,7 @@ class ViewShopModal extends Component {
     const query = updateShop(values);
     client(query)
       .then(res => {
-        console.log("update shop", res);
+        console.log("update organization", res);
         this.props.reloadShopList();
         this.props.onClose();
       })
@@ -73,7 +73,8 @@ class ViewShopModal extends Component {
       toggleModal,
       shops,
       onClose,
-      modalOpenValue
+      modalOpenValue,
+      ListOrganizationData
     } = this.props;
     console.log("modal", shops);
     // const address = shops.address.postcode
@@ -88,21 +89,21 @@ class ViewShopModal extends Component {
         backdrop="static"
       >
         <ModalHeader toggle={toggleModalValue}>
-          <IntlMessages id="shop.update" />
+          <IntlMessages id="Update" />
         </ModalHeader>
         <Formik
           initialValues={{
-            shopName: shops.shopName,
-            shopCode: shops.code,
-            contactName: shops.contact.name,
-            contactNumber: shops.contact.number,
-            businessHours: shops.businessHours,
-            coverage: shops.coverage,
-            addressRoad: shops.address.road,
-            addressTown: shops.address.town,
-            addressNumber: shops.address.number,
-            addressPostCode: shops.address.postcode,
-            shopId: shops.id
+            // shopName: shops.shopName,
+            // shopCode: shops.code,
+            // contactName: shops.contact.name,
+            // contactNumber: shops.contact.number,
+            // businessHours: shops.businessHours,
+            // coverage: shops.coverage,
+            // addressRoad: shops.address.road,
+            // addressTown: shops.address.town,
+            // addressNumber: shops.address.number,
+            // addressPostCode: shops.address.postcode,
+            // shopId: shops.id
           }}
           onSubmit={val => this.submit(val)}
         >
@@ -110,31 +111,31 @@ class ViewShopModal extends Component {
             <Form onSubmit={props.handleSubmit}>
               <ModalBody>
                 <Label className="mt-4">
-                  <IntlMessages id="shop.name" />
+                  <IntlMessages id="organization.name" />
                 </Label>
                 <Input
                   name="shopName"
-                  value={props.values.shopName}
+                  value={ListOrganizationData.organizationName}
                   onChange={props.handleChange}
                 />
-                <Label className="mt-4">
-                  <IntlMessages id="shop.code" />
+                {/* <Label className="mt-4">
+                  <IntlMessages id="organization.code" />
                 </Label>
                 <Input
                   name="shopCode"
                   value={props.values.shopCode}
                   onChange={props.handleChange}
-                />
+                /> */}
                 <Label className="mt-4">
-                  <IntlMessages id="shop.addressRoad" />
+                  <IntlMessages id="organization.address" />
                 </Label>
                 <Input
                   name="addressRoad"
-                  value={props.values.addressRoad}
+                  value={ListOrganizationData.address}
                   onChange={props.handleChange}
                 />
-                <Label className="mt-4">
-                  <IntlMessages id="shop.addressTown" />
+                {/* <Label className="mt-4">
+                  <IntlMessages id="organization.addressTown" />
                 </Label>
                 <Input
                   name="addressTown"
@@ -142,7 +143,7 @@ class ViewShopModal extends Component {
                   onChange={props.handleChange}
                 />
                 <Label className="mt-4">
-                  <IntlMessages id="shop.addressNumber" />
+                  <IntlMessages id="organization.addressNumber" />
                 </Label>
                 <Input
                   name="addressNumber"
@@ -150,23 +151,23 @@ class ViewShopModal extends Component {
                   onChange={props.handleChange}
                 />
                 <Label className="mt-4">
-                  <IntlMessages id="shop.addressPostCode" />
+                  <IntlMessages id="organization.addressPostCode" />
                 </Label>
                 <Input
                   name="addressPostCode"
                   value={props.values.addressPostCode}
                   onChange={props.handleChange}
-                />
+                /> */}
                 <Label className="mt-4">
-                  <IntlMessages id="shop.contactName" />
+                  <IntlMessages id="organization.contactName" />
                 </Label>
                 <Input
                   name="contactName"
-                  value={props.values.contactName}
+                  value={ListOrganizationData.contactName}
                   onChange={props.handleChange}
                 />
-                <Label className="mt-4">
-                  <IntlMessages id="shop.contactNumber" />
+                {/* <Label className="mt-4">
+                  <IntlMessages id="organization.contactNumber" />
                 </Label>
                 <Input
                   name="contactNumber"
@@ -175,7 +176,7 @@ class ViewShopModal extends Component {
                 />
 
                 <Label className="mt-4">
-                  <IntlMessages id="shop.businessHours" />
+                  <IntlMessages id="organization.businessHours" />
                 </Label>
                 <Input
                   name="businessHours"
@@ -184,13 +185,13 @@ class ViewShopModal extends Component {
                 />
 
                 <Label className="mt-4">
-                  <IntlMessages id="shop.coverage" />
+                  <IntlMessages id="organization.coverage" />
                 </Label>
                 <Input
                   name="coverage"
                   value={props.values.coverage}
                   onChange={props.handleChange}
-                />
+                /> */}
               </ModalBody>
               <ModalFooter>
                 <Button color="secondary" outline onClick={onClose}>

@@ -161,7 +161,7 @@ class AddNewProduct extends Component {
         backdrop="static"
       >
         <ModalHeader toggle={toggleModal}>
-          <IntlMessages id="product.new" />
+          <IntlMessages id="secondary.new" />
         </ModalHeader>
         <Formik
           initialValues={{
@@ -184,7 +184,7 @@ class AddNewProduct extends Component {
           {props => (
             <Form onSubmit={props.handleSubmit}>
               <ModalBody>
-                <Label className="mt-4">
+                {/* <Label className="mt-4">
                   <IntlMessages id="product.categoryName" />
                 </Label>
                 <Dropdown
@@ -196,9 +196,9 @@ class AddNewProduct extends Component {
                     props.setFieldValue("categoryId", selected.value);
                   }}
                   placeholder="Select Category"
-                />
+                /> */}
                 <Label className="mt-4">
-                  <IntlMessages id="Brand" />
+                  <IntlMessages id="secondary.title" />
                 </Label>
                 <Input
                   name="brand"
@@ -207,7 +207,7 @@ class AddNewProduct extends Component {
                   onChange={props.handleChange}
                 />
                 <Label className="mt-4">
-                  <IntlMessages id="Distributor" />
+                  <IntlMessages id="secondary.description" />
                 </Label>
                 <Input
                   name="distributor"
@@ -217,7 +217,7 @@ class AddNewProduct extends Component {
                 />
 
                 <Label className="mt-4">
-                  <IntlMessages id="product.name" />
+                  <IntlMessages id="secondary.price" />
                 </Label>
                 <Input
                   name="productName"
@@ -226,7 +226,7 @@ class AddNewProduct extends Component {
                   onChange={props.handleChange}
                 />
                 <Label className="mt-4">
-                  <IntlMessages id="product.description" />
+                  <IntlMessages id="secondary.rating" />
                 </Label>
                 <Input
                   name="description"
@@ -234,7 +234,7 @@ class AddNewProduct extends Component {
                   value={props.values.description}
                   onChange={props.handleChange}
                 />
-                <Label className="mt-4">
+                {/* <Label className="mt-4">
                   <IntlMessages id="product.price" />
                 </Label>
                 <Input
@@ -301,7 +301,7 @@ class AddNewProduct extends Component {
                   <IntlMessages id="product.image-upload" />
                 </Label>
                 <Input type='file' name='imageUrl'
-                  onChange={(e) => this.addNewProduct(e, props)} />
+                  onChange={(e) => this.addNewProduct(e, props)} /> */}
               </ModalBody>
               <ModalFooter>
                 <Button color="secondary" outline onClick={toggleModal}>

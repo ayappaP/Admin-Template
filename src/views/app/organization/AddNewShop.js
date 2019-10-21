@@ -97,7 +97,7 @@ class AddNewShop extends Component {
         backdrop="static"
       >
         <ModalHeader toggle={toggleModal}>
-          <IntlMessages id="shop.add.name" />
+          <IntlMessages id="Add new" />
         </ModalHeader>
         <Formik
           initialValues={{
@@ -119,31 +119,31 @@ class AddNewShop extends Component {
             <Form onSubmit={props.handleSubmit}>
               <ModalBody>
                 <Label className="mt-4">
-                  <IntlMessages id="shop.name" />
+                  <IntlMessages id="organization.name" />
                 </Label>
                 <Input
                   name="shopName"
                   value={props.values.shopName}
                   onChange={props.handleChange}
                 />
-                <Label className="mt-4">
+                {/* <Label className="mt-4">
                   <IntlMessages id="shop.code" />
                 </Label>
                 <Input
                   name="shopCode"
                   value={props.values.shopCode}
                   onChange={props.handleChange}
-                />
+                /> */}
                 <Label className="mt-4">
-                  <IntlMessages id="shop.addressRoad" />
+                  <IntlMessages id="organization.address" />
                 </Label>
                 <Input
                   name="addressRoad"
                   value={props.values.addressRoad}
                   onChange={props.handleChange}
                 />
-                <Label className="mt-4">
-                  <IntlMessages id="shop.addressTown" />
+                {/* <Label className="mt-4">
+                  <IntlMessages id="organization.addressTown" />
                 </Label>
                 <Input
                   name="addressTown"
@@ -151,7 +151,7 @@ class AddNewShop extends Component {
                   onChange={props.handleChange}
                 />
                 <Label className="mt-4">
-                  <IntlMessages id="shop.addressNumber" />
+                  <IntlMessages id="organization.addressNumber" />
                 </Label>
                 <Input
                   name="addressNumber"
@@ -159,22 +159,22 @@ class AddNewShop extends Component {
                   onChange={props.handleChange}
                 />
                 <Label className="mt-4">
-                  <IntlMessages id="shop.addressPostCode" />
+                  <IntlMessages id="organization.addressPostCode" />
                 </Label>
                 <Input
                   name="addressPostCode"
                   value={props.values.addressPostCode}
                   onChange={props.handleChange}
-                />
+                /> */}
                 <Label className="mt-4">
-                  <IntlMessages id="shop.contactName" />
+                  <IntlMessages id="organization.contactName" />
                 </Label>
                 <Input
                   name="contactName"
                   value={props.values.contactName}
                   onChange={props.handleChange}
                 />
-                <Label className="mt-4">
+                {/* <Label className="mt-4">
                   <IntlMessages id="shop.contactNumber" />
                 </Label>
                 <Input
@@ -198,7 +198,7 @@ class AddNewShop extends Component {
                   name="coverage"
                   value={props.values.coverage}
                   onChange={props.handleChange}
-                />
+                /> */}
               </ModalBody>
               <ModalFooter>
                 <Button

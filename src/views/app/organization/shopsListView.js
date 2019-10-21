@@ -19,7 +19,7 @@ class ShopsListView extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      shops: props.shop
+      ListOrganizationData: props.ListOrganizationData
     };
     // this.onSelect = this.onSelect.bind(this)
   }
@@ -47,19 +47,19 @@ class ShopsListView extends React.Component {
       toggleModalValue,
       order,
       products,
-      shops,
+      ListOrganizationData,
       selectStatus
     } = this.props;
 
     // const dateTime =
     //   product.createdAt.slice(0, 10) + " / " + product.createdAt.slice(11, 19);
-    const address = shops.address.postcode
-      ? `${shops.address.postcode} ${shops.address.town} ${shops.address.number} ${shops.address.road} `
-      : "Not Available";
+    // const address = ListOrganizationData.address.postcode
+    //   ? `${ListOrganizationData.address.postcode} ${ListOrganizationData.address.town} ${ListOrganizationData.address.number} ${ListOrganizationData.address.road} `
+    //   : "Not Available";
 
     return (
       <Colxx xxs="12" className="mb-3">
-        <ContextMenuTrigger id="menu_id" data={shops.id} collect={collect}>
+        <ContextMenuTrigger id="menu_id" data={ListOrganizationData.id} collect={collect}>
           <Card
              onClick={toggleModalValue}
             className={classnames("d-flex flex-row", {
@@ -69,13 +69,13 @@ class ShopsListView extends React.Component {
             <div className="pl-2 d-flex flex-grow-1 min-width-zero">
               <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {shops.shopName}
+                  {ListOrganizationData.organizationName}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {shops.contact.name}
+                  {ListOrganizationData.contactName}
                 </p>
                 <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                  {address}
+                  {ListOrganizationData.address}
                 </p>
               </div>
             </div>

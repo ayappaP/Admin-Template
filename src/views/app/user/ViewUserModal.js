@@ -71,13 +71,13 @@ class ViewUserModal extends Component {
           </Label>
           <Input value= {user.name == null ? "NA" : user.name} />
           <Label className="mt-4">
-            <IntlMessages id="pages.user-email" />
+            <IntlMessages id="pages.user-phone" />
           </Label>
-          <Input value= {user.number} />
+          <Input value= {user.phone} />
           <Label className="mt-4">
-            <IntlMessages id="user.referralId" />
+            <IntlMessages id="user.role" />
           </Label>
-          <Input value= {user.referralId} />
+          <Input value= {user.role} />
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" outline onClick={onClose}>
