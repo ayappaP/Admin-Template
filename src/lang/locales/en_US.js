@@ -72,8 +72,8 @@ module.exports = {
   "menu.app": "Home",
   "menu.offers": "Offers",
   "menu.dashboards": "Dashboards",
-  "menu.orders": "Orders",
-  "menu.staff": "Staffs",
+  "menu.primary": "Primary",
+  "menu.secondary": "Secondary",
   "menu.users": "Users",
   "menu.transactions": "Transactions",
   "menu.orderHistory": "Order History",
@@ -98,13 +98,13 @@ module.exports = {
   "menu.survey": "Survey",
   "menu.chat": "Chat",
   "menu.ui": "UI",
-  "menu.products": "Products",
+  "menu.organization": "Organization",
   "menu.shops": "Shops",
   "menu.alerts": "Alerts",
   "menu.badges": "Badges",
   "menu.buttons": "Buttons",
   "menu.cards": "Cards",
-  "menu.carousel": "Carousel",
+  "menu.user": "Users",
   "menu.charts": "Charts",
   "menu.collapse": "Collapse",
   "menu.dropdowns": "Dropdowns",
@@ -191,7 +191,7 @@ module.exports = {
   "transaction.amount": "Amount",
 
   /* orders */
-  "order.add.name": "Add new Order",
+  "primary.add.name": "Add new Primary",
 
   /* shops */
   "shop.add.name": "Add new Shop",

@@ -328,7 +328,7 @@ class ListProduct extends Component {
           <Colxx xxs="12">
             <div className="mb-2">
               <h1>
-                <IntlMessages id="menu.products" />
+                <IntlMessages id="menu.secondary" />
               </h1>
               {isLoading && (
                 <div className="text-zero top-right-button-container">

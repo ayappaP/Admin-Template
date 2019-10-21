@@ -379,7 +379,7 @@ class Orders extends Component {
       <Fragment>
         <div className="disable-text-selection">
           <ListPageHeading
-            heading="menu.orders"
+            heading="menu.primary"
             displayMode={displayMode}
             changeDisplayMode={this.changeDisplayMode}
             handleChangeSelectAll={this.handleChangeSelectAll}

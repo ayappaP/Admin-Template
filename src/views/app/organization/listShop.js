@@ -179,7 +179,7 @@ class ListShop extends Component {
           <Colxx xxs="12">
             <div className="mb-2">
               <h1>
-                <IntlMessages id="menu.shops" />
+                <IntlMessages id="menu.organization" />
               </h1>
               {loading && (
                 <div className="text-zero top-right-button-container">

@@ -5,33 +5,33 @@ const sideBarMenu = () => {
   console.log("role",role)
   const data = [
     {
-      id: "orders",
+      id: "primary",
       icon: "iconsminds-blinklist",
-      label: "menu.orders",
-      to: "/app/orders",
+      label: "menu.primary",
+      to: "/app/primary",
       permission: ["Super", "Owner", "Staff"]
     },
     {
       id: "pages",
-      icon: "simple-icon-people",
-      label: "menu.staff",
-      to: "/app/listUsers",
+      icon: "simple-icon-user-follow",
+      label: "menu.secondary",
+      to: "/app/secondary",
       permission: ["Super", "Owner"]
     },
-    // {
-    //   id: "Carousel",
-    //   icon: "simple-icon-picture",
-    //   label: "menu.carousel",
-    //   to: "/app/carousel",
-    //   permission: ["Super", "Owner"]
-    // },
-    // {
-    //   id: "Products",
-    //   icon: "iconsminds-pantone",
-    //   label: "menu.products",
-    //   to: "/app/products",
-    //   permission: ["Super"]
-    // },
+    {
+      id: "user",
+      icon: "simple-icon-people",
+      label: "menu.user",
+      to: "/app/user",
+      permission: ["Super", "Owner"]
+    },
+    {
+      id: "organization",
+      icon: "simple-icon-organization",
+      label: "menu.organization",
+      to: "/app/organization",
+      permission: ["Super"]
+    },
     // {
     //   id: "Shop",
     //   icon: "iconsminds-shop-2",
