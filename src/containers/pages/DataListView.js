@@ -36,7 +36,7 @@ class DataListView extends React.Component {
     client(UpdateStatus)
       .then(res => {
         const product = { ...this.state.product, status: selectStatus };
-        console.log("update res", res);
+        // console.log("update res", res);
         this.setState({ product });
       })
       .catch(error => {
@@ -56,7 +56,7 @@ class DataListView extends React.Component {
     } = this.props;
 
     // const primaryData = this.state.primaryData;
-    console.log("props", primaryData);
+    // console.log("props", primaryData);
     // const dateTime =
     //   product.createdAt.slice(0, 10) + " / " + product.createdAt.slice(11, 19);
     // const address = `${product.address.city} ${product.address.region} ${product.address.address} ${product.address.address2} ${product.address.postcode}`;
@@ -82,20 +82,21 @@ class DataListView extends React.Component {
                   className="mb-1 text-muted text-small w-15 w-sm-100"
                   onClick={toggleModal}
                 >
-                  {primaryData.count}
+                  {primaryData.name}
                 </p>
                 <p
                   className="mb-1 text-muted text-small w-15 w-sm-100"
                   onClick={toggleModal}
                 >
-                    {primaryData.total}
+                    {primaryData.created_at}
                 </p>
-                <p
+                {/* <p
                   className="mb-1 text-muted text-small w-15 w-sm-100"
                   onClick={toggleModal}
                 >
                    {primaryData.deliveryDate}
                 </p>
+                */}
                 <p
                   className="mb-1 text-muted text-small w-15 w-sm-100"
                   onClick={toggleModal}

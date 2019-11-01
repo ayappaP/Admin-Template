@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-const OrdersList = React.lazy(() =>
-  import(/* webpackChunkName: "dashboard-default" */ './OrdersList')
+const PrimaryList = React.lazy(() =>
+  import(/* webpackChunkName: "dashboard-default" */ './PrimaryList')
 );
 
 const Dashboards = ({ match }) => (
@@ -11,7 +11,7 @@ const Dashboards = ({ match }) => (
       <Redirect exact from={`${match.url}/`} to={`${match.url}/`} />
       <Route
         path={`${match.url}`}
-        render={props => <OrdersList {...props} />}
+        render={props => <PrimaryList {...props} />}
       />
       <Redirect to="/error" />
     </Switch>
