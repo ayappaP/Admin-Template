@@ -1,20 +1,20 @@
 import React, { Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-const ListShop = React.lazy(() =>
-  import(/* webpackChunkName: "dashboard-default" */ './listShop')
+const PrimaryList = React.lazy(() =>
+  import(/* webpackChunkName: "dashboard-default" */ './PrimaryList')
 );
 
-const Shops = ({ match }) => (
+const Dashboards = ({ match }) => (
   <Suspense fallback={<div className="loading" />}>
     <Switch>
       <Redirect exact from={`${match.url}/`} to={`${match.url}/`} />
       <Route
         path={`${match.url}`}
-        render={props => <ListShop {...props} />}
+        render={props => <PrimaryList {...props} />}
       />
-      {/* <Redirect to="/error" /> */}
+      <Redirect to="/error" />
     </Switch>
   </Suspense>
 );
-export default Shops;
+export default Dashboards;
