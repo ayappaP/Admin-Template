@@ -1,6 +1,6 @@
 {
   "name": "pipesort-admin-template",
-  "version": "1.0.0-0",
+  "version": "1.0.0-1",
   "description": "Pipesort - React Bootstrap 4 Admin Dashboard Template",
   "private": true,
   "dependencies": {
