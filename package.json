@@ -1,7 +1,7 @@
 {
-  "name": "gogo-react",
-  "version": "4.2.1",
-  "description": "Gogo - React Bootstrap 4 Admin Dashboard Template",
+  "name": "pipesort-admin-template",
+  "version": "1.0.0-0",
+  "description": "Pipesort - React Bootstrap 4 Admin Dashboard Template",
   "private": true,
   "dependencies": {
     "@glidejs/glide": "^3.3.0",
